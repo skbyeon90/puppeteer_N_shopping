@@ -1,6 +1,5 @@
 'use strict';
 const puppeteer = require('puppeteer');
-const assert = require('assert');
 
 async function clickByXPath(page, data){
 
