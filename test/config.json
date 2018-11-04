@@ -1,0 +1,14 @@
+{
+  "user": {
+    "id": "nvqa_shop57",
+    "password": "qatest"
+  },
+    
+  "uploadInfo" : {
+    "filePath": "\\..\\images\\product_image.jpg",
+    "fileName": "product_image.jpg",
+    
+    "folderPath": "\\..\\images\\cloud_file_upload",
+    "folderName": "cloud_file_upload"
+  }
+}
