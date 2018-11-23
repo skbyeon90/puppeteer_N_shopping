@@ -4,25 +4,16 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "express-ejs-layouts": "^2.5.0",
-    "http-server": "^0.10.0",
-    "mocha": "^4.0.1",
-    "puppeteer": "^0.13.0"
+    "puppeteer": "^1.9.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha --recursive test",
-    "server": "http-server src",
-    "start": "node server.js"
+    "test": "mocha --recursive test"
   },
-  "keywords": [],
-  "author": "skbyeon",
+  "author": "",
   "license": "ISC",
-  "directories": {
-    "test": "test"
-  },
   "description": ""
 }

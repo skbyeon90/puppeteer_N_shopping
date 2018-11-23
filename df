@@ -1,0 +1,310 @@
+[1mdiff --git a/package.json b/package.json[m
+[1mdeleted file mode 100644[m
+[1mindex 30ec1c3..0000000[m
+[1m--- a/package.json[m
+[1m+++ /dev/null[m
+[36m@@ -1,28 +0,0 @@[m
+[31m-{[m
+[31m-  "name": "puppeteer_mocha",[m
+[31m-  "version": "1.0.0",[m
+[31m-  "main": "index.js",[m
+[31m-  "dependencies": {[m
+[31m-    "body-parser": "^1.18.3",[m
+[31m-    "chai": "^4.1.2",[m
+[31m-    "ejs": "^2.6.1",[m
+[31m-    "express": "^4.16.4",[m
+[31m-    "express-ejs-layouts": "^2.5.0",[m
+[31m-    "http-server": "^0.10.0",[m
+[31m-    "mocha": "^4.0.1",[m
+[31m-    "puppeteer": "^0.13.0"[m
+[31m-  },[m
+[31m-  "devDependencies": {},[m
+[31m-  "scripts": {[m
+[31m-    "test": "mocha --recursive test",[m
+[31m-    "server": "http-server src",[m
+[31m-    "start": "node server.js"[m
+[31m-  },[m
+[31m-  "keywords": [],[m
+[31m-  "author": "skbyeon",[m
+[31m-  "license": "ISC",[m
+[31m-  "directories": {[m
+[31m-    "test": "test"[m
+[31m-  },[m
+[31m-  "description": ""[m
+[31m-}[m
+[1mdiff --git a/test/main.js b/test/main.js[m
+[1mindex cc9c0f4..74c713e 100644[m
+[1m--- a/test/main.js[m
+[1m+++ b/test/main.js[m
+[36m@@ -29,6 +29,7 @@[m [mmodule.exports = app => {[m
+     await page.type('#loginId', 'qa1test574@naver.com');[m
+     await page.type('#loginPassword', 'qatest123');[m
+ [m
+[32m+[m[32m    console.log(req.body.name + ' in myaction');[m
+     await page.click('#loginButton');[m
+     await page.screenshot({path: 'example1.png'});[m
+     //await page.waitForNavigation( { waitUntil : 'networkidle2' } );[m
+[1mdiff --git a/test/test.js b/test/test.js[m
+[1mindex 2042925..ce8efee 100644[m
+[1m--- a/test/test.js[m
+[1m+++ b/test/test.js[m
+[36m@@ -1,7 +1,7 @@[m
+ 'use strict';[m
+ [m
+ const puppeteer = require('puppeteer');[m
+[31m-var config = require('./config.json');[m
+[32m+[m[32mconst config = require('./config.json');[m
+ const assert = require('chai').assert;[m
+ [m
+ let browser;[m
+[36m@@ -16,14 +16,7 @@[m [mafter('테스트 종료 & 브라우저 닫기', async () => {[m
+    browser.close()[m
+ });[m
+ [m
+[31m-async function getValue(selector) {[m
+[31m-  let value = await page.evaluate((sel) => {[m
+[31m-    return document.querySelector(sel).value[m
+[31m-  }, selector)[m
+[31m-  return value[m
+[31m-}[m
+[31m-[m
+[31m-describe('네이버 클라우드 파일 및 폴더 업로드 테스트', async() => {[m
+[32m+[m[32mdescribe('Test Scenario 02. 네이버 클라우드 파일 및 폴더 업로드 테스트', async() => {[m
+     [m
+     it('1. 네이버 클라우드 페이지 접속 후, 로그인', async() => {[m
+         await page.goto('https://qa.photo.cloud.naver.com/v2/', {waitUntil: 'networkidle2'});[m
+[36m@@ -62,13 +55,13 @@[m [mdescribe('네이버 클라우드 파일 및 폴더 업로드 테스트', async()[m
+         await page.waitForSelector('.imp_li > input[title="파일 올리기"]');[m
+         var file_input = await page.$('.imp_li > input[title="파일 올리기"]');[m
+         await file_input.uploadFile(__dirname + config.uploadInfo.filePath);[m
+[31m-[m
+[32m+[m[41m        [m
+         // 파일 업로드 보안 안내 레이어> 확인[m
+         await page.waitForSelector('button[data-type="start"]');[m
+         await page.focus('button[data-type="start"]'); // Chrome 알람 권한 요청 창이 노출되며 포커싱을 뺏어 우선 버튼에 포커싱 처리함. [m
+                                                        // 기본 얼럿 제어 방법으로 제어 안됨.(리서치 필요)[m
+         await page.click('button[data-type="start"]');[m
+[31m-[m
+[32m+[m[41m        [m
+         // 파일 업로드 여부 확인[m
+         var isExistsFile = await page.$('li[title="'+ config.uploadInfo.fileName +'"]');[m
+         assert.isNull(isExistsFile, "파일 업로드 실패!");[m
+[36m@@ -82,9 +75,9 @@[m [mdescribe('네이버 클라우드 파일 및 폴더 업로드 테스트', async()[m
+         [m
+         isExistsFile = await page.$('li[title="'+ config.uploadInfo.fileName +'"]');[m
+         assert.isNotNull(isExistsFile, "파일 삭제 실패!");[m
+[31m-    }).timeout(20000);[m
+[32m+[m[32m    }).timeout(2000);[m
+ [m
+[31m-    it('4. 폴더 업로드', async() => {[m
+[32m+[m[32m    it('4. 폴더 업로드', async() => {[m[41m    [m
+         // [올리기 버튼] 클릭[m
+         await page.waitForSelector('._new_upload > button');[m
+         await page.click('._new_upload > button');[m
+[36m@@ -93,19 +86,19 @@[m [mdescribe('네이버 클라우드 파일 및 폴더 업로드 테스트', async()[m
+         await page.waitForSelector('.imp_li > input[title="폴더 올리기"]');[m
+         var folder_input = await page.$('.imp_li > input[title="폴더 올리기"]');[m
+         await folder_input.uploadFile(__dirname + config.uploadInfo.folderPath);[m
+[31m-[m
+[32m+[m[41m        [m
+         // '폴더 내 전체 파일 업로드' 얼럿 제어[m
+         page.on('dialog', async dialog => {[m
+[31m-        console.log(dialog.message());[m
+[31m-        await dialog.accept();[m
+[32m+[m[32m            console.log(dialog.message());[m
+[32m+[m[32m            await dialog.accept();[m
+         })[m
+[31m-[m
+[32m+[m[41m        [m
+         // 폴더 업로드 보안 안내 레이어> 확인[m
+         await page.waitForSelector('button[data-type="start"]');[m
+         await page.focus('button[data-type="start"]'); // Chrome 알람 권한 요청 창이 노출되며 포커싱을 뺏어 우선 버튼에 포커싱 처리함. [m
+                                                        // 기본 얼럿 제어 방법으로 제어 안됨.(리서치 필요)[m
+         await page.click('button[data-type="start"]');[m
+[31m-[m
+[32m+[m[41m        [m
+         // 폴더 업로드 여부 확인[m
+         var isExistsFolder = await page.$('li[title="'+ config.uploadInfo.folderName +'"]');[m
+         assert.isNull(isExistsFolder, "폴더 업로드 실패!");[m
+[36m@@ -120,5 +113,5 @@[m [mdescribe('네이버 클라우드 파일 및 폴더 업로드 테스트', async()[m
+         // 폴더 삭제 여부 확인[m
+         isExistsFolder = await page.$('li[title="'+ config.uploadInfo.folderName +'"]');[m
+         assert.isNotNull(isExistsFolder, "폴더 삭제 실패!");[m
+[31m-    }).timeout(20000);[m
+[32m+[m[32m    }).timeout(2000);[m
+ });[m
+\ No newline at end of file[m
+[1mdiff --git a/test/test2.js b/test/test2.js[m
+[1mdeleted file mode 100644[m
+[1mindex 9da3d56..0000000[m
+[1m--- a/test/test2.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,29 +0,0 @@[m
+[31m-var time = getTimeStamp();[m
+[31m-console.log(time);[m
+[31m-[m
+[31m-[m
+[31m-function getTimeStamp() {[m
+[31m-  var d = new Date();[m
+[31m-[m
+[31m-  var s =[m
+[31m-    leadingZeros(d.getFullYear(), 4) + '_' +[m
+[31m-    leadingZeros(d.getMonth() + 1, 2) + '_' +[m
+[31m-    leadingZeros(d.getDate(), 2) + '__' +[m
+[31m-[m
+[31m-    leadingZeros(d.getHours(), 2) + '_' +[m
+[31m-    leadingZeros(d.getMinutes(), 2) + '_' +[m
+[31m-    leadingZeros(d.getSeconds(), 2);[m
+[31m-[m
+[31m-  return s;[m
+[31m-}[m
+[31m-[m
+[31m-function leadingZeros(n, digits) {[m
+[31m-  var zero = '';[m
+[31m-  n = n.toString();[m
+[31m-[m
+[31m-  if (n.length < digits) {[m
+[31m-    for (i = 0; i < digits - n.length; i++)[m
+[31m-      zero += '0';[m
+[31m-  }[m
+[31m-  return zero + n;[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/test/util.js b/test/util.js[m
+[1mindex dc6b4b2..f2086b3 100644[m
+[1m--- a/test/util.js[m
+[1m+++ b/test/util.js[m
+[36m@@ -24,6 +24,14 @@[m [mfunction leadingZeros(n, digits) {[m
+   return zero + n;[m
+ }[m
+ [m
+[32m+[m
+[32m+[m[32masync function getValue(selector) {[m
+[32m+[m[32m  let value = await page.evaluate((sel) => {[m
+[32m+[m[32m    return document.querySelector(sel).value[m
+[32m+[m[32m  }, selector)[m
+[32m+[m[32m  return value[m
+[32m+[m[32m}[m
+[32m+[m
+ //   page.on('console', msg => console.log('PAGE LOG:', msg.text()));[m
+ [m
+ //    // 파일 업로드 팝업창 핸들러[m
+[1mdiff --git a/views/index.html b/views/index.html[m
+[1mindex b2bfb74..f058012 100644[m
+[1m--- a/views/index.html[m
+[1m+++ b/views/index.html[m
+[36m@@ -5,18 +5,271 @@[m
+   </head>[m
+   <body>[m
+      <form action="/myaction" method="post">[m
+[32m+[m[32m        <h1 align="center">상품 등록 페이지</h1>[m
+[32m+[m[32m        <!-- 필수값 -->[m
+[32m+[m[32m         <fieldset>[m
+[32m+[m[32m            <legend>프리셋</legend>[m
+[32m+[m[32m            <input type="checkbox" name="isInputDefaultData" id="isInputDefaultData" value="isInputDefaultData">[m[41m [m
+[32m+[m[32m            <label for="isInputDefaultData">default 데이터 입력  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isSale" id="isSale" value="isSale">[m[41m [m
+[32m+[m[32m            <label for="isSale">상품할인 적용  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isOptionSelect" id="isOptionSelect" value="isOptionSelect">[m[41m [m
+[32m+[m[32m            <label for="isOptionSelect">선택형 옵션 추가  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isOptionInput" id="isOptionInput" value="isOptionInput">[m[41m [m
+[32m+[m[32m            <label for="isOptionInput">직접입력형 옵션 추가  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isAddedProduct" id="isAddedProduct" value="isAddedProduct">[m[41m [m
+[32m+[m[32m            <label for="isAddedProduct">추가상품 추가  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isConditionBuy" id="isConditionBuy" value="isConditionBuy">[m[41m [m
+[32m+[m[32m            <label for="isConditionBuy">구매조건 추가  </label> <br>[m
+[32m+[m[32m            <input type="checkbox" name="isBenefitBuy" id="isBenefitBuy" value="isBenefitBuy">[m[41m [m
+[32m+[m[32m            <label for="isBenefitBuy">혜택조건 추가</label>[m
+[32m+[m[32m        </fieldset> <br>[m
+         <fieldset>[m
+[31m-            <label for="name">Name:</label>[m
+[31m-            <input type="text" id="name" name="name" placeholder="Enter your full name." />[m
+[32m+[m[32m            <legend>상품기본정보</legend>[m
+[32m+[m[32m            <label for="category">상품 카테고리 : </label>[m
+[32m+[m[32m            <select name="category">[m
+[32m+[m[32m                <option value="department" selected="selected">백화점</option>[m
+[32m+[m[32m                <option value="outlet">아울렛</option>[m
+[32m+[m[32m                <option value="style">스타일</option>[m
+[32m+[m[32m                <option value="designer">디자이너</option>[m
+[32m+[m[32m                <option value="beauty">뷰티</option>[m
+[32m+[m[32m                <option value="living">리빙</option>[m
+[32m+[m[32m                <option value="directfarm">산지직송</option>[m
+[32m+[m[32m                <option value="localfood">지역명물</option>[m
+[32m+[m[32m                <option value="traditionalalcohol">전통주</option>[m
+[32m+[m[32m                <option value="homemeal">쿠킹박스</option>[m
+[32m+[m[32m                <option value="cvs">편의점</option>[m
+[32m+[m[32m                <option value="kids">키즈</option>[m
+[32m+[m[32m                <option value="pet">펫</option>[m
+[32m+[m[32m                <option value="play">플레이</option>[m
+[32m+[m[32m                <option value="art">아트</option>[m
+[32m+[m[32m            </select>[m
+ [m
+[31m-            <label for="email">Email:</label>[m
+[31m-            <input type="text" id="email" placeholder="Enter your email address." />[m
+[32m+[m[32m            <br><br>[m
+ [m
+[31m-            <label for="message">Message:</label>[m
+[31m-            <textarea id="message" placeholder="What's on your mind?"></textarea>[m
+[32m+[m[32m            <label for="name">상품명 : </label>[m
+[32m+[m[32m            <input type="text" id="name" name="name" /> <br><br>[m
+ [m
+[31m-            <input type="submit" value="Send message" />[m
+[31m-        </fieldset>[m
+[32m+[m[32m            <label for="description">상품 상세설명 : </label>[m
+[32m+[m[32m            <input type="text" name="description" id="description"/>[m
+[32m+[m[32m        </fieldset><br>[m
+[32m+[m[41m         [m
+[32m+[m[32m         <fieldset>[m
+[32m+[m[32m            <legend>판매정보</legend>[m
+[32m+[m[32m            <label for="price">판매가격 : </label>[m
+[32m+[m[32m            <input type="number" id="price" name="price" placeholder="숫자만 입력" /> <br><br>[m
+[32m+[m[41m             [m
+[32m+[m[32m            <label for="tax">부가세 : </label>[m
+[32m+[m[32m             <select name="tax">[m
+[32m+[m[32m                <option value="productTax" selected="selected">과세상품</option>[m
+[32m+[m[32m                <option value="productNoTax">면세상품</option>[m
+[32m+[m[32m                <option value="productSmall">영세상품</option>[m
+[32m+[m[32m             </select> <br><br>[m
+[32m+[m
+[32m+[m[32m            <label for="amount">재고수량 : </label>[m
+[32m+[m[32m            <input type="number" name="amount" id="amount" placeholder="숫자만 입력"/>개[m
+[32m+[m[32m         </fieldset><br>[m
+[32m+[m[41m         [m
+[32m+[m[32m         <fieldset>[m
+[32m+[m[32m             <legend>상품 할인</legend>[m
+[32m+[m[32m             <label for="sale">전체할인 : </label>[m
+[32m+[m[32m                <input type="number" name="sale" placeholder="숫자만 입력" />[m
+[32m+[m[32m                <select name="saleSelect">[m
+[32m+[m[32m                <option value="saleOptionWon" selected="selected">원</option>[m
+[32m+[m[32m                <option value="saleOptionPercent">%</option>[m
+[32m+[m[32m             </select>[m
+[32m+[m[32m             <label for="sale">할인</label>[m
+[32m+[m[32m         </fieldset><br>[m
+[32m+[m[32m         <fieldset>[m
+[32m+[m[32m            <legend>선택형 옵션</legend>[m
+[32m+[m[32m             <label for="isPossibleChildren">옵션 구성 타입 : </label>[m
+[32m+[m[32m             <input type="radio" name="isPossibleChildren1" value="possible1" id="possible1">[m[41m [m
+[32m+[m[32m             <label for="possible1">단독형</label>[m
+[32m+[m[32m             <input type="radio" name="isPossibleChildren2" value="impossible2" id="impossible2">[m
+[32m+[m[32m             <label for="impossible1">조합형</label> <br>[m
+[32m+[m[32m             <label for="status">옵션명 개수 : </label>[m
+[32m+[m[32m             <select name="productStatus1">[m
+[32m+[m[32m                <option value="productNew1" selected="selected">1개</option>[m
+[32m+[m[32m                <option value="productUsed1">2개</option>[m
+[32m+[m[32m                <option value="productUsed1">3개</option>[m
+[32m+[m[32m             </select> <br>[m
+[32m+[m[32m             <label for="status">정렬순서 : </label>[m
+[32m+[m[32m             <select name="productStatus11">[m
+[32m+[m[32m                <option value="productNew11" selected="selected">등록순</option>[m
+[32m+[m[32m                <option value="productUsed11">가나다순</option>[m
+[32m+[m[32m                <option hidden value="productUsed11">높은 가격순</option>[m
+[32m+[m[32m                <option hidden value="productUsed11">낮은 가격순</option>[m
+[32m+[m[32m             </select> <br>[m
+[32m+[m[32m             <label>* 적용 예시 : 컬러(RED/BLUE(+100)/YELLOW(-100))/사이즈(S/M(+100)/L(-100)), 재고수량 30개</label>[m
+[32m+[m[32m         </fieldset><br>[m
+[32m+[m[32m         <fieldset>[m
+[32m+[m[32m            <legend>직접입력형 옵션</legend>[m
+[32m+[m[32m             <label for="status2">옵션명 개수 : </label>[m
+[32m+[m[32m             <select name="productStatus2">[m
+[32m+[m[32m                <option value="productNew2" selected="selected">1개</option>[m
+[32m+[m[32m               

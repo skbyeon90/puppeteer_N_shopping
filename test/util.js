@@ -24,6 +24,14 @@ function leadingZeros(n, digits) {
   return zero + n;
 }
 
+
+async function getValue(selector) {
+  let value = await page.evaluate((sel) => {
+    return document.querySelector(sel).value
+  }, selector)
+  return value
+}
+
 //   page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
 //    // 파일 업로드 팝업창 핸들러

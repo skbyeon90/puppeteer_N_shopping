@@ -29,6 +29,7 @@ module.exports = app => {
     await page.type('#loginId', 'qa1test574@naver.com');
     await page.type('#loginPassword', 'qatest123');
 
+    console.log(req.body.name + ' in myaction');
     await page.click('#loginButton');
     await page.screenshot({path: 'example1.png'});
     //await page.waitForNavigation( { waitUntil : 'networkidle2' } );

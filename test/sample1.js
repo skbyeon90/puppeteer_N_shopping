@@ -19,18 +19,15 @@ after('테스트 종료 & 브라우저 닫기', async () => {
 describe('Test Scenario 02. 네이버 클라우드 파일 및 폴더 업로드 테스트', async() => {
     
     it('1. 네이버 클라우드 페이지 접속 후, 로그인', async() => {
-        await page.goto('https://qa.photo.cloud.naver.com/v2/', {waitUntil: 'networkidle2'});
-        await page.type('#id', config.user.id);
-        await page.type('#pw', config.user.password);
-        await page.click('input[title="로그인"]');
-
+        await page.goto('http://test.shopping.naver.com/department/stores/100005459/products/2000424151', {waitUntil: 'networkidle2'});
+        
         // 서비스 안내 레이어 닫기
         await page.waitForSelector('.pro_up > a');
         await page.click('.pro_up > a');
         
         assert.strictEqual(page.url(), 'https://qa.photo.cloud.naver.com/v2/');
         
-    }).timeout(20000);
+    });
 
     it('2. 클라우드 폴더 목록> "내 문서" 폴더로 이동.', async() => {
         await page.click('a[data-nclickcode="lef.folder"]');
@@ -44,7 +41,7 @@ describe('Test Scenario 02. 네이버 클라우드 파일 및 폴더 업로드 �
         // 서비스 안내 레이어 닫기
         await page.waitForSelector('.clse_s._ajax_layerclose');
         await page.click('.clse_s._ajax_layerclose');
-    }).timeout(20000);
+    });
     
     it('3. 파일 업로드', async() => {
         // [올리기 버튼] 클릭
@@ -75,7 +72,7 @@ describe('Test Scenario 02. 네이버 클라우드 파일 및 폴더 업로드 �
         
         isExistsFile = await page.$('li[title="'+ config.uploadInfo.fileName +'"]');
         assert.isNotNull(isExistsFile, "파일 삭제 실패!");
-    }).timeout(2000);
+    });
 
     it('4. 폴더 업로드', async() => {    
         // [올리기 버튼] 클릭
@@ -113,5 +110,5 @@ describe('Test Scenario 02. 네이버 클라우드 파일 및 폴더 업로드 �
         // 폴더 삭제 여부 확인
         isExistsFolder = await page.$('li[title="'+ config.uploadInfo.folderName +'"]');
         assert.isNotNull(isExistsFolder, "폴더 삭제 실패!");
-    }).timeout(2000);
+    });
 });
