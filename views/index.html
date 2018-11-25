@@ -2,29 +2,218 @@
   <head>
     <title>Main</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        /////////////// 필수값 항목 프리셋 ///////////////
+        $("#chkSellInfo").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fSellInfo").show();
+            }
+            else
+                $("#fSellInfo").hide();
+        });
+        $("#chkProductMajorInfo").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fProductMajorInfo").show();
+            }
+            else
+                $("#fProductMajorInfo").hide();
+        });
+        $("#chkProductInfoNotice").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fProductInfoNotice").show();
+            }
+            else
+                $("#fProductInfoNotice").hide();
+        });
+        $("#chkShipping").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fShipping").show();
+            }
+            else
+                $("#fShipping").hide();
+        });
+        $("#chkReturnChange").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fReturnChange").show();
+            }
+            else
+                $("#fReturnChange").hide();
+        });
+         $("#chkAs").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fAs").show();
+            }
+            else
+                $("#fAs").hide();
+        });
+
+        /////////////// 선택값 항목 프리셋 ///////////////
+         $("#chkProductSale").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fProductSale").show();
+            }
+            else
+                $("#fProductSale").hide();
+        });
+        $("#chkSelectOption").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fSelectOption").show();
+            }
+            else
+                $("#fSelectOption").hide();
+        });
+        $("#chkInputOption").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fInputOption").show();
+            }
+            else
+                $("#fInputOption").hide();
+        });
+        $("#chkAdditionalProduct").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fAdditionalProduct").show();
+            }
+            else
+                $("#fAdditionalProduct").hide();
+        });
+         $("#chkBuyCondition").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fBuyCondition").show();
+            }
+            else
+                $("#fBuyCondition").hide();
+        });
+        $("#chkBenefitCondition").change(function(){
+            if ($(this).is(':checked')) {
+                $("#fBenefitCondition").show();
+            }
+            else
+                $("#fBenefitCondition").hide();
+        });
+        //////////// 선택형 옵션 예시
+        $("input[name=radOptionType]").change(function(){
+            $.fn.CheckSelectOption();
+        });
+        $("#selSelectOptionNum").change(function(){
+            $.fn.CheckSelectOption();
+        });
+
+        $.fn.CheckSelectOption = function() {
+	        var vOptNum = $("#selSelectOptionNum option:selected").val();
+            var vIsCheckedSoloOptionType = $("#radSoloOptionType").is(':checked');
+            switch(vOptNum){
+                case '1':
+                    if(vIsCheckedSoloOptionType)
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW)");
+                    else
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원))");
+                    break;
+                case '2':
+                    if(vIsCheckedSoloOptionType)
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L)");
+                    else
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원)), 사이즈(S/M(+100원)/L(-100원))");
+                    break;
+                case '3':
+                    if(vIsCheckedSoloOptionType)
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L), 케이스(WHITE/BLACK/BRWON)");
+                    else
+                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원)), 사이즈(S/M(+100원)/L(-100원)), 케이스(WHITE/BLACK(+100원)/BRWON(-100원))");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //////////// 직접입력형 옵션 예시
+        $("#selInputOptionNum").change(function(){
+            $.fn.CheckInputOption();
+        });
+
+        $.fn.CheckInputOption = function() {
+	        var vOptNum = $("#selInputOptionNum option:selected").val();
+            switch(vOptNum){
+                case '1':
+                     $("#labInputOptionEx").text("컬러");
+                    break;
+                case '2':
+                    $("#labInputOptionEx").text("컬러, 사이즈");
+                    break;
+                case '3':
+                    $("#labInputOptionEx").text("컬러, 사이즈, 케이스");
+                    break;
+                case '4':
+                    $("#labInputOptionEx").text("컬러, 사이즈, 케이스, 이어폰");
+                    break;
+                case '5':
+                    $("#labInputOptionEx").text("컬러, 사이즈, 케이스, 이어폰, 마이크");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //////////// 추가상품 옵션 예시
+        $("#selAdditionalProductNum").change(function(){
+            $.fn.CheckAddtionalProduct();
+        });
+
+        $.fn.CheckAddtionalProduct = function() {
+	        var vAddtionalProductNum = $("#selAdditionalProductNum option:selected").val();
+            switch(vAddtionalProductNum){
+                case '1':
+                     $("#labAddtionalProductEx").text("케이스(+100원)");
+                    break;
+                case '2':
+                    $("#labAddtionalProductEx").text("케이스(+100원), 이어폰(+200원)");
+                    break;
+                case '3':
+                    $("#labAddtionalProductEx").text("케이스(+100원), 이어폰(+200원), 마이크");
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+</script>
   </head>
   <body>
      <form action="/myaction" method="post">
         <h1 align="center">상품 등록 페이지</h1>
         <!-- 필수값 -->
-         <fieldset>
-            <legend>프리셋</legend>
-            <input type="checkbox" name="isInputDefaultData" id="isInputDefaultData" value="isInputDefaultData"> 
-            <label for="isInputDefaultData">default 데이터 입력  </label> <br>
-            <input type="checkbox" name="isSale" id="isSale" value="isSale"> 
-            <label for="isSale">상품할인 적용  </label> <br>
-            <input type="checkbox" name="isOptionSelect" id="isOptionSelect" value="isOptionSelect"> 
-            <label for="isOptionSelect">선택형 옵션 추가  </label> <br>
-            <input type="checkbox" name="isOptionInput" id="isOptionInput" value="isOptionInput"> 
-            <label for="isOptionInput">직접입력형 옵션 추가  </label> <br>
-            <input type="checkbox" name="isAddedProduct" id="isAddedProduct" value="isAddedProduct"> 
-            <label for="isAddedProduct">추가상품 추가  </label> <br>
-            <input type="checkbox" name="isConditionBuy" id="isConditionBuy" value="isConditionBuy"> 
-            <label for="isConditionBuy">구매조건 추가  </label> <br>
-            <input type="checkbox" name="isBenefitBuy" id="isBenefitBuy" value="isBenefitBuy"> 
-            <label for="isBenefitBuy">혜택조건 추가</label>
-        </fieldset> <br>
-        <fieldset>
+         <fieldset id="fSelectFreeset">
+            <legend>필수값 항목 프리셋</legend>
+            <input type="checkbox" id="chkSellInfo">
+            <label for="chkSellInfo">판매정보 설정</label> <br>
+            <input type="checkbox" id="chkProductMajorInfo">
+            <label for="chkProductMajorInfo">상품주요정보 설정</label> <br>
+            <input type="checkbox" id="chkProductInfoNotice">
+            <label for="chkProductInfoNotice">상품정보제공고시 설정</label> <br>
+            <input type="checkbox" id="chkShipping">
+            <label for="chkShipping">배송정보 설정</label> <br>
+            <input type="checkbox" id="chkReturnChange">
+            <label for="chkReturnChange">반품/교환정보 설정</label> <br>
+            <input type="checkbox" id="chkAs">
+            <label for="chkAs">A/S정보 설정</label> <br>
+        </fieldset>
+         <fieldset id="fSelectFreeset">
+            <legend>선택형 항목 프리셋</legend>
+            <input type="checkbox" id="chkProductSale">
+            <label for="chkProductSale">상품할인 추가</label> <br>
+            <input type="checkbox" id="chkSelectOption">
+            <label for="chkSelectOption">선택형 옵션 추가</label> <br>
+            <input type="checkbox" id="chkInputOption">
+            <label for="chkInputOption">직접입력형 옵션 추가</label> <br>
+            <input type="checkbox" id="chkAdditionalProduct">
+            <label for="chkAdditionalProduct">추가상품 추가  </label> <br>
+            <input type="checkbox" id="chkBuyCondition">
+            <label for="chkBuyCondition">구매조건 추가  </label> <br>
+            <input type="checkbox" id="chkBenefitCondition">
+            <label for="chkBenefitCondition">혜택조건 추가</label>
+        </fieldset>
+        <fieldset id=fProductBasicInfo>
             <legend>상품기본정보</legend>
             <label for="category">상품 카테고리 : </label>
             <select name="category">
@@ -52,9 +241,9 @@
 
             <label for="description">상품 상세설명 : </label>
             <input type="text" name="description" id="description"/>
-        </fieldset><br>
+        </fieldset>
          
-         <fieldset>
+         <fieldset hidden id="fSellInfo">
             <legend>판매정보</legend>
             <label for="price">판매가격 : </label>
             <input type="number" id="price" name="price" placeholder="숫자만 입력" /> <br><br>
@@ -68,9 +257,9 @@
 
             <label for="amount">재고수량 : </label>
             <input type="number" name="amount" id="amount" placeholder="숫자만 입력"/>개
-         </fieldset><br>
+         </fieldset>
          
-         <fieldset>
+         <fieldset hidden id="fProductSale">
              <legend>상품 할인</legend>
              <label for="sale">전체할인 : </label>
                 <input type="number" name="sale" placeholder="숫자만 입력" />
@@ -79,19 +268,19 @@
                 <option value="saleOptionPercent">%</option>
              </select>
              <label for="sale">할인</label>
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fSelectOption">
             <legend>선택형 옵션</legend>
              <label for="isPossibleChildren">옵션 구성 타입 : </label>
-             <input type="radio" name="isPossibleChildren1" value="possible1" id="possible1"> 
-             <label for="possible1">단독형</label>
-             <input type="radio" name="isPossibleChildren2" value="impossible2" id="impossible2">
-             <label for="impossible1">조합형</label> <br>
-             <label for="status">옵션명 개수 : </label>
-             <select name="productStatus1">
-                <option value="productNew1" selected="selected">1개</option>
-                <option value="productUsed1">2개</option>
-                <option value="productUsed1">3개</option>
+             <input type="radio" name="radOptionType" id="radSoloOptionType" value="radSoloOption" checked>
+             <label for="radSoloOptionType">단독형</label>
+             <input type="radio" name="radOptionType" id="radMixOptionType" value="radMixOption">
+             <label for="radMixOptionType">조합형</label> <br>
+             <label for="selSelctOption">옵션명 개수 : </label>
+             <select id="selSelectOptionNum">
+                <option value="1" selected="selected">1개</option>
+                <option value="2">2개</option>
+                <option value="3">3개</option>
              </select> <br>
              <label for="status">정렬순서 : </label>
              <select name="productStatus11">
@@ -100,19 +289,21 @@
                 <option hidden value="productUsed11">높은 가격순</option>
                 <option hidden value="productUsed11">낮은 가격순</option>
              </select> <br>
-             <label>* 적용 예시 : 컬러(RED/BLUE(+100)/YELLOW(-100))/사이즈(S/M(+100)/L(-100)), 재고수량 30개</label>
-         </fieldset><br>
-         <fieldset>
+             * 적용 예시(순서 미적용) : <label id="labSelectOptionEx">컬러(RED/BLUE/YELLOW)</label>
+         </fieldset>
+         <fieldset hidden id="fInputOption">
             <legend>직접입력형 옵션</legend>
-             <label for="status2">옵션명 개수 : </label>
-             <select name="productStatus2">
-                <option value="productNew2" selected="selected">1개</option>
-                <option value="productUsed2">2개</option>
-                <option value="productUsed2">3개</option>
+             <label for="selInputOptionNum">옵션명 개수 : </label>
+             <select name="selInputOptionNum" id="selInputOptionNum">
+                <option value="1" selected="selected">1개</option>
+                <option value="2">2개</option>
+                <option value="3">3개</option>
+                <option value="4">4개</option>
+                <option value="5">5개</option>
              </select> <br>
-             <label>* 적용 예시 : 컬러, 사이즈</label>
-         </fieldset><br>
-         <fieldset>
+             * 적용 예시(순서 미적용) : <label id="labInputOptionEx">컬러</label>
+         </fieldset>
+         <fieldset hidden id="fProductMajorInfo">
             <legend>상품주요정보</legend>
             <label for="amount">원산지 : </label>
             <select name="origin">
@@ -136,9 +327,8 @@
              <label for="possible">가능</label>
              <input type="radio" name="isPossibleChildren" value="impossible" id="impossible">
              <label for="impossible">불가능</label>
-             
-         </fieldset><br>
-        <fieldset>
+         </fieldset>
+        <fieldset hidden id="fProductInfoNotice">
             <legend>상품정보제공고시</legend> 
             <label for="status">상품군(현재 의류만 가능) : </label>
             <select name="category">
@@ -160,8 +350,8 @@
             <input type="text" id="qualityStandards" name="qualityStandards" /> <br><br>
             <label for="asManager">AS 책임자 : </label>
             <input type="text" id="asManager" name="asManager" />
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fShipping">
              <legend>배송</legend>
              <label for="isPossibleChildren">배송여부 : </label>
              <input type="radio" name="isPossibleChildren1" value="possible1" id="possible1"> 
@@ -199,7 +389,7 @@
              </select> <br>
              
              <label for="status"> 결제방식 : </label>
-            <input type="checkbox" name="isInputDefaultData" id="isInputDefaultData" value="isInputDefaultData"> 
+             <input type="checkbox" name="isInputDefaultData" id="isInputDefaultData" value="isInputDefaultData">
              <label for="isInputDefaultData">착불  </label>
              <input type="checkbox" name="isSale" id="isSale" value="isSale"> 
              <label for="isSale">선결제</label> <br>
@@ -212,28 +402,28 @@
              <label for="possible1">있음</label>
              <input type="radio" name="isPossibleChildren2" value="impossible2" id="impossible2">
              <label for="impossible1">없음</label> <br>
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fReturnChange">
              <legend>반품/교환</legend>
              <label for="returnCharge">반품배송비(편도) : </label>
              <input type="number" id="returnCharge" name="returnCharge" placeholder="숫자만 입력"/>원<br>
              <label for="changeCharge">교환배송비(왕복) : </label>
              <input type="number" id="returnCharge" name="returnCharge" placeholder="숫자만 입력"/>원
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fAs">
              <legend>A/S</legend>
              <label for="asNumber">A/S전화번호 : </label>
              <input type="text" id="asNumber" name="asNumber" /> <br><br>
              <label for="asDescription">A/S안내 : </label>
              <input type="text" id="asDescription" name="asDescription" />
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fAdditionalProduct">
              <legend>추가상품</legend>
-             <label for="status3">옵션명 개수 : </label>
-             <select name="productStatus3">
-                <option value="productNew3" selected="selected">1개</option>
-                <option value="productUsed3">2개</option>
-                <option value="productUsed3">3개</option>
+             <label for="selAdditionalProductNum">추가상품 개수 : </label>
+             <select name="selAdditionalProductNum" id="selAdditionalProductNum">
+                <option value="1" selected="selected">1개</option>
+                <option value="2">2개</option>
+                <option value="3">3개</option>
              </select> <br>
              <label for="status3">정렬순서 : </label>
              <select name="productStatus3">
@@ -242,9 +432,9 @@
                 <option value="productUsed3">높은 가격순</option>
                 <option value="productUsed3">낮은 가격순</option>
              </select> <br>
-             <label>* 적용 예시 : 거치대(RED/BLUE(+100)/YELLOW(-100)), 재고수량 30개</label>
-         </fieldset><br>
-         <fieldset>
+             * 적용 예시(순서 미적용) : <label id="labAddtionalProductEx">케이스(+100원)</label>
+         </fieldset>
+         <fieldset hidden id="fBuyCondition">
             <legend>구매조건</legend>
             <label for="buyConditionMin">최소구매수량 : </label>
             <input type="number" name="buyConditionMin" id="buyConditionMin" placeholder="숫자만 입력(최소 2개)"/>개<br>
@@ -252,8 +442,8 @@
             <input type="number" name="buyConditionMaxPer" id="buyConditionMaxPer" placeholder="숫자만 입력(최소구매수량이상)"/>개<br>
             <label for="buyConditionMaxPerson">최대구매수량(1인) : </label>
             <input type="number" name="buyConditionMaxPerson" id="buyConditionMaxPerson" placeholder="숫자만 입력(최소구매수량이상)"/>개<br>
-         </fieldset><br>
-         <fieldset>
+         </fieldset>
+         <fieldset hidden id="fBenefitCondition">
             <legend>혜택조건(지급 포인트)</legend>
             <label for="pointBuy">상품 구매 시 : </label>
             <input type="number" name="pointBuy" id="pointBuy" placeholder="숫자만 입력"/>원<br>
@@ -267,7 +457,7 @@
             <input type="number" name="point1mPhotoReview" id="point1mPhotoReview" placeholder="숫자만 입력"/>원<br>
             <label for="pointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label>
             <input type="number" name="pointTokJJim" id="pointTokJJim" placeholder="숫자만 입력"/>원
-         </fieldset><br>
+         </fieldset>
         <br>
         <input type="submit" value="등록" style="float: right;">
     </form>
