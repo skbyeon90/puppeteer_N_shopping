@@ -263,15 +263,15 @@
             <legend>선택형 항목 프리셋</legend>
             <input type="checkbox" id="chkProductSale" name="chkProductSale">
             <label for="chkProductSale">상품할인 추가</label> <br>
-            <input type="checkbox" id="chkSelectOption">
+            <input type="checkbox" id="chkSelectOption" name="chkSelectOption">
             <label for="chkSelectOption">선택형 옵션 추가</label> <br>
-            <input type="checkbox" id="chkInputOption">
+            <input type="checkbox" id="chkInputOption" name="chkInputOption">
             <label for="chkInputOption">직접입력형 옵션 추가</label> <br>
-            <input type="checkbox" id="chkAdditionalProduct">
+            <input type="checkbox" id="chkAdditionalProduct" name="chkAdditionalProduct">
             <label for="chkAdditionalProduct">추가상품 추가  </label> <br>
-            <input type="checkbox" id="chkBuyCondition">
+            <input type="checkbox" id="chkBuyCondition" name="chkBuyCondition">
             <label for="chkBuyCondition">구매조건 추가  </label> <br>
-            <input type="checkbox" id="chkBenefitCondition">
+            <input type="checkbox" id="chkBenefitCondition" name="chkBenefitCondition">
             <label for="chkBenefitCondition">혜택조건 추가</label>
         </fieldset>
         <fieldset id=fProductBasicInfo>
@@ -338,13 +338,13 @@
              <input type="radio" name="radOptionType" id="radOptionTypeMix" value="radOptionTypeMix">
              <label for="radOptionTypeMix">조합형</label> <br>
              <label for="selSelectOptionNum">옵션명 개수 : </label>
-             <select id="selSelectOptionNum">
+             <select id="selSelectOptionNum" name="selSelectOptionNum">
                 <option value="1" selected="selected">1개</option>
                 <option value="2">2개</option>
                 <option value="3">3개</option>
              </select> <br>
              <label for="selSelectOptionOrder">정렬순서 : </label>
-             <select name="selSelectOptionOrder">
+             <select id="selSelectOptionOrder" name="selSelectOptionOrder">
                 <option value="orderRegistr" selected="selected">등록순</option>
                 <option value="orderAbc">가나다순</option>
                 <option hidden value="orderHighPrice">높은 가격순</option>
@@ -509,8 +509,8 @@
              <label for="nPointBuy">상품 구매시 : </label>
             <input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="1000">
              <select name="selPointBuyType" id="selPointBuyType">
-                <option value="won" selected="selected">원</option>
                 <option value="percent">%</option>
+                <option value="won" selected="selected">원</option>
              </select>
              <label for="selPointBuyType">지급</label> <br>
             <label for="nPointTextReview">텍스트 리뷰 작성 시 : </label>
