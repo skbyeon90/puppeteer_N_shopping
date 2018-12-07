@@ -311,9 +311,9 @@
              
             <label for="selProductTax">부가세 : </label>
              <select name="selProductTax" id="selProductTax">
-                <option value="taxType_TAX" selected="selected">과세상품</option>
-                <option value="taxType_DUTYFREE">면세상품</option>
-                <option value="taxType_SMALL">영세상품</option>
+                <option value="tax" selected="selected">과세상품</option>
+                <option value="dutyfree">면세상품</option>
+                <option value="small">영세상품</option>
              </select> <br>
 
             <label for="nProductAmount">재고수량 : </label>
@@ -367,14 +367,14 @@
          <fieldset hidden id="fProductMajorInfo">
             <legend>상품주요정보</legend>
             <label for="selProductOrigin">원산지 : </label>
-            <select name="selProductOrigin">
-                <option value="domestic" selected="selected">국산(서울>강남)</option>
-                <option value="imported">수입산(북아메리카>미국)</option>
-                <option value="etc">상세설명에 표시</option>
+            <select name="selProductOrigin" id="selProductOrigin">
+                <option value="domestic" selected="selected">국산</option>
+                <option value="imported">수입산</option>
+                <option value="etc">기타(상세설명에 표시)</option>
              </select> <br>
 
              <label for="selProductStatus">상품상태 : </label>
-             <select name="selProductStatus">
+             <select name="selProductStatus" id="selProductStatus">
                 <option value="new" selected="selected">신상품</option>
                 <option value="used">중고상품</option>
              </select>
