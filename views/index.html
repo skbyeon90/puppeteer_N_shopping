@@ -246,9 +246,9 @@
         <!-- 필수값 -->
          <fieldset id="fSelectFreeset">
             <legend>필수값 항목 프리셋</legend>
-            <input type="checkbox" id="chkSellInfo">
+            <input type="checkbox" id="chkSellInfo" checked>
             <label for="chkSellInfo">판매정보 설정</label> <br>
-            <input type="checkbox" id="chkProductMajorInfo">
+            <input type="checkbox" id="chkProductMajorInfo" checked>
             <label for="chkProductMajorInfo">상품주요정보 설정</label> <br>
             <input type="checkbox" id="chkProductInfoNotice">
             <label for="chkProductInfoNotice">상품정보제공고시 설정</label> <br>
@@ -304,7 +304,7 @@
             <input type="text" name="tProductDescription" id="tProductDescription"/>
         </fieldset>
          
-         <fieldset hidden id="fSellInfo">
+         <fieldset id="fSellInfo">
             <legend>판매정보</legend>
             <label for="nProductPrice">판매가격 : </label>
             <input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" max="999999"/>원 <br>
@@ -364,7 +364,7 @@
              </select> <br>
              * 적용 예시(순서 미적용) : <label id="labInputOptionEx">컬러</label>
          </fieldset>
-         <fieldset hidden id="fProductMajorInfo">
+         <fieldset id="fProductMajorInfo">
             <legend>상품주요정보</legend>
             <label for="selProductOrigin">원산지 : </label>
             <select name="selProductOrigin" id="selProductOrigin">

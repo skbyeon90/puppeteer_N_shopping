@@ -72,8 +72,17 @@ module.exports = app => {
 
 
 
-    (async() => {
-    const browser = await puppeteer.launch({headless:false, args : ['--ignore-certificate-errors']}); // , args: ['--start-fullscreen']
+    (async() => { //args : ['--ignore-certificate-errors']
+    //const browser = await puppeteer.launch({headless:false}); // , args: ['--start-fullscreen']
+
+    const browser = await puppeteer.launch({
+    //headless: false,
+    ignoreHTTPSErrors: false, // doesn't matter
+    args: [
+        '--ignore-certificate-errors',
+        '--ignore-certificate-errors-spki-list '
+    ]
+    })
     const page = await browser.newPage();
 
     page.on('console', msg => console.log('PAGE LOG:', msg.text()));
@@ -85,11 +94,10 @@ module.exports = app => {
 
     console.log(req.body.name + ' in myaction');
 
-    //await page.screenshot({path: 'screenshot1.png'});
+    await page.screenshot({path: 'screenshot1.png'});
     await page.click('#loginButton');
-    //await page.waitForNavigation( { waitUntil : 'networkidle2' } );
 
-    //await page.screenshot({path: 'screenshot123.png'});
+    await page.screenshot({path: 'login.png'});
 
     // 스토어 홈
     await page.waitForSelector('#seller-lnb > div > div:nth-child(1) > ul > li:nth-child(1) > a');
@@ -103,6 +111,8 @@ module.exports = app => {
     console.log(req.body.tProductName);
     await page.waitForSelector('input[name="product.name"]', { timeout: 3000 });
     await page.type('input[name="product.name"]', req.body.tProductName);
+
+    await page.screenshot({path: '2.상품명.png'});
 
     // 판매가
     await page.waitForSelector('input[name="product.salePrice"]', { timeout: 3000 });
@@ -133,6 +143,7 @@ module.exports = app => {
             console.log("tax error.");
             break;
      }
+    await page.screenshot({path: '3.판매설정.png'});
 
     // 할인설정
     if(req.body.chkProductSale != undefined)
@@ -155,6 +166,8 @@ module.exports = app => {
 //        await page.evaluate(() => {
 //            document.querySelector('#error_immediateDiscountPolicy_all_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child('+nIdex+')').click();
 //        });
+
+        await page.screenshot({path: '4.할인설정.png'});
     }
 
     // 재고 수량
@@ -321,6 +334,8 @@ module.exports = app => {
             console.log("선택형 옵션 - 개수 error");
             break;
         }
+
+        await page.screenshot({path: '5.선택형옵션.png'});
      }
 
     // 직접입력형 옵션 chkSelectOption
@@ -402,6 +417,7 @@ module.exports = app => {
             console.log("직접입력형 옵션 - 개수 error");
             break;
         }
+        await page.screenshot({path: '5.직접입력형옵션.png'});
     }
 
     // 상품이미지 - 대표이미지
@@ -508,6 +524,8 @@ module.exports = app => {
             document.querySelector('#child2').click();
         });
     }
+
+     await page.screenshot({path: '6.상품주요정보.png'});
 
 
 
