@@ -164,13 +164,13 @@
 	        var vAddtionalProductNum = $("#selAdditionalProductNum option:selected").val();
             switch(vAddtionalProductNum){
                 case '1':
-                     $("#labAddtionalProductEx").text("케이스(+100원)");
+                     $("#labAddtionalProductEx").text("케이스(RED,BLUE,YELLOW)");
                     break;
                 case '2':
-                    $("#labAddtionalProductEx").text("케이스(+100원), 이어폰(+200원)");
+                    $("#labAddtionalProductEx").text("케이스(RED,BLUE,YELLOW), 이어폰(BLACK, WHITE)");
                     break;
                 case '3':
-                    $("#labAddtionalProductEx").text("케이스(+100원), 이어폰(+200원), 마이크");
+                    $("#labAddtionalProductEx").text("케이스(RED,BLUE,YELLOW), 이어폰(BLACK, WHITE), 마이크(BLACK,WHITE)");
                     break;
                 default:
                     break;
@@ -248,18 +248,18 @@
             <legend>필수값 항목 프리셋</legend>
             <input type="checkbox" id="chkSellInfo" checked>
             <label for="chkSellInfo">판매정보 설정</label> <br>
-            <input type="checkbox" id="chkProductMajorInfo" checked>
+            <input type="checkbox" id="chkProductMajorInfo" name="chkProductMajorInfo" checked>
             <label for="chkProductMajorInfo">상품주요정보 설정</label> <br>
-            <input type="checkbox" id="chkProductInfoNotice">
+            <input type="checkbox" id="chkProductInfoNotice" name="chkProductInfoNotice">
             <label for="chkProductInfoNotice">상품정보제공고시 설정</label> <br>
-            <input type="checkbox" id="chkDelivery">
+            <input type="checkbox" id="chkDelivery" name="chkDelivery">
             <label for="chkDelivery">배송정보 설정</label> <br>
-            <input type="checkbox" id="chkReturnChange">
+            <input type="checkbox" id="chkReturnChange" name="chkReturnChange">
             <label for="chkReturnChange">반품/교환정보 설정</label> <br>
-            <input type="checkbox" id="chkAs">
+            <input type="checkbox" id="chkAs" name="chkAs">
             <label for="chkAs">A/S정보 설정</label> <br>
         </fieldset>
-         <fieldset id="fSelectFreeset">
+        <fieldset id="fSelectFreeset">
             <legend>선택형 항목 프리셋</legend>
             <input type="checkbox" id="chkProductSale" name="chkProductSale">
             <label for="chkProductSale">상품할인 추가</label> <br>
@@ -399,8 +399,8 @@
             <input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br>
             <label for="tProductColor">색상 : </label>
             <input type="text" id="tProductColor" name="tProductColor" value="BLACK"/> <br>
-            <label for="tProductsize">치수명 : </label>
-            <input type="text" id="tProductsize" name="tProductsize" value="L(100)"/> <br>
+            <label for="tProductSize">치수명 : </label>
+            <input type="text" id="tProductSize" name="tProductSize" value="L(100)"/> <br>
             <label for="tProductManufacturer">제조자 : </label>
             <input type="text" id="tProductManufacturer" name="tProductManufacturer" value="NBA"/> <br>
             <label for="tProductPrecautions">세탁방법 및 취급시 주의사항 : </label>
@@ -415,22 +415,24 @@
          <fieldset hidden id="fDelivery">
              <legend>배송</legend>
              <label for="radDelivery">배송여부 : </label>
-             <input type="radio" name="radIsDelivery" value="delivery" id="exist" checked>
+             <input type="radio" name="radIsDelivery" value="delivery" id="delivery" checked>
              <label for="delivery">배송있음</label>
-             <input type="radio" name="radIsDelivery" value="noDelivery" id="none">
-             <label for="noDelivery">배송없음</label> <br>
+             <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery">
+             <label for="none_delivery">배송없음</label> <br>
              <label for="radDeliveryProperty">배송속성 : </label>
              <input type="radio" name="radDeliveryProperty" value="normal" id="normal" checked>
              <label for="normal">일반배송</label>
              <input type="radio" name="radDeliveryProperty" value="today" id="today">
-             <label for="today">오늘출발(평일 15:00까지 결제완료)</label> <br>
+             <label for="today">오늘출발(평일 13:00까지 결제완료)</label> <br>
+
              <label for="radDeliveryType">배송방법 : </label>
              <input type="radio" name="radDeliveryType" value="deliveryParcelRegistaration" id="radDeliveryParcelRegistaration" checked>
              <label for="radDeliveryParcelRegistaration">택배, 소포, 등기</label>
              <input type="radio" name="radDeliveryType" value="deliveryDirect" id="radDeliveryDirect">
              <label for="radDeliveryDirect">직접배송  </label>
-             <input type="checkbox" name="chkRecieveVisit" id="chkRecieveVisit" value="chkRecieveVisit">
-             <label for="chkRecieveVisit">방문수령  </label>
+
+             <input type="checkbox" name="chkReceiveVisit" id="chkReceiveVisit" value="chkReceiveVisit">
+             <label for="chkReceiveVisit">방문수령  </label>
              <input type="checkbox" name="chkQuickService" id="chkQuickService" value="chkQuickService">
              <label for="chkQuickService">퀵서비스(서울)</label> <br>
              <label for="isPossibleChildren">묶음배송 : </label>
@@ -444,9 +446,9 @@
                 <option value="charged" selected="selected">유료</option>
                 <option value="free">무료</option>
                  <option value="conditionalFree">조건부 무료(50,000원 이상 구매시 무료)</option>
-                 <option value="perQuantity">수량별(5개마다 반복 부과)</option>
-                 <option value="perSectionTwo">구간별-2구간(5개 초과 구매시 2,000원 부과)</option>
-                 <option value="perSectionThree">구간별-3구간(~5개 추가배송비X / 6~10개까지 추가배송비O / 50,000원 초과 구매시 9,000원 추가)</option>
+                 <option value="per_quantity">수량별(5개마다 반복 부과)</option>
+                 <option value="per_sectionTwo">구간별-2구간(5개 초과 구매시 3,000원 부과)</option>
+                 <option value="per_sectionThree">구간별-3구간(~5개 추가배송비X / 6~10개까지 추가배송비 3,000 / 50,000원 초과 구매시 6,000원 추가)</option>
              </select> <br>
              
              <label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label>
@@ -493,7 +495,7 @@
                 <option value="orderHighPrice">높은 가격순</option>
                 <option value="orderLowPrice">낮은 가격순</option>
              </select> <br>
-             * 적용 예시(순서 미적용) : <label id="labAddtionalProductEx">케이스(+100원)</label>
+             * 적용 예시(순서 미적용) : <label id="labAddtionalProductEx">케이스(RED,BLUE,YELLOW)</label>
          </fieldset>
          <fieldset hidden id="fBuyCondition">
             <legend>구매조건</legend>
