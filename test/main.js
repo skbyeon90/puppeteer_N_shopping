@@ -28,7 +28,7 @@ module.exports = app => {
     //const browser = await puppeteer.launch({headless:false}); // , args: ['--start-fullscreen']
 
     const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: false, // doesn't matter
     args: [
         '--ignore-certificate-errors',
@@ -36,6 +36,7 @@ module.exports = app => {
     ]
     })
     const page = await browser.newPage();
+    var customMade = false;
 
     page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
@@ -61,6 +62,31 @@ module.exports = app => {
     // 상품등록 메뉴 클릭
     await page.waitForSelector('#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a', { timeout: 30000 });
     await page.click('#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a');
+
+    // 카테고리 선택
+    await page.waitForSelector('#r1_2_2');
+    await page.evaluate(() => {
+        document.querySelector('#r1_2_2').click();
+    });
+    // 카테고리 선택 - 패션잡화
+    await page.waitForSelector('.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a', { timeout: 30000 });
+    await page.evaluate(() => {
+        document.querySelector('.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a').click();
+    });
+    // 카테고리 선택 - 벨트
+    await page.waitForSelector('.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a', { timeout: 30000 });
+    await page.evaluate(() => {
+        document.querySelector('.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a').click();
+    });
+    // 카테고리 선택 - 멜빵
+    await page.waitForSelector('div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a ', { timeout: 30000 });
+    await page.evaluate(() => {
+        document.querySelector('div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a ').click();
+    });
+    await page.waitForSelector('div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a ', { timeout: 30000 });
+    await page.evaluate(() => {
+        document.querySelector('div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a ').click();
+    });
 
     // 상품명
     console.log(req.body.tProductName);
@@ -113,16 +139,16 @@ module.exports = app => {
 
         console.log('할인 : ' + req.body.nSaleValue);
 
-        await page.waitForSelector('#r3_1_total');
+        await page.waitForSelector('#error_immediateDiscountPolicy_all_value > div > div > div:nth-child(2) > button > span');
         await page.evaluate(() => {
-            document.querySelector('.caret').click();
+            document.querySelector('#error_immediateDiscountPolicy_all_value > div > div > div:nth-child(2) > button > span').click();
         });
-        var nIdex = (req.body.selSaleType == 'won' ? 2 : 1);
-        await page.click('#error_immediateDiscountPolicy_all_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child('+nIdex+')');
 
-//        await page.evaluate(() => {
-//            document.querySelector('#error_immediateDiscountPolicy_all_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child('+nIdex+')').click();
-//        });
+        // 할인 단위 ( %, 원 )
+        var nIdex = (req.body.selSaleType == 'won' ? 2 : 1);
+        await page.evaluate(({nIdex}) => {
+            document.querySelector('#error_immediateDiscountPolicy_all_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child('+nIdex+')').click();
+        }, {nIdex});
 
         await page.screenshot({path: '4.할인설정.png'});
     }
@@ -139,7 +165,7 @@ module.exports = app => {
         await page.evaluate(() => {
             document.querySelector('div[server-field-errors="product.detailAttribute.optionInfo.*"]').click();
         });
-         console.log("옵션 영역 on");
+        console.log("옵션 영역 on");
     }
 
     // 선택형 옵션 chkSelectOption
@@ -153,11 +179,18 @@ module.exports = app => {
         });
 
         // 선택형 옵션 -  옵션유형
+        var vOptType;
         console.log(req.body.radOptionType);
         if(req.body.radOptionType == 'radOptionTypeSolo')
+        {
             await page.click('input[value="SIMPLE"]'); // 단독형
+            vOptType = "SIMPLE";
+        }
         else
+        {
             await page.click('input[value="COMBINATION"]'); // 조합형
+            vOptType = "COMBINATION";
+        }
 
         // 선택형 옵션 - 정렬순서
         console.log(req.body.selSelectOptionOrder);
@@ -216,17 +249,20 @@ module.exports = app => {
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
             await page.click('a[ng-click="vm.submitToGrid()"]');
 
-            // 옵션목록 전체 선택
-            await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
-            await page.evaluate(() => {
-                document.querySelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input').click();
-            });
+            if(vOptType == "COMBINATION")
+            {
+                // 옵션목록 전체 선택
+                await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+                await page.evaluate(() => {
+                    document.querySelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input').click();
+                });
 
-            // 개별 옵션 재고수량 입력 후, 적용
-            await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
-            await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
-            await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
-            await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                // 개별 옵션 재고수량 입력 후, 적용
+                await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
+                await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
+                await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+            }
             break;
         case '2':
             // 옵션 개수 - 2개 선택
@@ -246,15 +282,18 @@ module.exports = app => {
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
             await page.click('a[ng-click="vm.submitToGrid()"]');
 
-            // 옵션목록 전체 선택
-            await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
-            await page.click('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+            if(vOptType == "COMBINATION")
+            {
+                // 옵션목록 전체 선택
+                await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+                await page.click('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
 
-            // 개별 옵션 재고수량 입력 후, 적용
-            await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
-            await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
-            await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
-            await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                // 개별 옵션 재고수량 입력 후, 적용
+                await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
+                await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
+                await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+            }
             break;
         case '3':
             // 옵션 개수 - 3개 선택
@@ -276,15 +315,18 @@ module.exports = app => {
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
             await page.click('a[ng-click="vm.submitToGrid()"]');
 
-            // 옵션목록 전체 선택
-            await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
-            await page.click('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+            if(vOptType == "COMBINATION")
+            {
+                // 옵션목록 전체 선택
+                await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+                await page.click('#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
 
-            // 개별 옵션 재고수량 입력 후, 적용
-            await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
-            await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
-            await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
-            await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                // 개별 옵션 재고수량 입력 후, 적용
+                await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
+                await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
+                await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
+                await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
+            }
             break;
         default:
             console.log("선택형 옵션 - 개수 error");
@@ -391,44 +433,60 @@ module.exports = app => {
     }
 
     // 상품이미지 - 대표이미지
-//    await page.waitForSelector('#representImage > div > div.seller-product-img.add-img > div > ul > li > div > a');
-//    await page.click('#representImage > div > div.seller-product-img.add-img > div > ul > li > div > a');
-//
-//    // 상품이미지 - 내사진 - file upload
-//    await page.waitForSelector('input[type="file"]', { timeout: 3000 });
-//    const input = await page.$('input[type="file"]');
-//    await input.uploadFile(__dirname + '\\..\\images\\product_image.jpg');
+    await page.waitForSelector('#representImage > div > div.seller-product-img.add-img > div > ul > li > div > a');
+    await page.evaluate(() => {
+        document.querySelector('#representImage > div > div.seller-product-img.add-img > div > ul > li > div > a').click();
+    });
+
+    // 상품이미지 - 내사진 - file upload
+    await page.waitForSelector('input[type="file"]', { timeout: 3000 });
+    const input = await page.$('input[type="file"]');
+    await input.uploadFile(__dirname + '\\..\\images\\product_image.jpg');
 
     // 상세설명
+    await page.waitForSelector('a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
+    await page.evaluate(() => {
+        document.querySelector('a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]').click();
+    });
+
+    console.log(req.body.tProductDescription);
+    await page.waitForSelector('.content.write-html.ng-scope > div > textarea');
+    await page.type('.content.write-html.ng-scope > div > textarea', req.body.tProductDescription);
+
+
 //    await page.waitForSelector('[class="btn btn-primary btn-lg ng-binding"]');
-//    await page.click('[class="btn btn-primary btn-lg ng-binding"]');
+//    await page.evaluate(() => {
+//        document.querySelector('[class="btn btn-primary btn-lg ng-binding"]').click();
+//    });
+//
 //    const pages = await browser.pages(); // get all open pages by the browser
 //    const popup = pages[pages.length - 1]; // the popup should be the last page opened
 //
-//    await popup.waitForSelector('[class="__se_pop_close btn_close_pop"]');
-//    await popup.click('[class="__se_pop_close btn_close_pop"]');
-//
+//    await popup.waitFor(5000);
+//    await popup.waitForSelector('.__se_pop_close.btn_close_pop', { timeout: 10000 });
+//    await popup.evaluate(() => {
+//        document.querySelector('.__se_pop_close.btn_close_pop').click();
+//    });
 //    await popup.waitForSelector('[title=구분선]');
-//    await popup.click('[title=구분선]');
-//    await popup.click('#se_top_publish_btn');
+//    await popup.evaluate(() => {
+//        document.querySelector('[title=구분선]').click();
+//    });
+//    await popup.evaluate(() => {
+//        document.querySelector('#se_top_publish_btn').click();
+//    });
 
     // 상품주요정보
     if(req.body.chkProductMajorInfo != undefined)
     {
-        console.log("상품주요정보 on");
+        await page.waitForSelector('#_prod-attr-section > div', { timeout: 30000 });
+        await page.evaluate(() => {
+            document.querySelector('#_prod-attr-section > div').click();
+        });
 
-        // 상품주요정보
-        await page.waitForSelector('#_prod-attr-section');
-        await page.click('#_prod-attr-section');
+        console.log("상품주요정보 on");
 
         await page.waitForSelector('input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]');
         await page.type('input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', '모델명 테스트');
-
-        await page.waitForSelector('ncp-brand-manufacturer-input[model-type="brand"]')
-        await page.type('ncp-brand-manufacturer-input[model-type="brand"]', '브랜드 테스트');
-
-        await page.waitForSelector('ncp-brand-manufacturer-input[model-type="manufacturer"]')
-        await page.type('ncp-brand-manufacturer-input[model-type="manufacturer"]', '제조사 테스트');
 
         // 상품주요정보 - 상품속성
         // 출산/육아>기저귀>기능성기저귀>기저귀밴드
@@ -437,23 +495,53 @@ module.exports = app => {
     //        document.querySelector('tr[ng-repeat="categoryAttribute.in.vm.categoryAttributeList[attributeGroupName]"] > td > ng-if> div> div> label').click();
     //    });
         // 상품주요정보 - 원산지
-        await page.click('div[data-value="LOCAL"].item');
+        console.log(req.body.selProductOrigin);
         switch(req.body.selProductOrigin){
             case 'domestic':
-                await page.waitForSelector('div[data-value="LOCAL"].option');
-                await page.click('div[data-value="LOCAL"].option');
+                await page.waitForSelector('div[data-value="LOCAL"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="LOCAL"]').click();
+                });
                 break;
             case 'imported':
-                await page.waitForSelector('div[data-value="IMPORT"].option');
-                await page.click('div[data-value="IMPORT"].option');
+                await page.waitForSelector('div[data-value="IMPORT"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="IMPORT"]').click();
+                });
+
+                // 원산지 > 북아메리카
+                await page.waitForSelector('div[data-value="0204"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="0204"]').click();
+                });
+
+                // 원산지 > 북아메리카
+                await page.waitForSelector('div[data-value="0204"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="0204"]').click();
+                });
+
+                // 원산지 > 북아메리카 > 미국
+                await page.waitForSelector('div[data-value="0204000"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="0204000"]').click();
+                });
+
+                // 수입사 입력
+                await page.waitForSelector('.fix-area2 > div > div > input');
+                await page.type('.fix-area2 > div > div > input', '수입사 테스트');
                 break;
             case 'etc':
-                await page.waitForSelector('div[data-value="ETC"].option');
-                await page.click('div[data-value="ETC"].option');
+                await page.waitForSelector('div[data-value="ETC"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="ETC"]').click();
+                });
                 break;
             default:
-                await page.waitForSelector('div[data-value="LOCAL"].option');
-                await page.click('div[data-value="LOCAL"].option');
+                await page.waitForSelector('div[data-value="LOCAL"]');
+                await page.evaluate(() => {
+                    document.querySelector('div[data-value="LOCAL"]').click();
+                });
                 break;
         }
 
@@ -461,15 +549,17 @@ module.exports = app => {
         if(req.body.selProductStatus == "used"){
             console.log("중고");
             await page.waitForSelector('label[for="saleType_OLD"]');
-            await page.click('label[for="saleType_OLD"]');
+            await page.evaluate(() => {
+                document.querySelector('label[for="saleType_OLD"]').click();
+            });
         }
 
         // 상품주요정보 - 주문제작 상품
         if(req.body.chkCustomMade != undefined)
         {
-            console.log("주문제작");
+            customMade = true; // 배송 > 발송예정일 설정 위한 변수
 
-            //await page.waitForSelector('input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"]');
+            await page.waitForSelector('input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"]');
             await page.evaluate(() => {
                 document.querySelector('input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"]').click();
             });
@@ -513,7 +603,20 @@ module.exports = app => {
         await page.evaluate(() => {
             document.querySelector('div[server-field-errors="product.detailAttribute.productInfoProvidedNotice.*"]').click();
         });
-        // 소재
+
+        // 상품군
+        await page.waitForSelector('ui-view[name="provided-notice"] > div > fieldset > div > div > div:nth-child(2) > div > div > div:nth-child(1) > div > div.selectize-input.items.ng-valid.ng-pristine.full.has-options.has-items');
+        await page.evaluate(() => {
+            document.querySelector('ui-view[name="provided-notice"] > div > fieldset > div > div > div:nth-child(2) > div > div > div:nth-child(1) > div > div.selectize-input.items.ng-valid.ng-pristine.full.has-options.has-items').click();
+        });
+
+        // 상품군 - 의류 선택
+        await page.waitForSelector('div[data-value="WEAR"]');
+        await page.evaluate(() => {
+            document.querySelector('div[data-value="WEAR"]').click();
+        });
+
+        // 제품소재
         await page.waitForSelector('#prd');
         await page.type('#prd', req.body.tProductMaterial);
 
@@ -557,7 +660,6 @@ module.exports = app => {
     if(req.body.chkDelivery != undefined)
     {
         // 배송영역 펼침
-        // 추가상품 영역 열기
         await page.waitForSelector('div[server-field-errors="product.deliveryInfo.*"]');
         await page.evaluate(() => {
             document.querySelector('div[server-field-errors="product.deliveryInfo.*"]').click();
@@ -581,7 +683,7 @@ module.exports = app => {
             });
 
             // radDeliveryProperty(normal, today) 배송속성
-            if(req.body.radDeliveryProperty == "today")
+            if(req.body.radDeliveryProperty == "today") // 오늘출발
             {
                 // [오늘출발] 클릭
                 await page.waitForSelector('#TODAY');
@@ -589,31 +691,45 @@ module.exports = app => {
                 document.querySelector('#TODAY').click();
                 });
 
-                // [출발시간 기준 설정] 클릭
-                await page.waitForSelector('div[ncp-message-container="#error_limitDeliveryTime"] > button');
-                await page.evaluate(() => {
-                document.querySelector('div[ncp-message-container="#error_limitDeliveryTime"] > button').click();
-                });
-
-                // 13시 선택
-                await page.waitForSelector('div[data-value="13"]');
-                await page.evaluate(() => {
-                document.querySelector('div[data-value="13"]').click();
-                });
-
-                // [저장] 클릭
-                await page.waitForSelector('button[ng-click="vm.save()"]');
-                await page.evaluate(() => {
-                document.querySelector('button[ng-click="vm.save()"]').click();
-                });
-
-                // [확인] 클릭
-                await page.waitForSelector('button[ng-click="ok()"]')
-                await page.evaluate(() => {
-                document.querySelector('button[ng-click="ok()"]').click();
-                });
+//                // [출발시간 기준 설정] 클릭
+//                await page.waitForSelector('div[ncp-message-container="#error_limitDeliveryTime"] > button');
+//                await page.evaluate(() => {
+//                document.querySelector('div[ncp-message-container="#error_limitDeliveryTime"] > button').click();
+//                });
+//
+//                // 13시 선택
+//                await page.waitForSelector('div[data-value="13"]');
+//                await page.evaluate(() => {
+//                document.querySelector('div[data-value="13"]').click();
+//                });
+//
+//                // [저장] 클릭
+//                await page.waitForSelector('button[ng-click="vm.save()"]');
+//                await page.evaluate(() => {
+//                document.querySelector('button[ng-click="vm.save()"]').click();
+//                });
+//
+//                // [확인] 클릭
+//                await page.waitForSelector('button[ng-click="ok()"]')
+//                await page.evaluate(() => {
+//                document.querySelector('button[ng-click="ok()"]').click();
+//                });
             }
-
+            else
+            {
+                if(customMade == true)
+                {
+                    // 발송예정일 설정
+                    await page.waitForSelector('div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div')
+                    await page.evaluate(() => {
+                    document.querySelector('div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div').click();
+                    });
+                    await page.waitForSelector('div[data-value="SEVEN"]')
+                    await page.evaluate(() => {
+                    document.querySelector('div[data-value="SEVEN"]').click();
+                    });
+                }
+            }
 
             // radDeliveryType(deliveryParcelRegistaration, deliveryDirect) 배송방법
             if(req.body.radDeliveryType == "deliveryDirect")
@@ -828,8 +944,27 @@ module.exports = app => {
             }
             }
         }
+    }
+    else // 배송 데이터는 없지만, 주문제작상품으로 발송예정일을 설정해야 하는 경우
+    {
+        if(customMade == true)
+        {
+            // 배송영역 펼침
+            await page.waitForSelector('div[server-field-errors="product.deliveryInfo.*"]');
+            await page.evaluate(() => {
+                document.querySelector('div[server-field-errors="product.deliveryInfo.*"]').click();
+            });
 
-        await page.waitFor(300000);
+            // 발송예정일 설정
+            await page.waitForSelector('div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div')
+            await page.evaluate(() => {
+            document.querySelector('div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div').click();
+            });
+            await page.waitForSelector('div[data-value="SEVEN"]')
+            await page.evaluate(() => {
+            document.querySelector('div[data-value="SEVEN"]').click();
+            });
+        }
     }
 
     // 반품/교환
@@ -885,6 +1020,8 @@ module.exports = app => {
 
         console.log("추가상품 on");
 
+
+
         // 추가상품 - 정렬순서
         console.log(req.body.selAdditionalProductOrder);
         switch(req.body.selAdditionalProductOrder)
@@ -920,7 +1057,7 @@ module.exports = app => {
 
         console.log(req.body.selAdditionalProductNum);
 
-        // 추가상품 -  옵션명 개수
+        // 추가상품 -  추가상품 개수
         await page.waitForSelector('div[data-value="1"].item');
         await page.evaluate(() => {
             document.querySelector('div[data-value="1"].item').click();
@@ -928,90 +1065,102 @@ module.exports = app => {
 
         switch(req.body.selAdditionalProductNum){
         case '1':
-            // 옵션 개수 - 1개 선택
+            // 추가상품 개수 - 1개 선택
             await page.waitForSelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(1)');
             await page.evaluate(() => {
                 document.querySelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(1)').click();
             });
 
-            // 개별 옵션 입력
+            // 개별 추가상품 입력
             await page.waitForSelector('#supple_group_name0');
             await page.type('#supple_group_name0', '케이스');
             await page.type('#supple_names0', 'RED,BLUE,YELLOW');
+            await page.type('#supple_prices0', '0,50,100');
 
-            // 옵션목록 적용
+            // 추가상품목록 적용
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
-            await page.click('a[ng-click="vm.submitToGrid()"]');
+            await page.evaluate(() => {
+                document.querySelector('a[ng-click="vm.submitToGrid()"]').click();
+            });
 
-            // 옵션목록 전체 선택
+            // 추가상품 목록 전체 선택
             await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input');
             await page.evaluate(() => {
                 document.querySelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input').click();
             });
 
-            // 개별 옵션 재고수량 입력 후, 적용
+            // 개별 추가상품 재고수량 입력 후, 적용
             await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
             await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
             await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
             await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
             break;
         case '2':
-            // 옵션 개수 - 2개 선택
+            // 추가상품 개수 - 2개 선택
             await page.waitForSelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(2)');
             await page.evaluate(() => {
                 document.querySelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(2)').click();
             });
 
-            // 개별 옵션 입력
+            // 개별 추가상품 입력
             await page.waitForSelector('#supple_group_name1');
             await page.type('#supple_group_name0', '케이스');
             await page.type('#supple_names0', 'RED,BLUE,YELLOW');
+            await page.type('#supple_prices0', '0,50,100');
             await page.type('#supple_group_name1', '이어폰');
             await page.type('#supple_names1', 'BLACK,WHITE');
+            await page.type('#supple_prices1', '0,50');
 
-            // 옵션목록 적용
+            // 추가상품목록 적용
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
-            await page.click('a[ng-click="vm.submitToGrid()"]');
+            await page.evaluate(() => {
+                document.querySelector('a[ng-click="vm.submitToGrid()"]').click();
+            });
 
-            // 옵션목록 전체 선택
+            // 추가상품목록 전체 선택
             await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input');
             await page.evaluate(() => {
                 document.querySelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input').click();
             });
 
-            // 개별 옵션 재고수량 입력 후, 적용
+            // 개별 추가상품 재고수량 입력 후, 적용
             await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
             await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
             await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
             await page.click('a[ng-click="vm.modifySelectedRowByBulk()"]');
             break;
         case '3':
-            // 옵션 개수 - 3개 선택
+            // 추가상품 개수 - 3개 선택
             await page.waitForSelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(3)');
             await page.evaluate(() => {
                 document.querySelector('div[ng-show="vm.isConfig"] > div > div > div > div > div > div:nth-child(2)> div> div:nth-child(3)').click();
             });
 
-            // 개별 옵션 입력
+            // 개별 추가상품 입력
             await page.waitForSelector('#supple_group_name2');
             await page.type('#supple_group_name0', '케이스');
             await page.type('#supple_names0', 'RED,BLUE,YELLOW');
+            await page.type('#supple_prices0', '0,50,100');
             await page.type('#supple_group_name1', '이어폰');
             await page.type('#supple_names1', 'BLACK,WHITE');
+            await page.type('#supple_prices1', '0,50');
             await page.type('#supple_group_name2', '마이크');
             await page.type('#supple_names2', 'BLACK,WHITE');
+            await page.type('#supple_prices2', '0,50');
 
-            // 옵션목록 적용
+            // 추가상품목록 적용
             await page.waitForSelector('a[ng-click="vm.submitToGrid()"]');
-            await page.click('a[ng-click="vm.submitToGrid()"]');
+            await page.evaluate(() => {
+                document.querySelector('a[ng-click="vm.submitToGrid()"]').click();
+            });
 
-            // 옵션목록 전체 선택
+            // 추가상품목록 전체 선택
             await page.waitForSelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input');
             await page.evaluate(() => {
                 document.querySelector('#center > div > div.ag-header > div.ag-header-viewport > div > div > div:nth-child(1) > div > label > input').click();
             });
 
-            // 개별 옵션 재고수량 입력 후, 적용
+            // 개별 추가상품 재고수량 입력 후, 적용
             await page.waitForSelector('input[ng-model="vm.bulkStockQuantity"]')
             await page.type('input[ng-model="vm.bulkStockQuantity"]', '10');
             await page.waitForSelector('a[ng-click="vm.modifySelectedRowByBulk()"]');
@@ -1073,13 +1222,19 @@ module.exports = app => {
         var nIdex = (req.body.selPointBuyType == 'won' ? 2 : 1);
         console.log(req.body.selPointBuyType);
         console.log('인덱스 : ' + nIdex);
-        //await page.evaluate(({nIdex}) => {
-        //    document.querySelector('#error_purchasePointPolicy_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child(' + nIdex + ')').click();
-        //}, {nIdex});
 
-        await page.waitForSelector('#error_purchasePointPolicy_value > div > div > div:nth-child(3)');
+        await page.waitForSelector('button[ng-disabled="vm.viewData.isBookExceptionalCategory"] > .caret');
         await page.evaluate(() => {
-            document.querySelector('#error_purchasePointPolicy_value > div > div > div:nth-child(3)').click();
+            document.querySelector('button[ng-disabled="vm.viewData.isBookExceptionalCategory"] > .caret').click();
+        });
+
+        await page.evaluate(({nIdex}) => {
+            document.querySelector('#error_purchasePointPolicy_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child(' + nIdex + ')').click();
+        }, {nIdex});
+
+        await page.waitForSelector('#error_purchasePointPolicy_value > div > div > div:nth-child(3) > button');
+        await page.evaluate(() => {
+            document.querySelector('#error_purchasePointPolicy_value > div > div > div:nth-child(3) > button').click();
         });
 
         await page.waitForSelector('#error_purchasePointPolicy_value > div:nth-child(1) > div > div.input-group-btn.open > ul > li:nth-child('+nIdex+')');
@@ -1110,9 +1265,19 @@ module.exports = app => {
         // nPointTokJJim 톡톡친구/스토어찜 고객리뷰 포인트
         await page.waitForSelector('#prd_storeMemberReview');
         await page.type('#prd_storeMemberReview', req.body.nPointTokJJim);
-
-        await page.waitFor(500000);
     }
+
+    // [쇼핑윈도] 제외
+    await page.waitForSelector('input[data-nclicks-code="ech.swin"]');
+    await page.evaluate(() => {
+        document.querySelector('input[data-nclicks-code="ech.swin"]').click();
+    });
+
+    await page.waitForSelector('button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]');
+    await page.evaluate(() => {
+        document.querySelector('button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]').click();
+    });
+    await page.waitFor(500000);
 
     //res.send('Product registration succeeded..!');
 

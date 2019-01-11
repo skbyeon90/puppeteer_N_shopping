@@ -102,7 +102,7 @@
 
         $.fn.CheckSelectOption = function() {
 	        var vOptNum = $("#selSelectOptionNum option:selected").val();
-            var vIsCheckedSoloOptionType = $("#radSoloOptionType").is(':checked');
+            var vIsCheckedSoloOptionType = $("#radOptionTypeSolo").is(':checked');
             switch(vOptNum){
                 case '1':
                     if(vIsCheckedSoloOptionType)
@@ -215,12 +215,12 @@
             if(vBuyPointTypeValue=="won")
             {
                 vBuyPointValue.attr("min", "10");
-                vBuyPointValue.attr("max", "3000");
+                vBuyPointValue.attr("max", "20000");
             }
             else
             {
                 vBuyPointValue.attr("min", "1");
-                vBuyPointValue.attr("max", "99");
+                vBuyPointValue.attr("max", "20");
             }
         });
 
@@ -277,7 +277,7 @@
         <fieldset id=fProductBasicInfo>
             <legend>상품기본정보</legend>
             <label for="sProdcutCategory">상품 카테고리 : </label>
-            <select name="sProdcutCategory">
+            <select name="sProdcutCategory" hidden>
                 <option value="department" selected="selected">백화점</option>
                 <option value="outlet" hidden>아울렛</option>
                 <option value="style" hidden>스타일</option>
@@ -293,7 +293,7 @@
                 <option value="pet" hidden>펫</option>
                 <option value="play" hidden>플레이</option>
                 <option value="art" hidden>아트</option>
-            </select> (윈도기준, 현재 백화점만 가능)
+            </select> <b>패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)
 
             <br>
 
@@ -301,7 +301,7 @@
             <input type="text" id="tProductName" name="tProductName" required/> <br>
 
             <label for="tProductDescription">상품 상세설명 : </label>
-            <input type="text" name="tProductDescription" id="tProductDescription"/>
+            <input type="text" name="tProductDescription" id="tProductDescription" value="상품 상세설명입니다."/>
         </fieldset>
          
          <fieldset id="fSellInfo">
@@ -369,7 +369,7 @@
             <label for="selProductOrigin">원산지 : </label>
             <select name="selProductOrigin" id="selProductOrigin">
                 <option value="domestic" selected="selected">국산</option>
-                <option value="imported">수입산</option>
+                <option value="imported">수입산(미국)</option>
                 <option value="etc">기타(상세설명에 표시)</option>
              </select> <br>
 
@@ -516,15 +516,15 @@
              </select>
              <label for="selPointBuyType">지급</label> <br>
             <label for="nPointTextReview">텍스트 리뷰 작성 시 : </label>
-            <input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
+            <input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="3000" value="500"/>원<br>
             <label for="nPointPhotoReview">포토/동영상 리뷰 작성 시 : </label>
-            <input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="3000" value="2000"/>원<br>
+            <input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
             <label for="nPoint1MTextReview">한달사용 텍스트 리뷰 작성 시 : </label>
-            <input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
+            <input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="3000" value="500"/>원<br>
             <label for="nPoint1MPhotoReview">한달사용 포토/동영상 리뷰 작성 시 : </label>
-            <input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="3000" value="2000"/>원<br>
+            <input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
             <label for="nPointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label>
-            <input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="3000" value="500"/>원
+            <input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="3000" value="300"/>원
          </fieldset>
         <br>
         <input type="submit" value="등록" style="float: right; WIDTH: 250pt; HEIGHT: 20pt">
