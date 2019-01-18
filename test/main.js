@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var utils = require('../utils');
-
+var assert = require( 'chai' ).assert;
 var browser = undefined;
 var page = undefined;
 
@@ -43,19 +43,16 @@ module.exports = app => {
 
         page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
-        await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle2'});
+        // 스마트스토어 페이지 진입
+        await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle0'});
 
+        // 판매자 로그인
         await utils.clearAndType(page, '#loginId', 'qa1test574@naver.com');
         await utils.clearAndType(page, '#loginPassword', 'qatest123');
         await utils.click(page, '#loginButton');
 
-    //    await page.waitForSelector('button[ng-click="vm.closeModal()"]');
-    //    await page.click('button[ng-click="vm.closeModal()"]');
-
-        // 스토어 홈
+        // 상품등록 메뉴 진입
         await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li:nth-child(1) > a');
-
-        // 상품등록 메뉴 클릭
         await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a');
 
         // 카테고리 선택
@@ -65,18 +62,29 @@ module.exports = app => {
         await utils.click(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
 
         // 카테고리 선택 - 벨트
-        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a ');
+        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a ');
 
         // 카테고리 선택 - 멜빵
-        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a ');
+        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
+
+        // 카테고리가 제대로 선택되었는지 확인
+        var category1 = await utils.getText(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
+        var category2 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
+        var category3 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
+        var categorySelected1 = category1 + '>' + category2 + '>' + category3;
+        var categorySelected2 = await utils.getText(page, '.info-result.text-info.ng-scope > strong');
+        assert.strictEqual(categorySelected1, categorySelected2);
 
         // 상품명
-        console.log(req.body.tProductName);
         await utils.clearAndType(page, 'input[name="product.name"]', req.body.tProductName);
+        var strProductName = await utils.getValue(page, 'input[name="product.name"]');
+        assert.strictEqual(req.body.tProductName, strProductName);
 
         // 판매가
         await utils.clearAndType(page, 'input[name="product.salePrice"]', req.body.nProductPrice);
+        var strProductPrice = await utils.getValue(page, 'input[name="product.salePrice"]');
+        assert.strictEqual(req.body.nProductPrice, strProductPrice);
 
         // 판매가 > 과세유형
         switch(req.body.selProductTax){
@@ -102,9 +110,11 @@ module.exports = app => {
 
             // 할인가
             await utils.clearAndType(page, 'input[name="product.customerBenefit.immediateDiscountPolicy.discountMethod.value"]', req.body.nSaleValue);
-            await utils.click(page, '#error_immediateDiscountPolicy_all_value > div > div > div:nth-child(2) > button > span');
+            var strSaleValue = await utils.getValue(page, 'input[name="product.customerBenefit.immediateDiscountPolicy.discountMethod.value"]');
+            assert.strictEqual(req.body.nSaleValue, strSaleValue);
 
             // 할인 단위 ( %, 원 )
+            await utils.click(page, '#error_immediateDiscountPolicy_all_value > div > div > div:nth-child(2) > button > span');
             try{
                 var nIdex = (req.body.selSaleType == 'won' ? 2 : 1);
                 await page.evaluate(({nIdex}) => {
@@ -118,6 +128,8 @@ module.exports = app => {
 
         // 재고 수량
         await utils.clearAndType(page, '#stock', req.body.nProductAmount);
+        var strStockValue = await utils.getValue(page, '#stock');
+        assert.strictEqual(req.body.nProductAmount, strStockValue);
 
         // 옵션 영역 펼치기
         if(req.body.chkSelectOption != undefined
@@ -304,15 +316,21 @@ module.exports = app => {
         await utils.click(page, 'a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
         console.log(req.body.tProductDescription);
         await utils.type(page, '.content.write-html.ng-scope > div > textarea', req.body.tProductDescription);
+        var strProductDescription = await utils.getValue(page, 'a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
+        //assert.strictEqual(req.body.tProductDescription, strProductDescription);
+
 
         // 상품주요정보
         if(req.body.chkProductMajorInfo != undefined)
         {
-            await utils.click(page, '#_prod-attr-section > div', { timeout: 30000 });
+            await utils.click(page, '#_prod-attr-section > div');
 
             console.log("상품주요정보 on");
 
+
             await utils.type(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', '모델명 테스트');
+            var strModelName = await utils.getValue(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]');
+            assert.strictEqual('모델명 테스트', strModelName);
 
             // 상품주요정보 - 상품속성
             // 출산/육아>기저귀>기능성기저귀>기저귀밴드
@@ -365,7 +383,7 @@ module.exports = app => {
 
                 // 체크박스가 체크됐는지
                 var selectorCheckbox = 'input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"].ng-pristine.ng-untouched.ng-valid.ng-empty';
-                if(utils.isExistsElement(page, selectorCheckbox) == true)
+                if(await utils.isElementExists(page, selectorCheckbox) == true)
                 {
                     console.log('주문제작 상품-체크안된 상태.');
                     await utils.click(page, selectorCheckbox);
@@ -407,11 +425,20 @@ module.exports = app => {
 
             // 제품소재
             await utils.type(page, '#prd', req.body.tProductMaterial);
+            var strProductMaterial = await utils.getValue(page, '#prd');
+            //assert.strictEqual(req.body.tProductMaterial, strProductMaterial);
+
             // 치수명
             await utils.clearAndType(page, '#prd_size', req.body.tProductSize);
+            var strProductSize = await utils.getValue(page, '#prd_size');
+            await page.waitFor(12312312312);
+
+            assert.strictEqual(req.body.tProductSize, strProductSize);
 
             // 색상
             await utils.clearAndType(page, '#prd_col', req.body.tProductColor);
+            var strProductColor = await utils.getValue(page, '#prd_col');
+            assert.strictEqual(req.body.tProductColor, strProductColor);
 
             // 제조자
     //        await page.waitForSelector('ncp-brand-manufacturer-input[model-type="manufacturer"]');
@@ -422,16 +449,24 @@ module.exports = app => {
 
             // 세탁방법 및 취급시 주의사항
             await utils.clearAndType(page, '#prd_caution',req.body.tProductPrecautions);
+            var strProductCaution = await utils.getValue(page, '#prd_caution');
+            assert.strictEqual(req.body.tProductPrecautions, strProductCaution);
 
             // 제조년월
             await utils.click(page, 'input[ng-click="vm.dateHandle(true, true)"]');
             await utils.clearAndType(page, 'div[ng-show="vm.noticeType !== \'GIFT_CARD\'"] > div > input', req.body.tManuYearMonth);
+            var strProductYearMonth = await utils.getValue(page, 'div[ng-show="vm.noticeType !== \'GIFT_CARD\'"] > div > input');
+            assert.strictEqual(req.body.tManuYearMonth, strProductYearMonth);
 
             // 품질보증기준
             await utils.clearAndType(page, '#prd_quality', req.body.tQualityStandards);
+            var strProductQuality = await utils.getValue(page, '#prd_quality');
+            assert.strictEqual(req.body.tQualityStandards, strProductQuality);
 
             // AS 책임자
             await utils.clearAndType(page, '#prd_as', req.body.tAsManager);
+            var strProductAS = await utils.getValue(page, '#prd_as');
+            assert.strictEqual(req.body.tAsManager, strProductAS);
         }
 
         // 배송
@@ -479,7 +514,7 @@ module.exports = app => {
                     console.log('방문수령');
                     // [방문수령]
                     var selectorCheckbox = 'input[name="visit_receipt"].ng-valid.ng-dirty.ng-valid-parse.ng-touched.ng-empty';
-                    if(utils.isExistsElement(page, selectorCheckbox) == true)
+                    if(await utils.isElementExists(page, selectorCheckbox) == true)
                     {
                         console.log('방문수령-체크안된 상태.');
                         await utils.click(page, selectorCheckbox);
@@ -500,7 +535,7 @@ module.exports = app => {
                 {
                     // 체크박스가 체크됐는지
                     var selectorCheckbox = 'input[name="quickService"].ng-valid.ng-dirty.ng-valid-parse.ng-touched.ng-empty';
-                    if(utils.isExistsElement(page, selectorCheckbox) == true)
+                    if(await utils.isElementExists(page, selectorCheckbox) == true)
                     {
                         console.log('퀵서비스-체크안된 상태.');
                         await utils.click(page, selectorCheckbox);
@@ -592,7 +627,9 @@ module.exports = app => {
                     }
 
                     // 기본 배송비
-                    await utils.clearAndType(page, '#basic_price', '3000'); // 배송비 3000원 고정
+                    await utils.clearAndType(page, '#basic_price', '3000'); // 배송비 3000원
+                    var strDelivery = await utils.getValue(page, '#basic_price');
+                    assert.strictEqual('3000', strDelivery);
 
                     // 결제방식(착불(default), 선결제)
                     if(req.body.chkPaymentAdvance != undefined)
@@ -607,7 +644,11 @@ module.exports = app => {
 
                     // tRegionCharge 지역별 차등 배송비
                     if(req.body.tRegionCharge != undefined)
+                    {
                         await utils.clearAndType(page, '#delivery_price', req.body.tRegionCharge);
+                        var strRegionCharge = await utils.getValue(page, '#delivery_price');
+                        assert.strictEqual(req.body.tRegionCharge, strRegionCharge);
+                    }
 
                     // radInstallCosts(exist, none(default)) 별도 설치비
                     if(req.body.radInstallCosts == "exist")
@@ -637,9 +678,13 @@ module.exports = app => {
 
             // 반품배송비(편도)
             await utils.clearAndType(page, '#return_price',req.body.nDeliveryChargeReturn);
+            var strReturnPrice = await utils.getValue(page, '#return_price');
+            assert.strictEqual(req.body.nDeliveryChargeReturn, strReturnPrice);
 
             // 교환배송비(왕복)
             await utils.clearAndType(page, '#exchange_price',req.body.nDeliveryChargeChange);
+            var strExchangePrice = await utils.getValue(page, '#exchange_price');
+            assert.strictEqual(req.body.nDeliveryChargeChange, strExchangePrice);
         }
 
 
@@ -653,9 +698,13 @@ module.exports = app => {
 
             // A/S 전화번호
             await utils.clearAndType(page, '#as_number',req.body.tAsNumber);
+            var strAsNumber = await utils.getValue(page, '#as_number');
+            assert.strictEqual(req.body.tAsNumber, strAsNumber);
 
             // A/S 안내
             await utils.clearAndType(page, '#as_info',req.body.tAsDescription);
+            var strAsDescription = await utils.getValue(page, '#as_info');
+            assert.strictEqual(req.body.tAsDescription, strAsDescription);
         }
 
         // 추가상품
@@ -754,22 +803,30 @@ module.exports = app => {
 
             // nBuyConditionMin 최소구매수량
             await utils.type(page, '#prd_min',req.body.nBuyConditionMin);
+            var strBuyConditionMin = await utils.getValue(page, '#prd_min');
+            assert.strictEqual(req.body.nBuyConditionMin, strBuyConditionMin);
 
             // nBuyConditionMaxPer 최대구매수량(1회)
             console.log('최대구매수량(1회)' + req.body.nBuyConditionMaxPer);
             await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerOrder"]');
             await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]', req.body.nBuyConditionMaxPer);
+            var strBuyConditionMaxPer = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]');
+            assert.strictEqual(req.body.nBuyConditionMaxPer, strBuyConditionMaxPer);
 
             // nBuyConditionMaxPerson 최대구매수량(1인)
             console.log('최대구매수량(1인)' + req.body.nBuyConditionMaxPerson);
             await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerId"]');
             await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]', req.body.nBuyConditionMaxPerson);
+            var strBuyConditionMaxPerson = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]');
+            assert.strictEqual(req.body.nBuyConditionMaxPerson, strBuyConditionMaxPerson);
 
             // 상품 구매 시 지급 체크박스 클릭
             await utils.click(page, 'input[ng-model="vm.viewData.isUsePurchasePointPolicy"]');
 
             // nPointBuy 지급 포인트
             await utils.type(page, '#error_purchasePointPolicy_value > div:nth-child(1) > div > div.seller-input-wrap.ng-scope > input', req.body.nPointBuy);
+            var strPointBuy = await utils.getValue(page, '#error_purchasePointPolicy_value > div:nth-child(1) > div > div.seller-input-wrap.ng-scope > input');
+            assert.strictEqual(req.body.nPointBuy, strPointBuy);
 
             // selPointBuyType(won, percent) 지급 포인트 단위
             await utils.click(page, 'button[ng-disabled="vm.viewData.isBookExceptionalCategory"] > .caret');
@@ -792,18 +849,28 @@ module.exports = app => {
 
             // nPointTextReview 텍스트 리뷰 포인트
             await utils.clearAndType(page, '#prd_textReview',req.body.nPointTextReview);
+            var strTextReview = await utils.getValue(page, '#prd_textReview');
+            assert.strictEqual(req.body.nPointTextReview, strTextReview);
 
             // nPointPhotoReview 포토/동영상 리뷰 포인트
             await utils.clearAndType(page, '#prd_photoVideoReview', req.body.nPointPhotoReview);
+            var strPhotoVideoReview = await utils.getValue(page, '#prd_photoVideoReview');
+            assert.strictEqual(req.body.nPointPhotoReview, strPhotoVideoReview);
 
             // nPoint1MTextReview 한달사용 텍스트 리뷰 포인트
             await utils.clearAndType(page, '#prd_afterUseTextReview', req.body.nPoint1MTextReview);
+            var strAfterTextReview = await utils.getValue(page, '#prd_afterUseTextReview');
+            assert.strictEqual(req.body.nPoint1MTextReview, strAfterTextReview);
 
             // nPoint1MPhotoReview 한달사용 포토/동영상 리뷰 포인트
             await utils.clearAndType(page, '#prd_afterUsePhotoVideoReview', req.body.nPoint1MPhotoReview);
+            var strAfterTextPhotoReview = await utils.getValue(page, '#prd_afterUsePhotoVideoReview');
+            assert.strictEqual(req.body.nPoint1MPhotoReview, strAfterTextPhotoReview);
 
             // nPointTokJJim 톡톡친구/스토어찜 고객리뷰 포인트
             await utils.clearAndType(page, '#prd_storeMemberReview', req.body.nPointTokJJim);
+            var strTokJJim = await utils.getValue(page, '#prd_storeMemberReview');
+            assert.strictEqual(req.body.nPointTokJJim, strTokJJim);
         }
 
         // [쇼핑윈도] 제외

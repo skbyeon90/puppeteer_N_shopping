@@ -44,7 +44,7 @@ module.exports.clearAndType = async(page, selector, contents) => {
         const input = await page.$(selector);
         await input.click();
         await input.focus();
-        await input.click({clickCount: 3});
+        await input.click({clickCount: 3, delay: 100});
         await input.press('Backspace');
         await input.type(contents);
     }
@@ -54,7 +54,7 @@ module.exports.clearAndType = async(page, selector, contents) => {
 };
 
 // is exists element
-module.exports.isExistsElement = async(page, selector) => {
+module.exports.isElementExists = async(page, selector) => {
     var isExists = false;
     try{
         const isExistChecked = await page.$(selector);
@@ -65,4 +65,36 @@ module.exports.isExistsElement = async(page, selector) => {
         console.log('isExistsElement error : ' + error);
     }
     return isExists;
+};
+
+// get a element's text
+module.exports.getText = async(page, selector) => {
+    var text = null;
+    try{
+        var element = await page.$(selector);
+        var valueHandle = await element.getProperty('textContent');
+        text = await valueHandle.jsonValue();
+        console.log('text : ', text)
+    }
+    catch(error){
+        console.log('getText error : ' + error);
+
+    }
+    return text;
+};
+
+// get a element's value
+module.exports.getValue = async(page, selector) => {
+    var value = null;
+    try{
+        var element = await page.$(selector);
+        var valueHandle = await element.getProperty('value');
+        value = await valueHandle.jsonValue();
+        console.log('value : ', value);
+
+    }
+    catch(error){
+        console.log('getValue error : ' + error);
+    }
+    return value;
 };
