@@ -25,9 +25,7 @@ module.exports = app => {
     //console.log(req.body.name + ' in myaction');
 
 
-    (async() => { //args : ['--ignore-certificate-errors']
-    //const browser = await puppeteer.launch({headless:false}); // , args: ['--start-fullscreen']
-
+    (async() => {
         browser = await puppeteer.launch({
         headless: true,
         ignoreHTTPSErrors: false, // doesn't matter
@@ -37,7 +35,6 @@ module.exports = app => {
         ]
         })
         page = await browser.newPage();
-        var customMade = false;
 
         //utils.setPage(page);
 
@@ -358,6 +355,7 @@ module.exports = app => {
                 await utils.click(page, 'label[for="saleType_OLD"]');
             }
 
+            var customMade = false;
             // 상품주요정보 - 주문제작 상품
             if(req.body.chkCustomMade != undefined)
             {
