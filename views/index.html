@@ -19,6 +19,7 @@
       top: 0; /* Position the navbar at the top of the page */
       width: 100%; /* Full width */
       height: 6%;
+      z-index: 1;
     }
 
     h1{
@@ -39,7 +40,7 @@
       text-align: center;
       text-decoration: none;
       font-size: 16px;
-      margin: 8px 15px;
+      margin: 11px 24px;
       cursor: pointer;
       border-radius: 4px;
       font-family: 'Nanum Gothic', sans-serif;
@@ -65,7 +66,7 @@
       margin-top:4%;
       display: block;
       color: white;
-      padding: 1px 18px;
+      padding: 3px 18px;
       text-decoration: none;
       font-family: 'Nanum Gothic', sans-serif;
     }
@@ -88,6 +89,12 @@
         font-family: 'Nanum Gothic', sans-serif;
     }
 
+    .registerForm input[type=checkbox] + label {
+      font-family: 'Nanum Gothic', sans-serif;
+      cursor: pointer;
+      margin: 5px;
+    }
+
     fieldset {
         font-family: 'Nanum Gothic', sans-serif;
         border: 2px solid #00C652;
@@ -96,6 +103,7 @@
         border-radius: 5px;
         padding: 15px;
         margin: 15px;
+        font-size: medium;
     }
 
     fieldset legend {
@@ -115,18 +123,20 @@
       position: relative;
       display: inline-block;
       vertical-align: middle;
-      margin: 10px; /* demo only */
+      height: 32px;
+      margin: 10px 15px;
     }
 
     .custom-dropdown select {
       font-family: 'Nanum Gothic', sans-serif;
       background-color: #f1f1f1;
       color: #000;
-      font-size: inherit;
+      font-size: medium;
       padding: .5em;
       padding-right: 2.5em;
       border: 0;
       margin: 0;
+      height: 33px;
       border-radius: 3px;
       text-indent: 0.01px;
       text-overflow: '';
@@ -152,7 +162,7 @@
 
     .custom-dropdown::before { /*  Custom dropdown arrow cover */
       width: 2em;
-      right: 4;
+      right: -1;
       top: 0;
       bottom: 0;
       border-radius: 0 3px 3px 0;
@@ -178,11 +188,14 @@
     input[type=text], input[type=password], input[type=number] {
       font-family: 'Nanum Gothic', sans-serif;
       width: 500px;
+      height: 30px;
       padding: 8px;
-      margin: 5px 0 5px 0;
+      margin: 0px 0 5px 0;
       display: inline-block;
       border: none;
+      font-size: medium;
       background: #f1f1f1;
+      margin:10px 15px;
     }
 
     /* Add a background color when the inputs get focus */
@@ -193,9 +206,8 @@
 
     input[type=checkbox] + label {
       font-family: 'Nanum Gothic', sans-serif;
-      display: block;
       cursor: pointer;
-      margin: -5px;
+      margin: -1px;
     }
 
     input[type=checkbox] {
@@ -212,8 +224,8 @@
       height: 1em;
       padding-left: 0.2em;
       padding-bottom: 0.3em;
-      margin-right: 0.2em;
-      vertical-align: bottom;
+      margin-right: 0.5em;
+      vertical-align: middle;
       background-color: #fff;
       color: transparent;
       transition: .2s;
@@ -239,6 +251,35 @@
       background-color: #bfb;
       border-color: #bfb;
     }
+
+    input[type="radio"] {
+      appearance:none;
+      margin:10px 15px;
+      width: 18px;
+      height: 18px;
+      background: #eeeeee;
+      border-radius: 50%;
+      transition: .2s;
+      cursor:pointer;
+      color: #363945;
+      vertical-align: middle;
+    }
+    input[type="radio"]:hover,
+    input[type="radio"]:checked {
+      background: #363945;
+    }
+
+    input[type="radio"]:checked {
+        background: #56be8e;
+    }
+
+    input[type="radio"]:focus { outline: 0; }
+
+    input[type="month"]{
+        margin:10px 15px;
+    }
+
+
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
@@ -418,12 +459,12 @@
         ///////// 주문제작상품
         $("#chkCustomMade").change(function(){
             if ($(this).is(':checked')){
-                $("#chkReturnCancel").show();
-                $("#labReturnCancel").show();
+                //$("#chkReturnCancel").show();
+                //$("#labReturnCancel").show();
             }
             else{
-                $("#chkReturnCancel").hide();
-                $("#labReturnCancel").hide();
+                //$("#chkReturnCancel").hide();
+                //$("#labReturnCancel").hide();
             }
         });
 
@@ -508,8 +549,9 @@
                 <label for="chkBenefitCondition">혜택조건</label><br></li>
         </ul>
         <div class="navbar">
+            <img src="//..//images/smartstore_logo.png" alt="logo"/>
             <h1 align="center">상품 등록 페이지</h1>
-            <input type="submit" value="등록">
+            <input type="submit" value="등록" />
             <!--<input type="button" value="초기화">-->
         </div>
         <div class="registerForm">
@@ -536,8 +578,8 @@
                 <b>패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)
                 <br>
 
-                <label for="tProductName">상품명 : </label>
-                <input type="text" id="tProductName" name="tProductName" required/> <br>
+                <label for="tProductName">상품명 :</label>
+                <input type="text" id="tProductName" name="tProductName" style="margin:15px 50px;" required/> <br>
 
                 <label for="tProductDescription">상품 상세설명 : </label>
                 <input type="text" name="tProductDescription" id="tProductDescription" value="상품 상세설명입니다."/>
@@ -550,12 +592,12 @@
 
                 <label for="selProductTax">부가세 : </label>
                 <span class="custom-dropdown">
-                 <select name="selProductTax" id="selProductTax">
+                 <select name="selProductTax" id="selProductTax" style="margin-left:5px;">
                     <option value="tax" selected="selected">과세상품</option>
                     <option value="dutyfree">면세상품</option>
                     <option value="small">영세상품</option>
-                 </select> <br>
-                </span>
+                 </select>
+                </span> <br>
 
                 <label for="nProductAmount">재고수량 : </label>
                 <input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" max="999"/>개
@@ -586,8 +628,8 @@
                         <option value="1" selected="selected">1개</option>
                         <option value="2">2개</option>
                         <option value="3">3개</option>
-                     </select> <br>
-                 </span>
+                     </select>
+                 </span><br>
                  <label for="selSelectOptionOrder">정렬순서 : </label>
                  <span class="custom-dropdown">
                      <select id="selSelectOptionOrder" name="selSelectOptionOrder">
@@ -595,9 +637,9 @@
                         <option value="orderAbc">가나다순</option>
                         <option hidden value="orderHighPrice">높은 가격순</option>
                         <option hidden value="orderLowPrice">낮은 가격순</option>
-                     </select> <br>
-                 </span>
-                 * 적용 예시(순서 미적용) : <label id="labSelectOptionEx">컬러(RED/BLUE/YELLOW)</label>
+                     </select>
+                 </span><br>
+                 -> 적용 예시(순서 미적용) : <label id="labSelectOptionEx">컬러(RED/BLUE/YELLOW)</label>
              </fieldset>
              <fieldset hidden id="fInputOption">
                 <legend>직접입력형 옵션</legend>
@@ -609,20 +651,20 @@
                         <option value="3">3개</option>
                         <option value="4">4개</option>
                         <option value="5">5개</option>
-                     </select> <br>
-                 </span>
-                 * 적용 예시(순서 미적용) : <label id="labInputOptionEx">컬러</label>
+                     </select>
+                 </span> <br>
+                 -> 적용 예시(순서 미적용) : <label id="labInputOptionEx">컬러</label>
              </fieldset>
              <fieldset id="fProductMajorInfo">
                 <legend>상품주요정보</legend>
                 <label for="selProductOrigin">원산지 : </label>
                 <span class="custom-dropdown">
-                    <select name="selProductOrigin" id="selProductOrigin">
+                    <select name="selProductOrigin" id="selProductOrigin" style="margin-left:15px;">
                         <option value="domestic" selected="selected">국산</option>
                         <option value="imported">수입산(미국)</option>
                         <option value="etc">기타(상세설명에 표시)</option>
-                    </select> <br>
-                 </span>
+                    </select>
+                 </span> <br>
 
                  <label for="selProductStatus">상품상태 : </label>
                  <span class="custom-dropdown">
@@ -648,8 +690,8 @@
                 <span class="custom-dropdown">
                     <select name="goods">
                         <option value="clothing" selected="selected">의류</option>
-                    </select> <br>
-                </span>
+                    </select>
+                </span> <br>
                 <label for="tProductMaterial">제품소재 : </label>
                 <input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br>
                 <label for="tProductColor">색상 : </label>
@@ -672,12 +714,12 @@
                  <label for="radDelivery">배송여부 : </label>
                  <input type="radio" name="radIsDelivery" value="delivery" id="delivery" checked>
                  <label for="delivery">배송있음</label>
-                 <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery">
+                 <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery" style="margin-left:63px;">
                  <label for="none_delivery">배송없음</label> <br>
                  <label for="radDeliveryProperty">배송속성 : </label>
                  <input type="radio" name="radDeliveryProperty" value="normal" id="normal" checked>
                  <label for="normal">일반배송</label>
-                 <input type="radio" name="radDeliveryProperty" value="today" id="today">
+                 <input type="radio" name="radDeliveryProperty" value="today" id="today" style="margin-left:63px;">
                  <label for="today">오늘출발(평일 13:00까지 결제완료)</label> <br>
 
                  <label for="radDeliveryType">배송방법 : </label>
@@ -686,14 +728,14 @@
                  <input type="radio" name="radDeliveryType" value="deliveryDirect" id="radDeliveryDirect">
                  <label for="radDeliveryDirect">직접배송  </label>
 
-                 <input type="checkbox" name="chkReceiveVisit" id="chkReceiveVisit" value="chkReceiveVisit">
-                 <label for="chkReceiveVisit">방문수령  </label>
+                 <input type="checkbox" name="chkReceiveVisit" id="chkReceiveVisit" value="chkReceiveVisit" style="margin-right:51px;">
+                 <label for="chkReceiveVisit" style="margin-left:18px;">방문수령  </label>
                  <input type="checkbox" name="chkQuickService" id="chkQuickService" value="chkQuickService">
                  <label for="chkQuickService">퀵서비스(서울)</label> <br>
                  <label for="isPossibleChildren">묶음배송 : </label>
                  <input type="radio" name="radIsDeliveryBundle" value="possible" id="radDeliveryBundlePossible" checked>
                  <label for="radDeliveryBundlePossible">가능</label>
-                 <input type="radio" name="radIsDeliveryBundle" value="impossible" id="radDeliveryBundleImpossible">
+                 <input type="radio" name="radIsDeliveryBundle" value="impossible" id="radDeliveryBundleImpossible" style="margin-left:94px;">
                  <label for="radDeliveryBundleImpossible">불가능</label> <br>
 
                  <label for="status" id="labDeliveryChargeType"> 상품별 배송비(기본배송비: 3,000원) : </label>
@@ -705,8 +747,8 @@
                          <option value="per_quantity">수량별(5개마다 반복 부과)</option>
                          <option value="per_sectionTwo">구간별-2구간(5개 초과 구매시 3,000원 부과)</option>
                          <option value="per_sectionThree">구간별-3구간(~5개 추가배송비X / 6~10개까지 추가배송비 3,000 / 50,000원 초과 구매시 6,000원 추가)</option>
-                     </select> <br>
-                 </span>
+                     </select>
+                 </span> <br>
 
                  <label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label>
                  <input type="checkbox" name="chkPaymentCollect" id="chkPaymentCollect" value="chkPaymentCollect" checked>
@@ -745,8 +787,8 @@
                         <option value="1" selected="selected">1개</option>
                         <option value="2">2개</option>
                         <option value="3">3개</option>
-                     </select> <br>
-                 </span>
+                     </select>
+                 </span> <br>
                  <label for="selAdditionalProductOrder">정렬순서 : </label>
                  <span class="custom-dropdown">
                      <select name="selAdditionalProductOrder">
@@ -754,8 +796,8 @@
                         <option value="orderAbc">가나다순</option>
                         <option value="orderHighPrice">높은 가격순</option>
                         <option value="orderLowPrice">낮은 가격순</option>
-                     </select> <br>
-                 </span>
+                     </select>
+                 </span> <br>
                  * 적용 예시(순서 미적용) : <label id="labAddtionalProductEx">케이스(RED,BLUE,YELLOW)</label>
              </fieldset>
              <fieldset hidden id="fBuyCondition">

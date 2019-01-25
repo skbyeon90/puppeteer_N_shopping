@@ -44,8 +44,10 @@ module.exports.clearAndType = async(page, selector, contents) => {
         const input = await page.$(selector);
         await input.click();
         await input.focus();
-        await input.click({clickCount: 3, delay: 100});
-        await input.press('Backspace');
+        await page.keyboard.down( 'Control' );
+        await page.keyboard.press( 'A' );
+        await page.keyboard.up( 'Control' );
+        await page.keyboard.press( 'Backspace' );
         await input.type(contents);
     }
     catch(error){
