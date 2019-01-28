@@ -22,12 +22,16 @@ async function clickByXPath(page, data){
 
     //page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 
-    await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle2'});
-    await page.type('#loginId', 'qa1test574@naver.com');
-    await page.type('#loginPassword', 'qatest123');
+    describe('Google', async() => {
+        await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle2'});
+    });
 
-    await page.click('#loginButton');  //clickByXPath(page, "//button[@id='loginButton']");
-    await page.screenshot({path: 'example1.png'});
+    it('should display "google" text on page', async () => {
+        await page.type('#loginPassword', 'qatest123');
+        await page.type('#loginId', 'qa1test574@naver.com');
+        await page.click('#loginButton');  //clickByXPath(page, "//button[@id='loginButton']");
+        await page.screenshot({path: 'example1.png'});
+    });
     //await page.waitForNavigation( { waitUntil : 'networkidle2' } );
     await page.waitForSelector('#seller-lnb');
 

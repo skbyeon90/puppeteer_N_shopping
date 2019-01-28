@@ -1,6 +1,5 @@
 'use strict';
 
-
 // wait and click
 module.exports.click = async(page, selector) => {
     try{
@@ -57,10 +56,10 @@ module.exports.clearAndType = async(page, selector, contents) => {
 
 // is exists element
 module.exports.isElementExists = async(page, selector) => {
-    var isExists = false;
+    let isExists = false;
     try{
-        const isExistChecked = await page.$(selector);
-        if(isExistChecked)
+        const element = await page.$(selector);
+        if(element)
             isExists = true;
     }
     catch(error){
@@ -71,12 +70,13 @@ module.exports.isElementExists = async(page, selector) => {
 
 // get a element's text
 module.exports.getText = async(page, selector) => {
-    var text = null;
+    let text;
     try{
+        await page.waitForSelector(selector, { timeout: 100000 });
+
         var element = await page.$(selector);
         var valueHandle = await element.getProperty('textContent');
         text = await valueHandle.jsonValue();
-        console.log('text : ', text)
     }
     catch(error){
         console.log('getText error : ' + error);
@@ -87,13 +87,13 @@ module.exports.getText = async(page, selector) => {
 
 // get a element's value
 module.exports.getValue = async(page, selector) => {
-    var value = null;
+    let value;
     try{
+        await page.waitForSelector(selector, { timeout: 100000 });
+
         var element = await page.$(selector);
         var valueHandle = await element.getProperty('value');
         value = await valueHandle.jsonValue();
-        console.log('value : ', value);
-
     }
     catch(error){
         console.log('getValue error : ' + error);

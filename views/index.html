@@ -63,7 +63,7 @@
     }
 
     li input[type=checkbox] + label {
-      margin-top:4%;
+      margin-top: 5%;
       display: block;
       color: white;
       padding: 3px 18px;
@@ -92,7 +92,8 @@
     .registerForm input[type=checkbox] + label {
       font-family: 'Nanum Gothic', sans-serif;
       cursor: pointer;
-      margin: 5px;
+      display: inline-block;
+      margin: 15px 15px 15px 15px;
     }
 
     fieldset {
@@ -115,6 +116,7 @@
         font-size: 20px;
         border-radius: 5px;
         margin-left: 5px;
+        margin-bottom: -5px;
     }
 
     /* Custom dropdown */
@@ -124,7 +126,8 @@
       display: inline-block;
       vertical-align: middle;
       height: 32px;
-      margin: 10px 15px;
+      margin: 10px 10px 10px 15px;
+      cursor: pointer;
     }
 
     .custom-dropdown select {
@@ -141,6 +144,7 @@
       text-indent: 0.01px;
       text-overflow: '';
       -webkit-appearance: button; /* hide default arrow in chrome OSX */
+      cursor: pointer;
     }
 
     .custom-dropdown::before,
@@ -148,6 +152,7 @@
       content: "";
       position: absolute;
       pointer-events: none;
+      cursor: pointer;
     }
 
     .custom-dropdown::after { /*  Custom dropdown arrow */
@@ -155,9 +160,10 @@
       height: 1em;
       font-size: .625em;
       line-height: 1;
-      right: 1.5em;
+      right: 1.0em;
       top: 50%;
       margin-top: -.5em;
+      cursor: pointer;
     }
 
     .custom-dropdown::before { /*  Custom dropdown arrow cover */
@@ -166,6 +172,7 @@
       top: 0;
       bottom: 0;
       border-radius: 0 3px 3px 0;
+      cursor: pointer;
     }
 
     .custom-dropdown select[disabled] {
@@ -252,9 +259,12 @@
       border-color: #bfb;
     }
 
+    input[type="radio"] + label {
+        cursor:pointer;
+    }
     input[type="radio"] {
       appearance:none;
-      margin:10px 15px;
+      margin:15px 10px 15px 15px;
       width: 18px;
       height: 18px;
       background: #eeeeee;
@@ -264,6 +274,7 @@
       color: #363945;
       vertical-align: middle;
     }
+
     input[type="radio"]:hover,
     input[type="radio"]:checked {
       background: #363945;
@@ -506,12 +517,13 @@
         ////////////// 배송
         $("#selDeliveryChargeType").change(function(){
             if($("#selDeliveryChargeType option:selected").val() == "free"){
-                $("#labDeliveryChargeType").text("상품별 배송비 : ");
+                $("#labDeliveryChargeType").text("");
                 $("#chkPaymentCollect").prop( "disabled", true );
                 $("#chkPaymentAdvance").prop( "disabled", true );
             }
             else{
-                $("#labDeliveryChargeType").text("상품별 배송비(기본배송비: 3,000원) : ");
+                $("#labDeliveryChargeType").text("※ 기본배송비: 3,000원");
+                $("#labDeliveryChargeType").css("font-weight", "bold");
                 $("#chkPaymentCollect").prop( "disabled", false );
                 $("#chkPaymentAdvance").prop( "disabled", false );
             }
@@ -522,43 +534,47 @@
   <body>
      <form action="/myaction" method="post">
         <ul>
-          <li><input type="checkbox" id="chkSellInfo" checked>
-                <label for="chkSellInfo">판매정보</label> <br></li>
-                <li><input type="checkbox" id="chkProductMajorInfo" name="chkProductMajorInfo" checked>
-                <label for="chkProductMajorInfo">상품주요정보</label> <br></li>
-                <li><input type="checkbox" id="chkProductInfoNotice" name="chkProductInfoNotice">
-                <label for="chkProductInfoNotice">상품정보제공고시</label> <br></li>
-                <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
-                <label for="chkDelivery">배송정보</label> <br></li>
-                <li><input type="checkbox" id="chkReturnChange" name="chkReturnChange">
-                <label for="chkReturnChange">반품/교환정보</label> <br></li>
-                <li><input type="checkbox" id="chkAs" name="chkAs">
-                <label for="chkAs">A/S정보</label> <br></li>
-            
-                <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
-                <label for="chkProductSale">상품할인</label> <br></li>
-                <li><input type="checkbox" id="chkSelectOption" name="chkSelectOption">
-                <label for="chkSelectOption">선택형 옵션</label> <br></li>
-                <li><input type="checkbox" id="chkInputOption" name="chkInputOption">
-                <label for="chkInputOption">직접입력형 옵션</label> <br></li>
-                <li><input type="checkbox" id="chkAdditionalProduct" name="chkAdditionalProduct">
-                <label for="chkAdditionalProduct">추가상품</label> <br></li>
-                <li><input type="checkbox" id="chkBuyCondition" name="chkBuyCondition">
-                <label for="chkBuyCondition">구매조건</label> <br></li>
-                <li><input type="checkbox" id="chkBenefitCondition" name="chkBenefitCondition">
-                <label for="chkBenefitCondition">혜택조건</label><br></li>
+            <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" checked>
+            <label for="chkSellInfo" style="margin:30px 0px 15px 0px; display: inline-block;">판매정보</label> <br></li>
+            <li><input type="checkbox" id="chkProductMajorInfo" name="chkProductMajorInfo" checked>
+            <label for="chkProductMajorInfo">상품주요정보</label> <br></li>
+            <li><input type="checkbox" id="chkProductInfoNotice" name="chkProductInfoNotice">
+            <label for="chkProductInfoNotice">상품정보제공고시</label> <br></li>
+            <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
+            <label for="chkDelivery">배송정보</label> <br></li>
+            <li><input type="checkbox" id="chkReturnChange" name="chkReturnChange">
+            <label for="chkReturnChange">반품/교환정보</label> <br></li>
+            <li><input type="checkbox" id="chkAs" name="chkAs">
+            <label for="chkAs">A/S정보</label> <br></li>
+
+            <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
+            <label for="chkProductSale">상품할인</label> <br></li>
+            <li><input type="checkbox" id="chkSelectOption" name="chkSelectOption">
+            <label for="chkSelectOption">선택형 옵션</label> <br></li>
+            <li><input type="checkbox" id="chkInputOption" name="chkInputOption">
+            <label for="chkInputOption">직접입력형 옵션</label> <br></li>
+            <li><input type="checkbox" id="chkAdditionalProduct" name="chkAdditionalProduct">
+            <label for="chkAdditionalProduct">추가상품</label> <br></li>
+            <li><input type="checkbox" id="chkBuyCondition" name="chkBuyCondition">
+            <label for="chkBuyCondition">구매조건</label> <br></li>
+            <li><input type="checkbox" id="chkBenefitCondition" name="chkBenefitCondition">
+            <label for="chkBenefitCondition">혜택조건</label><br></li>
+            <li></li>
         </ul>
         <div class="navbar">
-            <img src="//..//images/smartstore_logo.png" alt="logo"/>
-            <h1 align="center">상품 등록 페이지</h1>
+            <!--<img src="../images/smartstore_logo.png" alt="log1o">-->
+            <h1 align="center" style="margin-top:3px;">상품 등록 페이지</h1>
             <input type="submit" value="등록" />
             <!--<input type="button" value="초기화">-->
         </div>
         <div class="registerForm">
             <fieldset id=fProductBasicInfo>
                 <legend>상품기본정보</legend>
-                <label for="sProdcutCategory">상품 카테고리 : </label>
-                    <select name="sProdcutCategory" hidden>
+                <table align="left">
+                <tr>
+                    <td><label for="sProdcutCategory" style="margin-top:10px; display: inline-block;">상품 카테고리 : </label></td>
+                    <td><label tex-align="center" style="margin-top:10px; display: inline-block;"><b>　패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)</label><br></td>
+                    <td><select name="sProdcutCategory" style="margin-bottom:20px;" hidden>
                         <option value="department" selected="selected">백화점</option>
                         <option value="outlet" hidden>아울렛</option>
                         <option value="style" hidden>스타일</option>
@@ -574,172 +590,243 @@
                         <option value="pet" hidden>펫</option>
                         <option value="play" hidden>플레이</option>
                         <option value="art" hidden>아트</option>
-                    </select>
-                <b>패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)
-                <br>
+                    </select></td>
+                </tr>
 
-                <label for="tProductName">상품명 :</label>
-                <input type="text" id="tProductName" name="tProductName" style="margin:15px 50px;" required/> <br>
+                <tr>
+                    <td><label for="tProductName" style="margin-top:10px; display: inline-block;">상품명 :</label></td>
+                    <td><input type="text" id="tProductName" name="tProductName" style="margin-top:20px;" required/> <br></td>
+                </tr>
 
-                <label for="tProductDescription">상품 상세설명 : </label>
-                <input type="text" name="tProductDescription" id="tProductDescription" value="상품 상세설명입니다."/>
+                <tr>
+                    <td><label for="tProductDescription">상품 상세설명 : </label></td>
+                    <td><input type="text" name="tProductDescription" id="tProductDescription" value="상품 상세설명입니다."/></td>
+                </tr>
+                </table>
             </fieldset>
 
              <fieldset id="fSellInfo">
                 <legend>판매정보</legend>
-                <label for="nProductPrice">판매가격 : </label>
-                <input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" max="999999"/>원 <br>
 
-                <label for="selProductTax">부가세 : </label>
-                <span class="custom-dropdown">
-                 <select name="selProductTax" id="selProductTax" style="margin-left:5px;">
-                    <option value="tax" selected="selected">과세상품</option>
-                    <option value="dutyfree">면세상품</option>
-                    <option value="small">영세상품</option>
-                 </select>
-                </span> <br>
+                <table align="left">
+                <tr>
+                    <td><label for="nProductPrice">판매가격 : </label></td>
+                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" max="999999"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                </tr>
 
-                <label for="nProductAmount">재고수량 : </label>
-                <input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" max="999"/>개
+                <tr>
+                    <td><label for="selProductTax">부가세 : </label></td>
+                    <td><span class="custom-dropdown">
+                     <select name="selProductTax" id="selProductTax">
+                        <option value="tax" selected="selected">과세상품</option>
+                        <option value="dutyfree">면세상품</option>
+                        <option value="small">영세상품</option>
+                    </select>
+                    </span> <br></td>
+                </tr>
+
+                <tr>
+                    <td><label for="nProductAmount">재고수량 : </label></td>
+                    <td><input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" max="999"/><label style="margin-left:-10px; display: inline-block;">개</label></td>
+                </tr>
+                </table>
              </fieldset>
 
              <fieldset hidden id="fProductSale">
                  <legend>상품 할인</legend>
-                 <label for="nSaleValue">전체할인 : </label>
-                 <input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" min="10" max="10000" value="1000"/>
-                 <span class="custom-dropdown">
-                     <select name="selSaleType" id="selSaleType">
-                        <option value="won" selected="selected">원</option>
-                        <option value="percent">%</option>
-                     </select>
-                 </span>
-                 <label for="selSaleType">할인</label>
+                 <table align="left">
+                 <tr>
+                     <td><label for="nSaleValue">전체할인 : </label></td>
+                     <td><input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" min="10" max="10000" value="1000"/>
+                     <span class="custom-dropdown">
+                         <select name="selSaleType" id="selSaleType" style="margin-left:-25px;">
+                            <option value="won" selected="selected">원</option>
+                            <option value="percent">%</option>
+                         </select>
+                     </span>
+                     <label for="selSaleType" style="margin-left:-5px;">할인</label></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fSelectOption">
                 <legend>선택형 옵션</legend>
-                 <label for="radOptionType">옵션 구성 타입 : </label>
-                 <input type="radio" name="radOptionType" id="radOptionTypeSolo" value="radOptionTypeSolo" checked>
-                 <label for="radOptionTypeSolo">단독형</label>
-                 <input type="radio" name="radOptionType" id="radOptionTypeMix" value="radOptionTypeMix">
-                 <label for="radOptionTypeMix">조합형</label> <br>
-                 <label for="selSelectOptionNum">옵션명 개수 : </label>
-                 <span class="custom-dropdown">
-                     <select id="selSelectOptionNum" name="selSelectOptionNum">
-                        <option value="1" selected="selected">1개</option>
-                        <option value="2">2개</option>
-                        <option value="3">3개</option>
-                     </select>
-                 </span><br>
-                 <label for="selSelectOptionOrder">정렬순서 : </label>
-                 <span class="custom-dropdown">
-                     <select id="selSelectOptionOrder" name="selSelectOptionOrder">
-                        <option value="orderRegistr" selected="selected">등록순</option>
-                        <option value="orderAbc">가나다순</option>
-                        <option hidden value="orderHighPrice">높은 가격순</option>
-                        <option hidden value="orderLowPrice">낮은 가격순</option>
-                     </select>
-                 </span><br>
-                 -> 적용 예시(순서 미적용) : <label id="labSelectOptionEx">컬러(RED/BLUE/YELLOW)</label>
+                 <table align="left">
+                 <tr>
+                     <td><label for="radOptionType">옵션 구성 타입 : </label></td>
+                     <td><input type="radio" name="radOptionType" id="radOptionTypeSolo" value="radOptionTypeSolo" checked>
+                     <label for="radOptionTypeSolo">단독형</label>
+                     <input type="radio" name="radOptionType" id="radOptionTypeMix" value="radOptionTypeMix">
+                     <label for="radOptionTypeMix">조합형</label><br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selSelectOptionNum">옵션명 개수 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select id="selSelectOptionNum" name="selSelectOptionNum">
+                            <option value="1" selected="selected">1개</option>
+                            <option value="2">2개</option>
+                            <option value="3">3개</option>
+                         </select>
+                     </span><br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selSelectOptionOrder">정렬순서 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select id="selSelectOptionOrder" name="selSelectOptionOrder">
+                            <option value="orderRegistr" selected="selected">등록순</option>
+                            <option value="orderAbc">가나다순</option>
+                            <option hidden value="orderHighPrice">높은 가격순</option>
+                            <option hidden value="orderLowPrice">낮은 가격순</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td>-> 적용 예시 :</td>
+                     <td><label id="labSelectOptionEx" style="margin-left:-15px; display: inline-block;">컬러(RED/BLUE/YELLOW)</label></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fInputOption">
                 <legend>직접입력형 옵션</legend>
-                 <label for="selInputOptionNum">옵션명 개수 : </label>
-                 <span class="custom-dropdown">
-                     <select name="selInputOptionNum" id="selInputOptionNum">
-                        <option value="1" selected="selected">1개</option>
-                        <option value="2">2개</option>
-                        <option value="3">3개</option>
-                        <option value="4">4개</option>
-                        <option value="5">5개</option>
-                     </select>
-                 </span> <br>
-                 -> 적용 예시(순서 미적용) : <label id="labInputOptionEx">컬러</label>
+                 <table align="left">
+                 <tr>
+                     <td><label for="selInputOptionNum">옵션명 개수 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selInputOptionNum" id="selInputOptionNum">
+                            <option value="1" selected="selected">1개</option>
+                            <option value="2">2개</option>
+                            <option value="3">3개</option>
+                            <option value="4">4개</option>
+                            <option value="5">5개</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td>-> 적용 예시 : </td>
+                     <td><label id="labInputOptionEx">컬러</label></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset id="fProductMajorInfo">
                 <legend>상품주요정보</legend>
-                <label for="selProductOrigin">원산지 : </label>
-                <span class="custom-dropdown">
-                    <select name="selProductOrigin" id="selProductOrigin" style="margin-left:15px;">
-                        <option value="domestic" selected="selected">국산</option>
-                        <option value="imported">수입산(미국)</option>
-                        <option value="etc">기타(상세설명에 표시)</option>
-                    </select>
-                 </span> <br>
-
-                 <label for="selProductStatus">상품상태 : </label>
-                 <span class="custom-dropdown">
-                     <select name="selProductStatus" id="selProductStatus">
-                        <option value="new" selected="selected">신상품</option>
-                        <option value="used">중고상품</option>
-                     </select>
-                 </span>
+                <table align="left">
+                <tr>
+                    <td><label for="selProductOrigin">원산지 : </label></td>
+                    <td><span class="custom-dropdown">
+                        <select name="selProductOrigin" id="selProductOrigin">
+                            <option value="domestic" selected="selected">국산</option>
+                            <option value="imported">수입산(미국)</option>
+                            <option value="etc">기타(상세설명에 표시)</option>
+                        </select>
+                     </span> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selProductStatus">상품상태 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selProductStatus" id="selProductStatus">
+                            <option value="new" selected="selected">신상품</option>
+                            <option value="used">중고상품</option>
+                         </select>
+                      </span></td>
+<!--
                  <input type="checkbox" name="chkCustomMade" id="chkCustomMade" value="chkCustomMade">
                  <label for="chkCustomMade">주문제작상품(발송예정일 7일)</label>
                  <input type="checkbox" name="chkReturnCancel" id="chkReturnCancel" value="chkReturnCancel" hidden>
-                 <label for="chkReturnCancel" id="labReturnCancel" hidden>반품/취소 제한 안내 및 동의</label> <br>
+                 <label for="chkReturnCancel" id="labReturnCancel" hidden>반품/취소 제한 안내 및 동의</label> <br></td>
+-->
+                 </tr>
 
-                 <label for="radIsBuyChildren">미성년자 구매 : </label>
-                 <input type="radio" name="radIsBuyChildren" value="possible" id="radBuyChildrenPossible" checked>
-                 <label for="radBuyChildrenPossible">가능</label>
-                 <input type="radio" name="radIsBuyChildren" value="impossible" id="radBuyChildrenImpossible">
-                 <label for="radBuyChildrenImpossible">불가능</label>
+                 <tr>
+                     <td><label for="radIsBuyChildren">미성년자 구매 : </label></td>
+                     <td><input type="radio" name="radIsBuyChildren" value="possible" id="radBuyChildrenPossible" checked>
+                     <label for="radBuyChildrenPossible" style="margin-top:10px; display: inline-block;">가능</label>
+                     <input type="radio" name="radIsBuyChildren" value="impossible" id="radBuyChildrenImpossible">
+                     <label for="radBuyChildrenImpossible" style="margin-top:10px; display: inline-block;">불가능</label></td>
+                 </tr>
+                 </table>
              </fieldset>
             <fieldset hidden id="fProductInfoNotice">
                 <legend>상품정보제공고시</legend>
-                <label for="goods">상품군(현재 의류만 가능) : </label>
-                <span class="custom-dropdown">
-                    <select name="goods">
-                        <option value="clothing" selected="selected">의류</option>
-                    </select>
-                </span> <br>
-                <label for="tProductMaterial">제품소재 : </label>
-                <input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br>
-                <label for="tProductColor">색상 : </label>
-                <input type="text" id="tProductColor" name="tProductColor" value="BLACK"/> <br>
-                <label for="tProductSize">치수명 : </label>
-                <input type="text" id="tProductSize" name="tProductSize" value="L(100)"/> <br>
-                <label for="tProductManufacturer">제조자 : </label>
-                <input type="text" id="tProductManufacturer" name="tProductManufacturer" value="NBA"/> <br>
-                <label for="tProductPrecautions">세탁방법 및 취급시 주의사항 : </label>
-                <input type="text" id="tProductPrecautions" name="tProductPrecautions" value="단독세탁 권장"/> <br>
-                <label for="tManuYearMonth">제조년월 : </label>
-                <input type="month" id="tManuYearMonth" name="tManuYearMonth" min="2018-01" value="2018-11"/> <br>
-                <label for="tQualityStandards">품질보증기준 : </label>
-                <input type="text" id="tQualityStandards" name="tQualityStandards" value="미개봉, 보증서 유효" /> <br>
-                <label for="tAsManager">AS 책임자 : </label>
-                <input type="text" id="tAsManager" name="tAsManager" value="NBA" />
+                <table align="left">
+                <tr>
+                    <td><label for="goods">상품군(현재 의류만 가능) : </label></td>
+                    <td><span class="custom-dropdown">
+                        <select name="goods">
+                            <option value="clothing" selected="selected">의류</option>
+                        </select>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductMaterial">제품소재 : </label></td>
+                    <td><input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductColor">색상 : </label></td>
+                    <td><input type="text" id="tProductColor" name="tProductColor" value="BLACK"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductSize">치수명 : </label></td>
+                    <td><input type="text" id="tProductSize" name="tProductSize" value="L(100)"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductManufacturer">제조자 : </label></td>
+                    <td><input type="text" id="tProductManufacturer" name="tProductManufacturer" value="NBA"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductPrecautions">세탁방법 및 취급 주의사항 : </label></td>
+                    <td><input type="text" id="tProductPrecautions" name="tProductPrecautions" value="단독세탁 권장"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tManuYearMonth">제조년월 : </label></td>
+                    <td><input type="month" id="tManuYearMonth" name="tManuYearMonth" min="2018-01" value="2018-11"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tQualityStandards">품질보증기준 : </label></td>
+                    <td><input type="text" id="tQualityStandards" name="tQualityStandards" value="미개봉, 보증서 유효" /> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tAsManager">AS 책임자 : </label></td>
+                    <td><input type="text" id="tAsManager" name="tAsManager" value="NBA" /></td>
+                </tr>
+                </table>
              </fieldset>
              <fieldset hidden id="fDelivery">
                  <legend>배송</legend>
-                 <label for="radDelivery">배송여부 : </label>
-                 <input type="radio" name="radIsDelivery" value="delivery" id="delivery" checked>
-                 <label for="delivery">배송있음</label>
-                 <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery" style="margin-left:63px;">
-                 <label for="none_delivery">배송없음</label> <br>
-                 <label for="radDeliveryProperty">배송속성 : </label>
-                 <input type="radio" name="radDeliveryProperty" value="normal" id="normal" checked>
-                 <label for="normal">일반배송</label>
-                 <input type="radio" name="radDeliveryProperty" value="today" id="today" style="margin-left:63px;">
-                 <label for="today">오늘출발(평일 13:00까지 결제완료)</label> <br>
-
-                 <label for="radDeliveryType">배송방법 : </label>
-                 <input type="radio" name="radDeliveryType" value="deliveryParcelRegistaration" id="radDeliveryParcelRegistaration" checked>
-                 <label for="radDeliveryParcelRegistaration">택배, 소포, 등기</label>
-                 <input type="radio" name="radDeliveryType" value="deliveryDirect" id="radDeliveryDirect">
-                 <label for="radDeliveryDirect">직접배송  </label>
-
-                 <input type="checkbox" name="chkReceiveVisit" id="chkReceiveVisit" value="chkReceiveVisit" style="margin-right:51px;">
-                 <label for="chkReceiveVisit" style="margin-left:18px;">방문수령  </label>
-                 <input type="checkbox" name="chkQuickService" id="chkQuickService" value="chkQuickService">
-                 <label for="chkQuickService">퀵서비스(서울)</label> <br>
-                 <label for="isPossibleChildren">묶음배송 : </label>
-                 <input type="radio" name="radIsDeliveryBundle" value="possible" id="radDeliveryBundlePossible" checked>
-                 <label for="radDeliveryBundlePossible">가능</label>
-                 <input type="radio" name="radIsDeliveryBundle" value="impossible" id="radDeliveryBundleImpossible" style="margin-left:94px;">
-                 <label for="radDeliveryBundleImpossible">불가능</label> <br>
-
-                 <label for="status" id="labDeliveryChargeType"> 상품별 배송비(기본배송비: 3,000원) : </label>
-                 <span class="custom-dropdown">
+                 <table align="left">
+                 <tr>
+                    <td><label for="radDelivery">배송여부 : </label></td>
+                    <td><input type="radio" name="radIsDelivery" value="delivery" id="delivery" checked>
+                    <label for="delivery">배송있음</label>
+                    <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery" style="margin-left:63px;">
+                     <label for="none_delivery">배송없음</label> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="radDeliveryProperty">배송속성 : </label></td>
+                     <td><input type="radio" name="radDeliveryProperty" value="normal" id="normal" checked>
+                     <label for="normal">일반배송</label>
+                     <input type="radio" name="radDeliveryProperty" value="today" id="today" style="margin-left:63px;">
+                     <label for="today">오늘출발(평일 13:00까지 결제완료)</label> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="radDeliveryType">배송방법 : </label></td>
+                     <td><input type="radio" name="radDeliveryType" value="deliveryParcelRegistaration" id="radDeliveryParcelRegistaration" checked>
+                     <label for="radDeliveryParcelRegistaration">택배, 소포, 등기</label>
+                     <input type="radio" name="radDeliveryType" value="deliveryDirect" id="radDeliveryDirect">
+                     <label for="radDeliveryDirect">직접배송  </label>
+                     <input type="checkbox" name="chkReceiveVisit" id="chkReceiveVisit" value="chkReceiveVisit" style="margin-right:51px;">
+                     <label for="chkReceiveVisit" style="margin-left:18px;">방문수령  </label>
+                     <input type="checkbox" name="chkQuickService" id="chkQuickService" value="chkQuickService">
+                     <label for="chkQuickService">퀵서비스(서울)</label> <br></td>
+                 </tr>
+                 <tr>
+                    <td><label for="isPossibleChildren">묶음배송 : </label></td>
+                    <td><input type="radio" name="radIsDeliveryBundle" value="possible" id="radDeliveryBundlePossible" checked>
+                    <label for="radDeliveryBundlePossible">가능</label>
+                    <input type="radio" name="radIsDeliveryBundle" value="impossible" id="radDeliveryBundleImpossible" style="margin-left:94px;">
+                     <label for="radDeliveryBundleImpossible">불가능</label> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="status"> 상품별 배송비 : </label></td>
+                     <td><span class="custom-dropdown">
                      <select name="selDeliveryChargeType" id="selDeliveryChargeType">
                         <option value="charged" selected="selected">유료</option>
                         <option value="free">무료</option>
@@ -748,88 +835,136 @@
                          <option value="per_sectionTwo">구간별-2구간(5개 초과 구매시 3,000원 부과)</option>
                          <option value="per_sectionThree">구간별-3구간(~5개 추가배송비X / 6~10개까지 추가배송비 3,000 / 50,000원 초과 구매시 6,000원 추가)</option>
                      </select>
-                 </span> <br>
-
-                 <label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label>
-                 <input type="checkbox" name="chkPaymentCollect" id="chkPaymentCollect" value="chkPaymentCollect" checked>
-                 <label for="chkPaymentCollect">착불  </label>
-                 <input type="checkbox" name="chkPaymentAdvance" id="chkPaymentAdvance" value="chkPaymentAdvance">
-                 <label for="chkPaymentAdvance">선결제</label> <br>
-
-                 <label for="tRegionCharge">지역별 차등배송비 : </label>
-                 <input type="text" id="tRegionCharge" name="tRegionCharge" /> <br>
-
-                 <label for="radInstallCosts">별도 설치비 : </label>
-                 <input type="radio" name="radInstallCosts" value="exist" id="radInstallCostsExists">
-                 <label for="radInstallCostsExists">있음</label>
-                 <input type="radio" name="radInstallCosts" value="none" id="radInstallCostsNo" checked>
-                 <label for="radInstallCostsNo">없음</label> <br>
+                     </span><label for="status" id="labDeliveryChargeType"><b>※ 기본배송비: 3,000원</b></label></td>
+                 </tr>
+                 <tr>
+                     <td><label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label></td>
+                     <td><input type="checkbox" name="chkPaymentCollect" id="chkPaymentCollect" value="chkPaymentCollect" checked>
+                     <label for="chkPaymentCollect">착불  </label>
+                     <input type="checkbox" name="chkPaymentAdvance" id="chkPaymentAdvance" value="chkPaymentAdvance" style="margin-left:715px;">
+                     <label for="chkPaymentAdvance">선결제</label> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="tRegionCharge">지역별 차등배송비 : </label></td>
+                     <td><input type="text" id="tRegionCharge" name="tRegionCharge" /> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="radInstallCosts">별도 설치비 : </label></td>
+                     <td><input type="radio" name="radInstallCosts" value="exist" id="radInstallCostsExists">
+                     <label for="radInstallCostsExists">있음</label>
+                     <input type="radio" name="radInstallCosts" value="none" id="radInstallCostsNo" checked>
+                     <label for="radInstallCostsNo">없음</label> <br></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fReturnChange">
                  <legend>반품/교환</legend>
-                 <label for="nDeliveryChargeReturn">반품배송비(편도) : </label>
-                 <input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500"/>원<br>
-                 <label for="nDeliveryChargeChange">교환배송비(왕복) : </label>
-                 <input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000"/>원
+                 <table align="left">
+                 <tr>
+                     <td><label for="nDeliveryChargeReturn">반품배송비(편도) : </label></td>
+                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                 </tr>
+                 <tr>
+                     <td><label for="nDeliveryChargeChange">교환배송비(왕복) : </label></td>
+                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000" /><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fAs">
                  <legend>A/S</legend>
-                 <label for="tAsNumber">A/S전화번호 : </label>
-                 <input type="text" id="tAsNumber" name="tAsNumber" value="010-222-3333" /> <br>
-                 <label for="tAsDescription">A/S안내 : </label>
-                 <input type="text" id="tAsDescription" name="tAsDescription" value="운영시간 - 10:00 ~ 17:00"/>
+                 <table align="left">
+                 <tr>
+                     <td><label for="tAsNumber">A/S전화번호 : </label></td>
+                     <td><input type="text" id="tAsNumber" name="tAsNumber" value="010-222-3333"/></td>
+                 </tr>
+                 <tr>
+                     <td><label for="tAsDescription">A/S안내 : </label></td>
+                     <td><input type="text" id="tAsDescription" name="tAsDescription" value="운영시간 - 10:00 ~ 17:00"/></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fAdditionalProduct">
                  <legend>추가상품</legend>
-                 <label for="selAdditionalProductNum">추가상품 개수 : </label>
-                 <span class="custom-dropdown">
-                     <select name="selAdditionalProductNum" id="selAdditionalProductNum">
-                        <option value="1" selected="selected">1개</option>
-                        <option value="2">2개</option>
-                        <option value="3">3개</option>
-                     </select>
-                 </span> <br>
-                 <label for="selAdditionalProductOrder">정렬순서 : </label>
-                 <span class="custom-dropdown">
-                     <select name="selAdditionalProductOrder">
-                        <option value="orderRegistr" selected="selected">등록순</option>
-                        <option value="orderAbc">가나다순</option>
-                        <option value="orderHighPrice">높은 가격순</option>
-                        <option value="orderLowPrice">낮은 가격순</option>
-                     </select>
-                 </span> <br>
-                 * 적용 예시(순서 미적용) : <label id="labAddtionalProductEx">케이스(RED,BLUE,YELLOW)</label>
+                 <table align="left">
+                 <tr>
+                     <td><label for="selAdditionalProductNum">추가상품 개수 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selAdditionalProductNum" id="selAdditionalProductNum">
+                            <option value="1" selected="selected">1개</option>
+                            <option value="2">2개</option>
+                            <option value="3">3개</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selAdditionalProductOrder">정렬순서 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selAdditionalProductOrder">
+                            <option value="orderRegistr" selected="selected">등록순</option>
+                            <option value="orderAbc">가나다순</option>
+                            <option value="orderHighPrice">높은 가격순</option>
+                            <option value="orderLowPrice">낮은 가격순</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td>* 적용 예시 : </td>
+                     <td><label id="labAddtionalProductEx" style="margin-left:-15px; display: inline-block;">케이스(RED,BLUE,YELLOW)</label></td>
+                 </tr>
+                 </table>
              </fieldset>
              <fieldset hidden id="fBuyCondition">
                 <legend>구매조건</legend>
-                <label for="nBuyConditionMin">최소구매수량 : </label>
-                <input type="number" name="nBuyConditionMin" id="nBuyConditionMin" placeholder="숫자만 입력" min="2" value="2"/>개<br>
-                <label for="nBuyConditionMaxPer">최대구매수량(1회) : </label>
-                <input type="number" name="nBuyConditionMaxPer" id="nBuyConditionMaxPer" placeholder="숫자만 입력(최소구매수량이상)" min="2" value="5"/>개<br>
-                <label for="nBuyConditionMaxPerson">최대구매수량(1인) : </label>
-                <input type="number" name="nBuyConditionMaxPerson" id="nBuyConditionMaxPerson" placeholder="숫자만 입력(최소구매수량이상)" value="10" min="2"/>개<br>
+                <table align="left">
+                <tr>
+                    <td><label for="nBuyConditionMin">최소구매수량 : </label></td>
+                    <td><input type="number" name="nBuyConditionMin" id="nBuyConditionMin" placeholder="숫자만 입력" min="2" value="2"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                </tr>
+                <tr>
+                <td><label for="nBuyConditionMaxPer">최대구매수량(1회) : </label>
+                    <td><input type="number" name="nBuyConditionMaxPer" id="nBuyConditionMaxPer" placeholder="숫자만 입력(최소구매수량이상)" min="2" value="5"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                </tr>
+                <tr>
+                    <td><label for="nBuyConditionMaxPerson">최대구매수량(1인) : </label></td>
+                    <td><input type="number" name="nBuyConditionMaxPerson" id="nBuyConditionMaxPerson" placeholder="숫자만 입력(최소구매수량이상)" value="10" min="2"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                </tr>
+                </table>
              </fieldset>
              <fieldset hidden id="fBenefitCondition">
                 <legend>혜택조건(지급 포인트)</legend>
-                 <label for="nPointBuy">상품 구매시 : </label>
-                <input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="1000">
-                 <span class="custom-dropdown">
-                     <select name="selPointBuyType" id="selPointBuyType">
-                        <option value="percent">%</option>
-                        <option value="won" selected="selected">원</option>
-                     </select>
-                 </span>
-                 <label for="selPointBuyType">지급</label> <br>
-                <label for="nPointTextReview">텍스트 리뷰 작성 시 : </label>
-                <input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="3000" value="500"/>원<br>
-                <label for="nPointPhotoReview">포토/동영상 리뷰 작성 시 : </label>
-                <input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
-                <label for="nPoint1MTextReview">한달사용 텍스트 리뷰 작성 시 : </label>
-                <input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="3000" value="500"/>원<br>
-                <label for="nPoint1MPhotoReview">한달사용 포토/동영상 리뷰 작성 시 : </label>
-                <input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/>원<br>
-                <label for="nPointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label>
-                <input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="3000" value="300"/>원
+                <table align="left">
+                <tr>
+                    <td><label for="nPointBuy">상품 구매시 : </label>
+                    <td><input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="1000">
+                     <span class="custom-dropdown">
+                         <select name="selPointBuyType" id="selPointBuyType" style="margin-left:-25px;">
+                            <option value="percent">%</option>
+                            <option value="won" selected="selected">원</option>
+                         </select>
+                     </span>
+                     <label style="margin-left:-10px; display: inline-block;">지급</label> </td>
+                </tr>
+                <tr>
+                    <td><label for="nPointTextReview">텍스트 리뷰 작성 시 : </label></td>
+                    <td><input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="3000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                </tr>
+                <tr>
+                    <td><label for="nPointPhotoReview">포토/동영상 리뷰 작성 시 : </label></td>
+                    <td><input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                </tr>
+                <tr>
+                    <td><label for="nPoint1MTextReview">한달사용 텍스트 리뷰 작성 시 : </label></td>
+                    <td><input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="3000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                </tr>
+                <tr>
+                    <td><label for="nPoint1MPhotoReview">한달사용 포토/동영상 리뷰 작성 시 : </label></td>
+                    <td><input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                </tr>
+                <tr>
+                    <td><label for="nPointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label></td>
+                    <td><input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="3000" value="300"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                </tr>
+                </table>
              </fieldset>
          </div>
         <br>

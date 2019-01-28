@@ -22,7 +22,6 @@ module.exports = app => {
     });
 
     app.post('/myaction', urlencodedParser, (req, res) => {
-    //console.log(req.body.name + ' in myaction');
         (async() => {
             browser = await puppeteer.launch({
             headless: true,
@@ -44,8 +43,6 @@ module.exports = app => {
               page.coverage.startJSCoverage(),
               page.coverage.startCSSCoverage()
             ]);
-
-
 
             // 스마트스토어 페이지 진입
             await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle0'});
@@ -332,9 +329,9 @@ module.exports = app => {
                 console.log("상품주요정보 on");
 
 
-                await utils.type(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', '모델명');
+                await utils.type(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', '모델');
                 var strModelName = await utils.getValue(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]');
-                assert.strictEqual('모델명', strModelName);
+                assert.strictEqual('모델', strModelName);
 
                 // 상품주요정보 - 상품속성
                 // 출산/육아>기저귀>기능성기저귀>기저귀밴드
@@ -380,31 +377,31 @@ module.exports = app => {
                     await utils.click(page, 'label[for="saleType_OLD"]');
                 }
 
-                var customMade = false;
-                // 상품주요정보 - 주문제작 상품
-                if(req.body.chkCustomMade != undefined)
-                {
-                    customMade = true; // 배송 > 발송예정일 설정 위한 변수
-
-                    // 체크박스가 체크됐는지
-                    var selectorCheckbox = 'input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"].ng-pristine.ng-untouched.ng-valid.ng-empty';
-                    if(await utils.isElementExists(page, selectorCheckbox) == true)
-                    {
-                        console.log('주문제작 상품-체크안된 상태.');
-                        await utils.click(page, selectorCheckbox);
-                    }
-                    else
-                    {
-                        console.log('주문제작 상품-체크된 상태.');
-                    }
-
-                    // 반품/취소 제한 안내 및 동의
-                    if(req.body.chkReturnCancel != undefined)
-                    {
-                        await utils.click(page, '#customMadeInfo_useReturnCancelNotification');
-                        await utils.click(page, 'input[ng-model="vm.customMadeConfirmation"]');
-                    }
-                }
+                // 상품주요정보 - 주문제작 상품(현재 스펙변경된 상태라 주석처리)
+//                var customMade = false;
+//                if(req.body.chkCustomMade != undefined)
+//                {
+//                    customMade = true; // 배송 > 발송예정일 설정 위한 변수
+//
+//                    // 체크박스가 체크됐는지
+//                    var selectorCheckbox = 'input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"].ng-pristine.ng-untouched.ng-valid.ng-empty';
+//                    if(await utils.isElementExists(page, selectorCheckbox) == true)
+//                    {
+//                        console.log('주문제작 상품-체크안된 상태.');
+//                        await utils.click(page, selectorCheckbox);
+//                    }
+//                    else
+//                    {
+//                        console.log('주문제작 상품-체크된 상태.');
+//                    }
+//
+//                    // 반품/취소 제한 안내 및 동의
+//                    if(req.body.chkReturnCancel != undefined)
+//                    {
+//                        await utils.click(page, '#customMadeInfo_useReturnCancelNotification');
+//                        await utils.click(page, 'input[ng-model="vm.customMadeConfirmation"]');
+//                    }
+//                }
 
                 // 상품주요정보 - 미성년가 구매 가능여부 - (default : 가능)
                 if(req.body.radIsBuyChildren == "impossible")
@@ -499,12 +496,13 @@ module.exports = app => {
                     }
                     else
                     {
-                        if(customMade == true) // 주문 제작 상품인 경우
-                        {
-                            // 발송예정일 설정
-                            await await utils.click(page, 'div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div')
-                            await utils.click(page, 'div[data-value="SEVEN"]');
-                        }
+                        // 현재 주문제작 스펙 변경된 상태
+//                        if(customMade == true) // 주문 제작 상품인 경우
+//                        {
+//                            // 발송예정일 설정
+//                            await await utils.click(page, 'div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div')
+//                            await utils.click(page, 'div[data-value="SEVEN"]');
+//                        }
                     }
 
                     // 배송방법
@@ -663,15 +661,16 @@ module.exports = app => {
             }
             else // 배송 데이터는 없지만, 주문제작상품으로 발송예정일을 설정해야 하는 경우
             {
-                if(customMade == true)
-                {
-                    // 배송영역 펼침
-                    await utils.click(page, 'div[server-field-errors="product.deliveryInfo.*"]');
-
-                    // 발송예정일 설정
-                    await utils.click(page, 'div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div');
-                    await utils.click(page, 'div[data-value="SEVEN"]');
-                }
+                // 현재 주문제작 스펙 변경된 상태
+//                if(customMade == true)
+//                {
+//                    // 배송영역 펼침
+//                    await utils.click(page, 'div[server-field-errors="product.deliveryInfo.*"]');
+//
+//                    // 발송예정일 설정
+//                    await utils.click(page, 'div[ng-if="::vm.viewData.customMade === true || vm.formType === \'BULK\'"] > div');
+//                    await utils.click(page, 'div[data-value="SEVEN"]');
+//                }
             }
 
             // 반품/교환
@@ -912,6 +911,6 @@ module.exports = app => {
 
             browser.close();
         })();
-      res.send('Product Name is "' + req.body.tProductName + '".');
+        res.send('상품등록중입니다. 잠시만 기다려주세요...');
     });
 }
