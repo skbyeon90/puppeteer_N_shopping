@@ -1,6 +1,9 @@
 <html>
   <head>
-    <title>Main</title>
+    <title>상품등록 : 네이버쇼핑</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
     @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
@@ -22,6 +25,12 @@
       z-index: 1;
     }
 
+    .navbar input[type=text]{
+        width: 11%;
+        float: right;
+        margin-top : 15px;
+    }
+
     h1{
       background: #40474D;
       color: #fff;
@@ -31,7 +40,7 @@
       width: 15%;
     }
 
-    input[type=button], input[type=submit]{
+    .navbar input[type=button], input[type=submit]{
       float: right;
       background-color: #00C652; /* Green */
       border: none;
@@ -46,8 +55,14 @@
       font-family: 'Nanum Gothic', sans-serif;
     }
 
-    input[type=button]:hover, input[type=submit]:hover{
+    .navbar input[type=button]:hover, input[type=submit]:hover{
       background-color: #4CAF50;
+    }
+
+    .navbar input[type=button]:disabled, input[type=submit]:disabled{
+      transform: scale(1);
+      background-color: #aaa;
+      cursor: default;
     }
 
     ul {
@@ -81,6 +96,24 @@
       color: white;
     }
 
+    li button{
+      background-color: #ccc;
+      position: fixed;
+      margin-left: 15px;
+      bottom: 10px;
+      color: white;
+    }
+
+    .navbar button{
+      background-color: #999;
+      float:right;
+      height: 50%;
+      margin-top: 15px;
+      margin-left: -5px;
+      margin-right: -14px;
+      color: white;
+    }
+
     .registerForm{
         margin-left:15.5%;
         padding:50px 16px;
@@ -98,13 +131,14 @@
 
     fieldset {
         font-family: 'Nanum Gothic', sans-serif;
-        border: 2px solid #00C652;
+        border: 1.4px solid #00C652;
         width: 95%;
         background: #fff;
         border-radius: 5px;
         padding: 15px;
         margin: 15px;
         font-size: medium;
+
     }
 
     fieldset legend {
@@ -126,7 +160,7 @@
       display: inline-block;
       vertical-align: middle;
       height: 32px;
-      margin: 10px 10px 10px 15px;
+      margin: 10px 10px 15px 15px;
       cursor: pointer;
     }
 
@@ -295,93 +329,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
-        /////////////// 필수값 항목 프리셋 ///////////////
-        $("#chkSellInfo").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fSellInfo").show();
+        $.showAndHideCheckboxChanaged = function (checkbox, fieldset) {
+            if ($(checkbox).is(':checked')) {
+                    $(fieldset).show();
+                }
+            else{
+                $(fieldset).hide();
             }
-            else
-                $("#fSellInfo").hide();
-        });
-        $("#chkProductMajorInfo").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fProductMajorInfo").show();
-            }
-            else
-                $("#fProductMajorInfo").hide();
-        });
-        $("#chkProductInfoNotice").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fProductInfoNotice").show();
-            }
-            else
-                $("#fProductInfoNotice").hide();
-        });
-        $("#chkDelivery").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fDelivery").show();
-            }
-            else
-                $("#fDelivery").hide();
-        });
-        $("#chkReturnChange").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fReturnChange").show();
-            }
-            else
-                $("#fReturnChange").hide();
-        });
-         $("#chkAs").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fAs").show();
-            }
-            else
-                $("#fAs").hide();
-        });
 
-        /////////////// 선택값 항목 프리셋 ///////////////
-         $("#chkProductSale").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fProductSale").show();
-            }
-            else
-                $("#fProductSale").hide();
-        });
-        $("#chkSelectOption").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fSelectOption").show();
-            }
-            else
-                $("#fSelectOption").hide();
-        });
-        $("#chkInputOption").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fInputOption").show();
-            }
-            else
-                $("#fInputOption").hide();
-        });
-        $("#chkAdditionalProduct").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fAdditionalProduct").show();
-            }
-            else
-                $("#fAdditionalProduct").hide();
-        });
-         $("#chkBuyCondition").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fBuyCondition").show();
-            }
-            else
-                $("#fBuyCondition").hide();
-        });
-        $("#chkBenefitCondition").change(function(){
-            if ($(this).is(':checked')) {
-                $("#fBenefitCondition").show();
-            }
-            else
-                $("#fBenefitCondition").hide();
-        });
+            $(checkbox).change(function(){
+                if ($(checkbox).is(':checked')) {
+                    $(fieldset).show();
+                }
+                else{
+                    $(fieldset).hide();
+                }
+            });
+        }
+
+        $.showAndHideCheckboxChanaged("#chkSellInfo", "#fSellInfo");
+
+        $.showAndHideCheckboxChanaged("#chkProductMajorInfo", "#fProductMajorInfo");
+
+        $.showAndHideCheckboxChanaged("#chkProductInfoNotice", "#fProductInfoNotice");
+
+        $.showAndHideCheckboxChanaged("#chkDelivery", "#fDelivery");
+
+        $.showAndHideCheckboxChanaged("#chkAs", "#fAs");
+
+        $.showAndHideCheckboxChanaged("#chkProductSale", "#fProductSale");
+
+        $.showAndHideCheckboxChanaged("#chkSelectOption", "#fSelectOption");
+
+        $.showAndHideCheckboxChanaged("#chkInputOption", "#fInputOption");
+
+        $.showAndHideCheckboxChanaged("#chkAdditionalProduct", "#fAdditionalProduct");
+
+        $.showAndHideCheckboxChanaged("#chkBuyCondition", "#fBuyCondition");
+
+        $.showAndHideCheckboxChanaged("#chkBenefitCondition", "#fBenefitCondition");
+
+        $("#tID").attr("required", true);
+        $("#tProductName").attr("required", true);
+
         //////////// 선택형 옵션 예시
         $("input[name=radOptionType]").change(function(){
             $.fn.CheckSelectOption();
@@ -395,22 +385,13 @@
             var vIsCheckedSoloOptionType = $("#radOptionTypeSolo").is(':checked');
             switch(vOptNum){
                 case '1':
-                    if(vIsCheckedSoloOptionType)
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW)");
-                    else
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원))");
+                    $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW)");
                     break;
                 case '2':
-                    if(vIsCheckedSoloOptionType)
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L)");
-                    else
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원)), 사이즈(S/M(+100원)/L(-100원))");
+                    $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L)");
                     break;
                 case '3':
-                    if(vIsCheckedSoloOptionType)
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L), 케이스(WHITE/BLACK/BRWON)");
-                    else
-                        $("#labSelectOptionEx").text("컬러(RED/BLUE(+100원)/YELLOW(-100원)), 사이즈(S/M(+100원)/L(-100원)), 케이스(WHITE/BLACK(+100원)/BRWON(-100원))");
+                    $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW), 사이즈(S/M/L), 케이스(WHITE/BLACK/BRWON)");
                     break;
                 default:
                     break;
@@ -528,27 +509,256 @@
                 $("#chkPaymentAdvance").prop( "disabled", false );
             }
         });
+
+
+        // 상품정보 복사
+        $("#buttonCopy").click(function(){
+            var bla = '';
+
+            // ID
+            bla += '# 판매자 정보\n';
+            bla += '판매자 아이디 : ';
+            bla += $('#tID').val();
+            bla += '\n\n';
+
+            // 상품기본정보
+            bla += '# 상품기본정보\n';
+            bla += '상품명 : ';
+            bla += $('#tProductName').val();
+            bla += ' / 상품상세설명 : ';
+            bla += $('#tProductDescription').val();
+            bla += '\n\n';
+
+            // 판매정보
+            if ($("#chkSellInfo").is(':checked')) {
+                bla += '# 판매정보\n';
+                bla += '가격 : ';
+                bla += $('#nProductPrice').val();
+                bla += ' / 부가세 : ';
+                bla += $('#selProductTax').val();
+                bla += ' / 재고수량 : ';
+                bla += $('#nProductAmount').val();
+                bla += '\n\n';
+            }
+
+            // 상품할인
+            if ($("#chkProductSale").is(':checked')) {
+                bla += '# 상품할인\n';
+                bla += '할인값 : ';
+                bla += $('#nSaleValue').val();
+                bla += ' / 할인값 유형 : ';
+                bla += $('#selSaleType').val();
+                bla += '\n\n';
+            }
+
+            // 배송정보
+            if ($("#chkDelivery").is(':checked')) {
+                bla += '# 배송정보\n';
+                bla += '배송여부 : ';
+                bla += $('input[name="radIsDelivery"]:checked').val();
+                bla += ' / 배송속성 : ';
+                bla += $('input[name="radDeliveryProperty"]:checked').val();
+                bla += ' / 배송방법 : ';
+                bla += $('input[name="radDeliveryType"]:checked').val();
+                bla += ' / 방문수령 : ';
+                bla += $("#chkReceiveVisit").is(':checked');
+                bla += ' / 퀵서비스 : ';
+                bla += $("#chkQuickService").is(':checked');
+                bla += ' / 묶음배송 : ';
+                bla += $('input[name="radIsDeliveryBundle"]:checked').val();
+                bla += ' / 상품별 배송비 : ';
+                bla += $('#selDeliveryChargeType').val();
+                bla += ' / 착불 : ';
+                bla += $("#chkPaymentCollect").is(':checked');
+                bla += ' / 선결제 : ';
+                bla += $("#chkPaymentAdvance").is(':checked');
+                bla += ' / 지역별차등배송비 : ';
+                bla += $('#tRegionCharge').val();
+                bla += ' / 별도설치비 : ';
+                bla += $('input[name="radInstallCosts"]:checked').val();
+                bla += ' / 반품배송비 : ';
+                bla += $('#nDeliveryChargeReturn').val();
+                bla += ' / 교환배송비 : ';
+                bla += $('#nDeliveryChargeChange').val();
+                bla += '\n\n';
+            }
+
+            // 상품주요정보
+            if ($("#chkProductMajorInfo").is(':checked')) {
+                bla += '# 상품주요정보\n';
+                bla += '원산지 : ';
+                bla += $('#selProductOrigin').val();
+                bla += ' / 상품상태 : ';
+                bla += $('#selProductStatus').val();
+                bla += ' / 미성년자 구매 : ';
+                bla += $('input[name="radIsBuyChildren"]:checked').val();
+                bla += '\n\n';
+            }
+
+            // 상품정보제공고시
+            if ($("#chkProductInfoNotice").is(':checked')) {
+                bla += '# 상품정보제공고시\n';
+                bla += '상품군 : ';
+                bla += $('#goods').val();
+                bla += ' / 제품소재 : ';
+                bla += $('#tProductMaterial').val();
+                bla += ' / 색상 : ';
+                bla += $('#tProductColor').val();
+                bla += ' / 치수명 : ';
+                bla += $('#tProductSize').val();
+                bla += ' / 제조자 : ';
+                bla += $('#tProductManufacturer').val();
+                bla += ' / 취급 주의사항 : ';
+                bla += $('#tProductPrecautions').val();
+                bla += ' / 제조년월 : ';
+                bla += $('#tManuYearMonth').val();
+                bla += ' / 품질보증기준 : ';
+                bla += $('#tQualityStandards').val();
+                bla += ' / A/S 책임자 : ';
+                bla += $('#tAsManager').val();
+                bla += '\n\n';
+            }
+
+            // A/S 정보
+            if ($("#chkAs").is(':checked')) {
+                bla += '# A/S 정보\n';
+                bla += 'A/S 전화번호 : ';
+                bla += $('#tAsNumber').val();
+                bla += ' / A/S 안내 : ';
+                bla += $('#tAsDescription').val();
+                bla += '\n\n';
+            }
+
+            // 선택형 옵션
+            if ($("#chkSelectOption").is(':checked')) {
+                bla += '# 선택형 옵션\n';
+                bla += '옵션구성타입 : ';
+                bla += $('input[name="radOptionType"]:checked').val();
+                bla += ' / 옵션명 개수 : ';
+                bla += $('#selSelectOptionNum').val();
+                bla += ' / 정렬순서 : ';
+                bla += $('#selSelectOptionOrder').val();
+                bla += '\n\n';
+            }
+
+            // 직접입력형 옵션
+            if ($("#chkInputOption").is(':checked')) {
+                bla += '# 직접입력형 옵션\n';
+                bla += '옵션명 개수 : ';
+                bla += $('#selInputOptionNum').val();
+                bla += '\n\n';
+            }
+
+            // 추가상품
+            if ($("#chkAdditionalProduct").is(':checked')) {
+                bla += '# 추가상품\n';
+                bla += '추가상품 개수 : ';
+                bla += $('#selAdditionalProductNum').val();
+                bla += ' / 정렬순서 : ';
+                bla += $('#selAdditionalProductOrder').val();
+                bla += '\n\n';
+            }
+
+            // 구매조건
+            if ($("#chkBuyCondition").is(':checked')) {
+                bla += '# 구매조건\n';
+                bla += '최소구매수량 : ';
+                bla += $('#nBuyConditionMin').val();
+                bla += ' / 최대구매수량(1회) : ';
+                bla += $('#nBuyConditionMaxPer').val();
+                bla += ' / 최대구매수량(1인) : ';
+                bla += $('#nBuyConditionMaxPerson').val();
+                bla += '\n\n';
+            }
+
+            // 혜택조건
+            if ($("#chkBenefitCondition").is(':checked')) {
+                bla += '# 혜택조건\n';
+                bla += '구매포인트 : ';
+                bla += $('#nPointBuy').val();
+                bla += ' / 구매포인트 유형 : ';
+                bla += $('#selPointBuyType').val();
+                bla += ' / 텍스트 : ';
+                bla += $('#nPointTextReview').val();
+                bla += ' / 포토 : ';
+                bla += $('#nPointPhotoReview').val();
+                bla += ' / 한달사용 텍스트 : ';
+                bla += $('#nPoint1MTextReview').val();
+                bla += ' / 한달사용 포토 : ';
+                bla += $('#nPoint1MPhotoReview').val();
+                bla += ' / 톡찜 : ';
+                bla += $('#nPointTokJJim').val();
+                bla += '\n\n';
+            }
+
+            copyTextToClipboard(bla);
+        });
     });
+
+    // copy text to cliboard
+    function copyTextToClipboard(text) {
+
+          // Create textarea element.
+          var textArea = document.createElement("textarea");
+
+          // Place in top-left corner of screen regardless of scroll position.
+          textArea.style.position = 'fixed';
+          textArea.style.top = 0;
+          textArea.style.left = 0;
+
+          // Ensure it has a small width and height. Setting to 1px / 1em
+          // doesn't work as this gives a negative w/h on some browsers.
+          textArea.style.width = '2em';
+          textArea.style.height = '2em';
+
+          // We don't need padding, reducing the size if it does flash render.
+          textArea.style.padding = 0;
+
+          // Clean up any borders.
+          textArea.style.border = 'none';
+          textArea.style.outline = 'none';
+          textArea.style.boxShadow = 'none';
+
+          // Avoid flash of white box if rendered for any reason.
+          textArea.style.background = 'transparent';
+
+
+          textArea.value = text;
+
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+
+          try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? '성공하였습니다.' : '실패하였습니다.';
+            alert('상품정보 복사가 ' + msg);
+          }
+          catch (err) {
+            alert('상품정보 복사가 실패하였습니다.');
+          }
+
+          // Remove textarea element.
+          document.body.removeChild(textArea);
+        }
 </script>
   </head>
   <body>
-     <form action="/myaction" method="post">
+     <form action="/" method="post">
         <ul>
             <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" checked>
-            <label for="chkSellInfo" style="margin:30px 0px 15px 0px; display: inline-block;">판매정보</label> <br></li>
-            <li><input type="checkbox" id="chkProductMajorInfo" name="chkProductMajorInfo" checked>
+            <label for="chkSellInfo" style="margin:30px 0px -3px 0px;">판매정보</label> <br></li>
+            <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
+            <label for="chkProductSale">상품할인</label> <br></li>
+            <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
+            <label for="chkDelivery">배송정보</label> <br></li>
+
+            <li><input type="checkbox" id="chkProductMajorInfo" name="chkProductMajorInfo">
             <label for="chkProductMajorInfo">상품주요정보</label> <br></li>
             <li><input type="checkbox" id="chkProductInfoNotice" name="chkProductInfoNotice">
             <label for="chkProductInfoNotice">상품정보제공고시</label> <br></li>
-            <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
-            <label for="chkDelivery">배송정보</label> <br></li>
-            <li><input type="checkbox" id="chkReturnChange" name="chkReturnChange">
-            <label for="chkReturnChange">반품/교환정보</label> <br></li>
             <li><input type="checkbox" id="chkAs" name="chkAs">
             <label for="chkAs">A/S정보</label> <br></li>
-
-            <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
-            <label for="chkProductSale">상품할인</label> <br></li>
             <li><input type="checkbox" id="chkSelectOption" name="chkSelectOption">
             <label for="chkSelectOption">선택형 옵션</label> <br></li>
             <li><input type="checkbox" id="chkInputOption" name="chkInputOption">
@@ -559,13 +769,13 @@
             <label for="chkBuyCondition">구매조건</label> <br></li>
             <li><input type="checkbox" id="chkBenefitCondition" name="chkBenefitCondition">
             <label for="chkBenefitCondition">혜택조건</label><br></li>
-            <li></li>
         </ul>
         <div class="navbar">
-            <!--<img src="../images/smartstore_logo.png" alt="log1o">-->
-            <h1 align="center" style="margin-top:3px;">상품 등록 페이지</h1>
-            <input type="submit" value="등록" />
-            <!--<input type="button" value="초기화">-->
+<!--            <img src="../images/smartstore_logo.png" alt="log1o">-->
+            <h1 align="center" style="margin-top:2px; margin-left:8px;">상품 등록 페이지</h1>
+            <input type="submit" id="buttonRegister" value="등록" onclick="javascript=this.disabled=true; form.submit();"/>
+            <button id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보 클립보드로 복사"></button>
+            <input type="text" id="tID" name="tID" value="qa1test574@naver.com" placeholder="판매자 아이디 입력" required/>
         </div>
         <div class="registerForm">
             <fieldset id=fProductBasicInfo>
@@ -595,7 +805,7 @@
 
                 <tr>
                     <td><label for="tProductName" style="margin-top:10px; display: inline-block;">상품명 :</label></td>
-                    <td><input type="text" id="tProductName" name="tProductName" style="margin-top:20px;" required/> <br></td>
+                    <td><input type="text" id="tProductName" name="tProductName" style="margin-top:20px;" required autofocus/> <br></td>
                 </tr>
 
                 <tr>
@@ -647,147 +857,6 @@
                      <label for="selSaleType" style="margin-left:-5px;">할인</label></td>
                  </tr>
                  </table>
-             </fieldset>
-             <fieldset hidden id="fSelectOption">
-                <legend>선택형 옵션</legend>
-                 <table align="left">
-                 <tr>
-                     <td><label for="radOptionType">옵션 구성 타입 : </label></td>
-                     <td><input type="radio" name="radOptionType" id="radOptionTypeSolo" value="radOptionTypeSolo" checked>
-                     <label for="radOptionTypeSolo">단독형</label>
-                     <input type="radio" name="radOptionType" id="radOptionTypeMix" value="radOptionTypeMix">
-                     <label for="radOptionTypeMix">조합형</label><br></td>
-                 </tr>
-                 <tr>
-                     <td><label for="selSelectOptionNum">옵션명 개수 : </label></td>
-                     <td><span class="custom-dropdown">
-                         <select id="selSelectOptionNum" name="selSelectOptionNum">
-                            <option value="1" selected="selected">1개</option>
-                            <option value="2">2개</option>
-                            <option value="3">3개</option>
-                         </select>
-                     </span><br></td>
-                 </tr>
-                 <tr>
-                     <td><label for="selSelectOptionOrder">정렬순서 : </label></td>
-                     <td><span class="custom-dropdown">
-                         <select id="selSelectOptionOrder" name="selSelectOptionOrder">
-                            <option value="orderRegistr" selected="selected">등록순</option>
-                            <option value="orderAbc">가나다순</option>
-                            <option hidden value="orderHighPrice">높은 가격순</option>
-                            <option hidden value="orderLowPrice">낮은 가격순</option>
-                         </select>
-                     </span></td>
-                 </tr>
-                 <tr>
-                     <td>-> 적용 예시 :</td>
-                     <td><label id="labSelectOptionEx" style="margin-left:-15px; display: inline-block;">컬러(RED/BLUE/YELLOW)</label></td>
-                 </tr>
-                 </table>
-             </fieldset>
-             <fieldset hidden id="fInputOption">
-                <legend>직접입력형 옵션</legend>
-                 <table align="left">
-                 <tr>
-                     <td><label for="selInputOptionNum">옵션명 개수 : </label></td>
-                     <td><span class="custom-dropdown">
-                         <select name="selInputOptionNum" id="selInputOptionNum">
-                            <option value="1" selected="selected">1개</option>
-                            <option value="2">2개</option>
-                            <option value="3">3개</option>
-                            <option value="4">4개</option>
-                            <option value="5">5개</option>
-                         </select>
-                     </span></td>
-                 </tr>
-                 <tr>
-                     <td>-> 적용 예시 : </td>
-                     <td><label id="labInputOptionEx">컬러</label></td>
-                 </tr>
-                 </table>
-             </fieldset>
-             <fieldset id="fProductMajorInfo">
-                <legend>상품주요정보</legend>
-                <table align="left">
-                <tr>
-                    <td><label for="selProductOrigin">원산지 : </label></td>
-                    <td><span class="custom-dropdown">
-                        <select name="selProductOrigin" id="selProductOrigin">
-                            <option value="domestic" selected="selected">국산</option>
-                            <option value="imported">수입산(미국)</option>
-                            <option value="etc">기타(상세설명에 표시)</option>
-                        </select>
-                     </span> <br></td>
-                 </tr>
-                 <tr>
-                     <td><label for="selProductStatus">상품상태 : </label></td>
-                     <td><span class="custom-dropdown">
-                         <select name="selProductStatus" id="selProductStatus">
-                            <option value="new" selected="selected">신상품</option>
-                            <option value="used">중고상품</option>
-                         </select>
-                      </span></td>
-<!--
-                 <input type="checkbox" name="chkCustomMade" id="chkCustomMade" value="chkCustomMade">
-                 <label for="chkCustomMade">주문제작상품(발송예정일 7일)</label>
-                 <input type="checkbox" name="chkReturnCancel" id="chkReturnCancel" value="chkReturnCancel" hidden>
-                 <label for="chkReturnCancel" id="labReturnCancel" hidden>반품/취소 제한 안내 및 동의</label> <br></td>
--->
-                 </tr>
-
-                 <tr>
-                     <td><label for="radIsBuyChildren">미성년자 구매 : </label></td>
-                     <td><input type="radio" name="radIsBuyChildren" value="possible" id="radBuyChildrenPossible" checked>
-                     <label for="radBuyChildrenPossible" style="margin-top:10px; display: inline-block;">가능</label>
-                     <input type="radio" name="radIsBuyChildren" value="impossible" id="radBuyChildrenImpossible">
-                     <label for="radBuyChildrenImpossible" style="margin-top:10px; display: inline-block;">불가능</label></td>
-                 </tr>
-                 </table>
-             </fieldset>
-            <fieldset hidden id="fProductInfoNotice">
-                <legend>상품정보제공고시</legend>
-                <table align="left">
-                <tr>
-                    <td><label for="goods">상품군(현재 의류만 가능) : </label></td>
-                    <td><span class="custom-dropdown">
-                        <select name="goods">
-                            <option value="clothing" selected="selected">의류</option>
-                        </select>
-                    </span></td>
-                </tr>
-                <tr>
-                    <td><label for="tProductMaterial">제품소재 : </label></td>
-                    <td><input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tProductColor">색상 : </label></td>
-                    <td><input type="text" id="tProductColor" name="tProductColor" value="BLACK"/> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tProductSize">치수명 : </label></td>
-                    <td><input type="text" id="tProductSize" name="tProductSize" value="L(100)"/> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tProductManufacturer">제조자 : </label></td>
-                    <td><input type="text" id="tProductManufacturer" name="tProductManufacturer" value="NBA"/> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tProductPrecautions">세탁방법 및 취급 주의사항 : </label></td>
-                    <td><input type="text" id="tProductPrecautions" name="tProductPrecautions" value="단독세탁 권장"/> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tManuYearMonth">제조년월 : </label></td>
-                    <td><input type="month" id="tManuYearMonth" name="tManuYearMonth" min="2018-01" value="2018-11"/> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tQualityStandards">품질보증기준 : </label></td>
-                    <td><input type="text" id="tQualityStandards" name="tQualityStandards" value="미개봉, 보증서 유효" /> <br></td>
-                </tr>
-                <tr>
-                    <td><label for="tAsManager">AS 책임자 : </label></td>
-                    <td><input type="text" id="tAsManager" name="tAsManager" value="NBA" /></td>
-                </tr>
-                </table>
              </fieldset>
              <fieldset hidden id="fDelivery">
                  <legend>배송</legend>
@@ -855,11 +924,6 @@
                      <input type="radio" name="radInstallCosts" value="none" id="radInstallCostsNo" checked>
                      <label for="radInstallCostsNo">없음</label> <br></td>
                  </tr>
-                 </table>
-             </fieldset>
-             <fieldset hidden id="fReturnChange">
-                 <legend>반품/교환</legend>
-                 <table align="left">
                  <tr>
                      <td><label for="nDeliveryChargeReturn">반품배송비(편도) : </label></td>
                      <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
@@ -869,6 +933,89 @@
                      <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000" /><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  </table>
+             </fieldset>
+             <fieldset id="fProductMajorInfo">
+                <legend>상품주요정보</legend>
+                <table align="left">
+                <tr>
+                    <td><label for="selProductOrigin">원산지 : </label></td>
+                    <td><span class="custom-dropdown">
+                        <select name="selProductOrigin" id="selProductOrigin">
+                            <option value="domestic" selected="selected">국산</option>
+                            <option value="imported">수입산(미국)</option>
+                            <option value="etc">기타(상세설명에 표시)</option>
+                        </select>
+                     </span> <br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selProductStatus">상품상태 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selProductStatus" id="selProductStatus">
+                            <option value="new" selected="selected">신상품</option>
+                            <option value="used">중고상품</option>
+                         </select>
+                      </span></td>
+<!--
+                 <input type="checkbox" name="chkCustomMade" id="chkCustomMade" value="chkCustomMade">
+                 <label for="chkCustomMade">주문제작상품(발송예정일 7일)</label>
+                 <input type="checkbox" name="chkReturnCancel" id="chkReturnCancel" value="chkReturnCancel" hidden>
+                 <label for="chkReturnCancel" id="labReturnCancel" hidden>반품/취소 제한 안내 및 동의</label> <br></td>
+-->
+                 </tr>
+
+                 <tr>
+                     <td><label for="radIsBuyChildren">미성년자 구매 : </label></td>
+                     <td><input type="radio" name="radIsBuyChildren" value="possible" id="radBuyChildrenPossible" checked>
+                     <label for="radBuyChildrenPossible" style="margin-top:10px; display: inline-block;">가능</label>
+                     <input type="radio" name="radIsBuyChildren" value="impossible" id="radBuyChildrenImpossible">
+                     <label for="radBuyChildrenImpossible" style="margin-top:10px; display: inline-block;">불가능</label></td>
+                 </tr>
+                 </table>
+             </fieldset>
+            <fieldset hidden id="fProductInfoNotice">
+                <legend>상품정보제공고시</legend>
+                <table align="left">
+                <tr>
+                    <td><label for="goods">상품군(현재 의류만 가능) : </label></td>
+                    <td><span class="custom-dropdown">
+                        <select name="goods" id="goods">
+                            <option value="clothing" selected="selected">의류</option>
+                        </select>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductMaterial">제품소재 : </label></td>
+                    <td><input type="text" id="tProductMaterial" name="tProductMaterial" value="폴리에스테르 100%" /> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductColor">색상 : </label></td>
+                    <td><input type="text" id="tProductColor" name="tProductColor" value="BLACK"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductSize">치수명 : </label></td>
+                    <td><input type="text" id="tProductSize" name="tProductSize" value="L(100)"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductManufacturer">제조자 : </label></td>
+                    <td><input type="text" id="tProductManufacturer" name="tProductManufacturer" value="NBA"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tProductPrecautions">세탁방법 및 취급 주의사항 : </label></td>
+                    <td><input type="text" id="tProductPrecautions" name="tProductPrecautions" value="단독세탁 권장"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tManuYearMonth">제조년월 : </label></td>
+                    <td><input type="month" id="tManuYearMonth" name="tManuYearMonth" min="2018-01" value="2018-11"/> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tQualityStandards">품질보증기준 : </label></td>
+                    <td><input type="text" id="tQualityStandards" name="tQualityStandards" value="미개봉, 보증서 유효" /> <br></td>
+                </tr>
+                <tr>
+                    <td><label for="tAsManager">AS 책임자 : </label></td>
+                    <td><input type="text" id="tAsManager" name="tAsManager" value="NBA" /></td>
+                </tr>
+                </table>
              </fieldset>
              <fieldset hidden id="fAs">
                  <legend>A/S</legend>
@@ -880,6 +1027,64 @@
                  <tr>
                      <td><label for="tAsDescription">A/S안내 : </label></td>
                      <td><input type="text" id="tAsDescription" name="tAsDescription" value="운영시간 - 10:00 ~ 17:00"/></td>
+                 </tr>
+                 </table>
+             </fieldset>
+            <fieldset hidden id="fSelectOption">
+                <legend>선택형 옵션</legend>
+                 <table align="left">
+                 <tr>
+                     <td><label for="radOptionType">옵션 구성 타입 : </label></td>
+                     <td><input type="radio" name="radOptionType" id="radOptionTypeSolo" value="radOptionTypeSolo" checked>
+                     <label for="radOptionTypeSolo">단독형</label>
+                     <input type="radio" name="radOptionType" id="radOptionTypeMix" value="radOptionTypeMix">
+                     <label for="radOptionTypeMix">조합형</label><br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selSelectOptionNum">옵션명 개수 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select id="selSelectOptionNum" name="selSelectOptionNum">
+                            <option value="1" selected="selected">1개</option>
+                            <option value="2">2개</option>
+                            <option value="3">3개</option>
+                         </select>
+                     </span><br></td>
+                 </tr>
+                 <tr>
+                     <td><label for="selSelectOptionOrder">정렬순서 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select id="selSelectOptionOrder" name="selSelectOptionOrder">
+                            <option value="orderRegistr" selected="selected">등록순</option>
+                            <option value="orderAbc">가나다순</option>
+                            <option hidden value="orderHighPrice">높은 가격순</option>
+                            <option hidden value="orderLowPrice">낮은 가격순</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td>-> 적용 예시 :</td>
+                     <td><label id="labSelectOptionEx" style="margin-left:-15px; display: inline-block;">컬러(RED/BLUE/YELLOW)</label></td>
+                 </tr>
+                 </table>
+             </fieldset>
+             <fieldset hidden id="fInputOption">
+                <legend>직접입력형 옵션</legend>
+                 <table align="left">
+                 <tr>
+                     <td><label for="selInputOptionNum">옵션명 개수 : </label></td>
+                     <td><span class="custom-dropdown">
+                         <select name="selInputOptionNum" id="selInputOptionNum">
+                            <option value="1" selected="selected">1개</option>
+                            <option value="2">2개</option>
+                            <option value="3">3개</option>
+                            <option value="4">4개</option>
+                            <option value="5">5개</option>
+                         </select>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td>-> 적용 예시 : </td>
+                     <td><label id="labInputOptionEx">컬러</label></td>
                  </tr>
                  </table>
              </fieldset>
@@ -899,7 +1104,7 @@
                  <tr>
                      <td><label for="selAdditionalProductOrder">정렬순서 : </label></td>
                      <td><span class="custom-dropdown">
-                         <select name="selAdditionalProductOrder">
+                         <select name="selAdditionalProductOrder" id="selAdditionalProductOrder">
                             <option value="orderRegistr" selected="selected">등록순</option>
                             <option value="orderAbc">가나다순</option>
                             <option value="orderHighPrice">높은 가격순</option>
@@ -946,23 +1151,23 @@
                 </tr>
                 <tr>
                     <td><label for="nPointTextReview">텍스트 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="3000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="1000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 <tr>
                     <td><label for="nPointPhotoReview">포토/동영상 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="1000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 <tr>
                     <td><label for="nPoint1MTextReview">한달사용 텍스트 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="3000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="1000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
                 <tr>
                     <td><label for="nPoint1MPhotoReview">한달사용 포토/동영상 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="3000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="1000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
                 <tr>
                     <td><label for="nPointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="3000" value="300"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="500" value="300"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 </table>
              </fieldset>
