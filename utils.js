@@ -47,7 +47,7 @@ module.exports.clearAndType = async(page, selector, contents) => {
         await page.keyboard.press( 'A' );
         await page.keyboard.up( 'Control' );
         await page.keyboard.press( 'Backspace' );
-        await input.type(contents);
+        await page.type(selector, contents);
     }
     catch(error){
         console.log('clearAndType error : ' + error);
@@ -100,3 +100,20 @@ module.exports.getValue = async(page, selector) => {
     }
     return value;
 };
+
+// get a element's value
+module.exports.getInnerText = async(page, selector) => {
+    let value;
+    try{
+        await page.waitForSelector(selector, { timeout: 100000 });
+
+        var element = await page.$(selector);
+        var valueHandle = await element.getProperty('innerText');
+        value = await valueHandle.jsonValue();
+    }
+    catch(error){
+        console.log('getValue error : ' + error);
+    }
+    return value;
+};
+
