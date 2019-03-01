@@ -523,7 +523,9 @@
 
             // 상품기본정보
             bla += '# 상품기본정보\n';
-            bla += '상품명 : ';
+            bla += '카테고리 : ';
+            bla += $('#sProductCategory').val();
+            bla += ' / 상품명 : ';
             bla += $('#tProductName').val();
             bla += ' / 상품상세설명 : ';
             bla += $('#tProductDescription').val();
@@ -782,25 +784,27 @@
                 <legend>상품기본정보</legend>
                 <table align="left">
                 <tr>
-                    <td><label for="sProdcutCategory" style="margin-top:10px; display: inline-block;">상품 카테고리 : </label></td>
-                    <td><label tex-align="center" style="margin-top:10px; display: inline-block;"><b>　패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)</label><br></td>
-                    <td><select name="sProdcutCategory" style="margin-bottom:20px;" hidden>
+                    <td><label for="sProductCategory" style="margin-top:10px; display: inline-block;">상품 카테고리 : </label></td>
+<!--                    <td><label tex-align="center" style="margin-top:10px; display: inline-block;"><b>　패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)</label><br></td>-->
+                    <td>
+                        <span class="custom-dropdown">
+                        <select name="sProductCategory" id="sProductCategory" style="margin-bottom:-25px;">
                         <option value="department" selected="selected">백화점</option>
-                        <option value="outlet" hidden>아울렛</option>
-                        <option value="style" hidden>스타일</option>
-                        <option value="designer" hidden>디자이너</option>
-                        <option value="beauty" hidden>뷰티</option>
-                        <option value="living" hidden>리빙</option>
-                        <option value="directfarm" hidden>산지직송</option>
-                        <option value="localfood" hidden>지역명물</option>
-                        <option value="traditionalalcohol" hidden>전통주</option>
-                        <option value="homemeal" hidden>쿠킹박스</option>
-                        <option value="cvs" hidden>편의점</option>
-                        <option value="kids" hidden>키즈</option>
-                        <option value="pet" hidden>펫</option>
-                        <option value="play" hidden>플레이</option>
-                        <option value="art" hidden>아트</option>
-                    </select></td>
+                        <option value="outlet">아울렛</option>
+                        <option value="style">스타일</option>
+                        <option value="designer">디자이너</option>
+                        <option value="beauty">뷰티</option>
+                        <option value="living">리빙</option>
+                        <option value="directfarm">산지직송</option>
+                        <option value="localfood">지역명물</option>
+                        <option value="homemeal">쿠킹박스</option>
+                        <option value="cvs">편의점</option>
+                        <option value="kids">키즈</option>
+                        <option value="pet">펫</option>
+                        <option value="play">플레이</option>
+                        <option value="art">아트</option>
+                        </select>
+                        </span></td>
                 </tr>
 
                 <tr>

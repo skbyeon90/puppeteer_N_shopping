@@ -61,25 +61,94 @@ module.exports = app => {
                 await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a');
 
                 // 카테고리 선택
-                await utils.click(page, '#r1_2_2');
+                await utils.click(page, '#r1_2_2'); // [카테고리명 선택]
+                switch(req.body.sProdcutCategory){
+                    case 'department': // 패션잡화>벨트>멜빵
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(5) > a'); // 벨트
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(5) > a '); // 벨트
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a'); // 멜빵
+                        break;
+                    case 'outlet': // 패션잡화>지갑>머니클립
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(16) > a'); // 지갑
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 머니클립
+                        break;
+                    case 'style': // 패션의류>남성의류>티셔츠
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(9) > a'); // 패션의류
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(3) > a'); // 남성의류
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(16) > a'); // 티셔츠
+                        break;
+                     case 'designer': // 패션잡화>패션소품>숄
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션의류
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(17) > a'); // 패션소품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 숄
+                        break;
+                     case 'beauty': // 화장품/미용>클렌징>클렌징비누
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(11) > a'); // 화장품/미용
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 클렌징
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 클렌징비누
+                        break;
+                     case 'living': // 가구/인테리어>수납가구>공간박스
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 공간박스
+                        break;
+                     case 'directfarm': // 식품>축산>양고기
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(14) > a'); // 축산
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(7) > a'); // 양고기
+                        break;
+                     case 'localfood': // 식품>반찬>장조림
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(9) > a'); // 반찬
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 장조림
+                        break;
+                     case 'homemeal': // 식품>가공식품>쿠킹박스>볶음/튀김
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(2) > a'); // 가공식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(36) > a'); // 쿠킹박스
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(6) > a'); // 볶음/튀김
+                        break;
+                     case 'cvs': // 식품>냉동/간편조리식품>만두
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 냉동/간편조리식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 만두
+                        break;
+                     case 'kids': // 출산/육아>이유식용품>유아식기
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(8) > a'); // 출산/육아
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(28) > a'); // 이유식용품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(6) > a'); // 유아식기
+                        break;  
+                    case 'pet': // 생활/건강>반려동물>강아지 미용/목욕>드라이기
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(4) > a'); // 생활/건강
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(13) > a'); // 반려동물
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 강아지 미용/목욕
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(3) > a'); // 드라이기
+                        break;   
+                    case 'play': // 디지털/가전>PC액세서리>PC받침대
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(3) > a'); // 디지털/가전
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(4) > a'); // PC악세사리
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(2) > a'); // PC받침대
+                        break;    
+                    case 'art': // 생활/건강>문구/사무용품>앨범>포켓식앨범
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(4) > a'); // 생활/건강
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 문구/사무용품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(8) > a'); // 앨범
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(4) > a'); // 포켓식앨범
+                        break;     
+                    default:
+                        console.log("cateogory none.");
+                        break;
+                 }
 
-                // 카테고리 선택 - 패션잡화
-                await utils.click(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
-
-                // 카테고리 선택 - 벨트
-                await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
-                await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a ');
-
-                // 카테고리 선택 - 멜빵
-                await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
-
-                // 카테고리가 제대로 선택되었는지 확인
-                var category1 = await utils.getText(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
-                var category2 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
-                var category3 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
-                var categorySelected1 = category1 + '>' + category2 + '>' + category3;
-                var categorySelected2 = await utils.getText(page, '.info-result.text-info.ng-scope > strong');
-                assert.strictEqual(categorySelected1, categorySelected2);
+//                // 카테고리가 제대로 선택되었는지 확인
+//                var category1 = await utils.getText(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
+//                var category2 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
+//                var category3 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
+//                var categorySelected1 = category1 + '>' + category2 + '>' + category3;
+//                var categorySelected2 = await utils.getText(page, '.info-result.text-info.ng-scope > strong');
+//                assert.strictEqual(categorySelected1, categorySelected2);
 
                 // 상품명
                 await utils.clearAndType(page, 'input[name="product.name"]', req.body.tProductName);
@@ -336,13 +405,30 @@ module.exports = app => {
                     await utils.type(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', 'M');
                     var strModelName = await utils.getValue(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]');
                     assert.strictEqual('M', strModelName);
+                    
+                    // 브랜드명
+                    
 
                     // 상품주요정보 - 상품속성
-                    await utils.click(page, 'div[data-value="10030583"]'); // 남녀공용
-                    await utils.click(page, 'div[data-value="10197460"]'); // 가죽
-                    await utils.click(page, 'div[data-value="10557684"]'); // 미디엄
-                    await utils.click(page, 'div[data-value="10574836"]'); // 체크
-                    await utils.click(page, 'ng-if[ng-if="categoryAttribute.attribute.attributeClassificationType === \'MULTI_SELECT\'"] > div > div > label > input'); // 체크
+                    switch(req.body.sProdcutCategory){
+                        case 'department': // 패션잡화>벨트>멜빵
+                            await utils.click(page, 'div[data-value="10197460"]'); // 주요소재 : 가죽
+                            await utils.click(page, 'div[data-value="10557684"]'); // 넓이 : 미디엄
+                            break;
+                        case 'outlet': // 패션잡화>지갑>머니클립
+                            await utils.click(page, 'div[data-value="10197460"]'); // 주요소재 : 가죽
+                            break;
+                        case 'style': // 패션의류>남성의류>티셔츠
+                            await utils.click(page, 'div[ng-if="categoryAttribute.attribute.attributeClassificationType === \'MULTI_SELECT\'"] > div > div > label > input'); // 주요소재 : 데님
+                            await utils.click(page, 'div[data-value="10588283"]'); // 소매기장 : 민소매
+                            break;
+                         case 'designer': // 패션잡화>패션소품>숄
+                            await utils.click(page, 'div[data-value="10030859"]'); // 주요소재 : 니트
+                            await utils.click(page, 'div[data-value="10040049"]'); // 패턴 : 무지
+                            break;
+                        default:
+                             break;
+                    }
 
                     // 상품주요정보 - 원산지
                     console.log(req.body.selProductOrigin);
@@ -887,13 +973,89 @@ module.exports = app => {
                     assert.strictEqual(req.body.nPointTokJJim, strTokJJim);
                 }
 
-                // [쇼핑윈도] 제외
-                await utils.click(page, 'input[data-nclicks-code="ech.swin"]');
-
+                // 쇼핑윈도 선택
+                // 해당 판매자 계정의 쇼핑윈도 목록 저장
+                var arrWindowList = [];
+                for(var i=1; i<=size; i++)
+                {
+                    arrWindowList[i-1] = await utils.getInnerText(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + i + ')');                    
+                }
+                
+                // 쇼핑윈도 목록과 비교할 문자열 저장
+                var strWindow = undefined;
+                switch(req.body.sProdcutCategory){
+                    case 'department': 
+                        strWindow = '백화점';
+                        break;
+                    case 'outlet':
+                        strWindow = '아울렛';
+                        break;
+                    case 'style':
+                        strWindow = '스타일';
+                        break;
+                     case 'designer':
+                        strWindow = '디자이너';
+                        break;
+                     case 'beauty':
+                        strWindow = '뷰티';
+                        break;
+                     case 'living':
+                        strWindow = '리빙';
+                        break;
+                     case 'directfarm': 
+                        strWindow = '산지직송';
+                        break;
+                     case 'localfood': 
+                        strWindow = '지역명물';
+                        break;
+                     case 'homemeal': 
+                        strWindow = '쿠킹박스';
+                        break;
+                     case 'cvs': 
+                        strWindow = '편의점';
+                        break;
+                     case 'kids': 
+                        strWindow = '키즈';
+                        break;  
+                    case 'pet': 
+                        strWindow = '펫';
+                        break;   
+                    case 'play': 
+                        strWindow = '플레이';
+                        break;    
+                    case 'art':
+                        strWindow = '아트';
+                        break;     
+                    default:
+                        break;
+                }
+                
+                var isWindowExists = false;
+                var nWindowIdex = 0;
+                for(var j in arrWindowList)
+                {
+                    var nValue = strWindow.indexOf(arrWindowList[j]);
+                    if(nValue != -1) // 윈도 문자열 존재
+                    {
+                        isWindowExists = true;
+                        nWindowIdex = j+1;
+                        break;
+                    }
+                }
+                
+                if(isWindowExists) // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 있을 경우
+                {
+                    await utils.click(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + nWindowIdex + ')');   
+                }
+                else // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 없을 경우
+                {
+                    await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
+                }
+                
                 // [상품등록]
                 console.log('상품등록11111');
                 await utils.click(page, 'button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]');
-
+                
                 res.send('<script type="text/javascript">alert("상품등록 완료");history.back();</script>');
             }
             catch(error){
