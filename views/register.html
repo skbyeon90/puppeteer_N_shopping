@@ -430,7 +430,6 @@
         $("#selAdditionalProductNum").change(function(){
             $.fn.CheckAddtionalProduct();
         });
-
         $.fn.CheckAddtionalProduct = function() {
 	        var vAddtionalProductNum = $("#selAdditionalProductNum option:selected").val();
             switch(vAddtionalProductNum){
@@ -527,8 +526,10 @@
             bla += $('#sProductCategory').val();
             bla += ' / 상품명 : ';
             bla += $('#tProductName').val();
-            bla += ' / 상품상세설명 : ';
-            bla += $('#tProductDescription').val();
+            bla += ' / 스마트스토어 : ';
+            bla += $("#chkSmartStore").is(':checked');
+            bla += ' / 쇼핑윈도 : ';
+            bla += $("#chkWindow").is(':checked');
             bla += '\n\n';
 
             // 판매정보
@@ -742,13 +743,24 @@
 
           // Remove textarea element.
           document.body.removeChild(textArea);
+    }
+    function mySubmit() {
+        var strProductName = document.getElementById('tProductName');
+        if( strProductName.value == '' || strProductName.value == null ){
+            alert('상품명을 입력해주세요');
+            return false;
         }
+
+        var btnSubmit = document.getElementById('buttonRegister');
+        btnSubmit.submit();
+        btnSubmit.disabled=true;
+    }
 </script>
   </head>
   <body>
      <form action="/" method="post">
         <ul>
-            <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" checked>
+            <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" >
             <label for="chkSellInfo" style="margin:30px 0px -3px 0px;">판매정보</label> <br></li>
             <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
             <label for="chkProductSale">상품할인</label> <br></li>
@@ -775,8 +787,8 @@
         <div class="navbar">
 <!--            <img src="../images/smartstore_logo.png" alt="log1o">-->
             <h1 align="center" style="margin-top:2px; margin-left:8px;">상품 등록 페이지</h1>
-            <input type="submit" id="buttonRegister" value="등록" onclick="javascript=this.disabled=true; form.submit();"/>
-            <button id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보 클립보드로 복사"></button>
+            <input type="submit" id="buttonRegister" value="등록" onclick="mySubmit();"/>
+            <button id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보를 클립보드로 복사"></button>
             <input type="text" id="tID" name="tID" value="qa1test574@naver.com" placeholder="판매자 아이디 입력" required/>
         </div>
         <div class="registerForm">
@@ -784,11 +796,11 @@
                 <legend>상품기본정보</legend>
                 <table align="left">
                 <tr>
-                    <td><label for="sProductCategory" style="margin-top:10px; display: inline-block;">상품 카테고리 : </label></td>
+                    <td><label for="sProductCategory" style="margin-top:0px; display: inline-block;">상품 카테고리 : </label></td>
 <!--                    <td><label tex-align="center" style="margin-top:10px; display: inline-block;"><b>　패션잡화>벨트>멜빵</b>(카테고리 선택 기능은 추후 개발 예정)</label><br></td>-->
                     <td>
                         <span class="custom-dropdown">
-                        <select name="sProductCategory" id="sProductCategory" style="margin-bottom:-25px;">
+                        <select name="sProductCategory" id="sProductCategory" style="margin-top:0px;">
                         <option value="department" selected="selected">백화점</option>
                         <option value="outlet">아울렛</option>
                         <option value="style">스타일</option>
@@ -808,14 +820,17 @@
                 </tr>
 
                 <tr>
-                    <td><label for="tProductName" style="margin-top:10px; display: inline-block;">상품명 :</label></td>
-                    <td><input type="text" id="tProductName" name="tProductName" style="margin-top:20px;" required autofocus/> <br></td>
+                    <td><label for="tProductName" style="display: inline-block;">상품명 :</label></td>
+                    <td><input type="text" id="tProductName" name="tProductName" required autofocus/></td>
                 </tr>
 
                 <tr>
-                    <td><label for="tProductDescription">상품 상세설명 : </label></td>
-                    <td><input type="text" name="tProductDescription" id="tProductDescription" value="상품 상세설명입니다."/></td>
-                </tr>
+                     <td><label for="chkSmartStore" id="labSmartStore"> 노출채널 : </label></td>
+                     <td><input type="checkbox" name="chkSmartStore" id="chkSmartStore" value="chkSmartStore" checked>
+                     <label for="chkSmartStore">스마트스토어</label>
+                     <input type="checkbox" name="chkWindow" id="chkWindow" value="chkWindow" style="margin-left:715px;" checked>
+                     <label for="chkWindow" title="※ 쇼핑윈도명에 카테고리명이 포함되어야 쇼핑윈도가 정상적으로 노출됩니다.">쇼핑윈도</label></td>
+                 </tr>
                 </table>
             </fieldset>
 

@@ -26,7 +26,7 @@ module.exports = app => {
         (async() => {
             browser = await puppeteer.launch({
             headless: true,
-            ignoreHTTPSErrors: false, // doesn't matter
+            ignoreHTTPSErrors: true, // doesn't matter
             args: [
                 '--ignore-certificate-errors',
                 '--ignore-certificate-errors-spki-list '
@@ -47,7 +47,6 @@ module.exports = app => {
 
 
             try{
-
                 // 스마트스토어 페이지 진입
                 await page.goto('http://dev.sell.smartstore.naver.com/#/login', {waitUntil: 'networkidle0'});
 
@@ -60,9 +59,18 @@ module.exports = app => {
                 await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li:nth-child(1) > a');
                 await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a');
 
+                // 쇼핑윈도, 스마트스토어 노출 변수 초기화
+                var isSmartStore = true;
+                var isShoppingWindow = true;
+                if(req.body.chkSmartStore == undefined){
+                    isSmartStore = false;
+                }
+                if(req.body.chkWindow == undefined){
+                    isShoppingWindow = false;
+                }
                 // 카테고리 선택
                 await utils.click(page, '#r1_2_2'); // [카테고리명 선택]
-                switch(req.body.sProdcutCategory){
+                switch(req.body.sProductCategory){
                     case 'department': // 패션잡화>벨트>멜빵
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(5) > a'); // 벨트
@@ -126,29 +134,25 @@ module.exports = app => {
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 강아지 미용/목욕
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(3) > a'); // 드라이기
                         break;   
-                    case 'play': // 디지털/가전>PC액세서리>PC받침대
+                    case 'play': // 디지털/가전>멀티미디어장비>PC헤드셋
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(3) > a'); // 디지털/가전
-                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(4) > a'); // PC악세사리
-                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(2) > a'); // PC받침대
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 멀티미디어장비
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(2) > a'); // PC헤드셋
                         break;    
-                    case 'art': // 생활/건강>문구/사무용품>앨범>포켓식앨범
-                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(4) > a'); // 생활/건강
-                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 문구/사무용품
-                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(8) > a'); // 앨범
-                        await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(4) > a'); // 포켓식앨범
-                        break;     
+                    case 'art': // 가구/인테리어> 수납가구> 수납장
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(8) > a'); // 공간박스
+                        break;
                     default:
                         console.log("cateogory none.");
                         break;
-                 }
+                }
 
-//                // 카테고리가 제대로 선택되었는지 확인
-//                var category1 = await utils.getText(page, '.seller-data-list.category-list.ng-scope > div > ul > li:nth-child(10) > a');
-//                var category2 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a');
-//                var category3 = await utils.getText(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a');
-//                var categorySelected1 = category1 + '>' + category2 + '>' + category3;
-//                var categorySelected2 = await utils.getText(page, '.info-result.text-info.ng-scope > strong');
-//                assert.strictEqual(categorySelected1, categorySelected2);
+                console.log(req.body.sProductCategory);
+
+                var selected = await utils.getText(page, '.info-result.text-info.ng-scope > strong')
+                console.log(selected);
 
                 // 상품명
                 await utils.clearAndType(page, 'input[name="product.name"]', req.body.tProductName);
@@ -386,13 +390,37 @@ module.exports = app => {
                 var filepath = __dirname + '\\..\\images\\product_image.jpg';
                 await utils.uploadFile(page, 'input[type="file"]', filepath);
 
-                // 상세설명
-                await utils.click(page, 'a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
-                console.log(req.body.tProductDescription);
-                await utils.type(page, '.content.write-html.ng-scope > div > textarea', req.body.tProductDescription);
-                var strProductDescription = await utils.getValue(page, 'a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
-                //assert.strictEqual(req.body.tProductDescription, strProductDescription);
+                // 상품이미지 - 추가이미지
+                await utils.click(page, '#optionalImages > div > div.seller-product-img.add-img > div > ul > li > div > a');
 
+                // 상품이미지 - 추가이미지 - file upload
+                var optionalfilepath = __dirname + '\\..\\images\\product_image_optional.jpeg';
+                await utils.uploadFile(page, 'input[type="file"][multiple="multiple"]', optionalfilepath);
+
+                // 상세설명
+                if(isShoppingWindow)
+                {
+                    // SmartEditor 3.0
+                    await utils.click(page, 'button[ng-click="vm.editorLoad($event)"]');
+
+                    await page.waitFor(5000);
+
+                    const pages = await browser.pages();
+                    const popup = pages[pages.length - 1];
+
+                    console.log('page lenghth : ' + pages.length);
+
+                    await utils.click(popup, '.__se_pop_close.btn_close_pop');
+
+                    await utils.click(popup, '[title=구분선]');
+                    await utils.click(popup, '#se_top_publish_btn');
+                }
+                else
+                {
+                    // HTML
+                    await utils.click(page, 'a[ng-click="vm.changeEditorType(vm.constants.EDITOR_TYPE.NONE)"]');
+                    await utils.type(page, '.content.write-html.ng-scope > div > textarea', '상품 상세설명');
+                }
 
                 // 상품주요정보
                 if(req.body.chkProductMajorInfo != undefined)
@@ -403,14 +431,13 @@ module.exports = app => {
 
                     // 모델명
                     await utils.type(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', 'M');
-                    var strModelName = await utils.getValue(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]');
-                    assert.strictEqual('M', strModelName);
                     
                     // 브랜드명
-                    
+                    await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="brand"] > div > div > div > div > div > div > input', 'd');
+                    await utils.click(page, 'div[data-value="15074"]');
 
                     // 상품주요정보 - 상품속성
-                    switch(req.body.sProdcutCategory){
+                    switch(req.body.sProductCategory){
                         case 'department': // 패션잡화>벨트>멜빵
                             await utils.click(page, 'div[data-value="10197460"]'); // 주요소재 : 가죽
                             await utils.click(page, 'div[data-value="10557684"]'); // 넓이 : 미디엄
@@ -458,6 +485,7 @@ module.exports = app => {
                             await utils.click(page, '.selectize-dropdown-content > div[data-value="LOCAL"]');
                             break;
                     }
+                    console.log('12321312313222');
 
                     // 상품주요정보 - 상품상태
                     if(req.body.selProductStatus == "used"){
@@ -482,14 +510,11 @@ module.exports = app => {
     //                    {
     //                        console.log('주문제작 상품-체크된 상태.');
     //                    }
-    //
-    //                    // 반품/취소 제한 안내 및 동의
-    //                    if(req.body.chkReturnCancel != undefined)
-    //                    {
-    //                        await utils.click(page, '#customMadeInfo_useReturnCancelNotification');
-    //                        await utils.click(page, 'input[ng-model="vm.customMadeConfirmation"]');
-    //                    }
-    //                }
+
+                    // 제조일자
+                    await utils.click(page, 'input[name="product.detailAttribute.manufactureDate"]');
+                    await utils.click(page, 'button.left');
+                    await utils.click(page, '.datetimepicker-body.day-view> table> tbody> tr> td> div> span');
 
                     // 상품주요정보 - 미성년가 구매 가능여부 - (default : 가능)
                     if(req.body.radIsBuyChildren == "impossible")
@@ -498,18 +523,44 @@ module.exports = app => {
                         await utils.click(page, '#child2');
                     }
                 }
-                else // 상품주요정보 - 상품속성은 default로 입력
+                else // 상품주요정보 - 상품속성, 모델명, 브랜드명, 제조일자는 default로 입력
                 {
                     await utils.click(page, '#_prod-attr-section > div');
 
                     console.log("상품주요정보 on");
 
+                    // 모델명
+                    await utils.clearAndType(page, 'input[name="product.detailAttribute.naverShoppingSearchInfo.modelName"]', 'M');
+
+                    // 브랜드명
+                    await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="brand"] > div > div > div > div > div > div > input', 'd');
+                    await utils.click(page, 'div[data-value="15074"]');
+
                     // 상품주요정보 - 상품속성
-                    await utils.click(page, 'div[data-value="10030583"]'); // 남녀공용
-                    await utils.click(page, 'div[data-value="10197460"]'); // 가죽
-                    await utils.click(page, 'div[data-value="10557684"]'); // 미디엄
-                    await utils.click(page, 'div[data-value="10574836"]'); // 체크
-                    await utils.click(page, 'ng-if[ng-if="categoryAttribute.attribute.attributeClassificationType === \'MULTI_SELECT\'"] > div > div > label > input'); // 체크
+                    switch(req.body.sProductCategory){
+                        case 'department': // 패션잡화>벨트>멜빵
+                            await utils.click(page, 'div[data-value="10197460"]'); // 주요소재 : 가죽
+                            await utils.click(page, 'div[data-value="10557684"]'); // 넓이 : 미디엄
+                            break;
+                        case 'outlet': // 패션잡화>지갑>머니클립
+                            await utils.click(page, 'div[data-value="10197460"]'); // 주요소재 : 가죽
+                            break;
+                        case 'style': // 패션의류>남성의류>티셔츠
+                            await utils.click(page, 'div[ng-if="categoryAttribute.attribute.attributeClassificationType === \'MULTI_SELECT\'"] > div > div > label > input'); // 주요소재 : 데님
+                            await utils.click(page, 'div[data-value="10588283"]'); // 소매기장 : 민소매
+                            break;
+                         case 'designer': // 패션잡화>패션소품>숄
+                            await utils.click(page, 'div[data-value="10030859"]'); // 주요소재 : 니트
+                            await utils.click(page, 'div[data-value="10040049"]'); // 패턴 : 무지
+                            break;
+                        default:
+                             break;
+                    }
+
+                    // 제조일자
+                    await utils.click(page, 'input[name="product.detailAttribute.manufactureDate"]');
+                    await utils.click(page, 'button.left');
+                    await utils.click(page, '.datetimepicker-body.day-view> table> tbody> tr> td> div> span');
                 }
 
                 // 상품정보제공고시
@@ -972,84 +1023,103 @@ module.exports = app => {
                     var strTokJJim = await utils.getValue(page, '#prd_storeMemberReview');
                     assert.strictEqual(req.body.nPointTokJJim, strTokJJim);
                 }
+                
+                if(!isSmartStore) // 쇼핑윈도 노출 비활성화 시,
+                {
+                    await utils.click(page, 'input[data-nclicks-code="ech.sf"]'); // 쇼핑윈도 비활성화
+                    console.log('스마트스토어 비활성화');
+                }
+                
+                if(isShoppingWindow) // 쇼핑윈도 노출 활성화 시, 윈도 채널 선택
+                {
+                    // 해당 판매자 계정의 쇼핑윈도 목록 저장
+                    const arrWindowList = await page.$$eval('div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div', hrefs => hrefs.map((element) => {
+                          return element.innerText
+                     }));
 
-                // 쇼핑윈도 선택
-                // 해당 판매자 계정의 쇼핑윈도 목록 저장
-                var arrWindowList = [];
-                for(var i=1; i<=size; i++)
-                {
-                    arrWindowList[i-1] = await utils.getInnerText(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + i + ')');                    
-                }
-                
-                // 쇼핑윈도 목록과 비교할 문자열 저장
-                var strWindow = undefined;
-                switch(req.body.sProdcutCategory){
-                    case 'department': 
-                        strWindow = '백화점';
-                        break;
-                    case 'outlet':
-                        strWindow = '아울렛';
-                        break;
-                    case 'style':
-                        strWindow = '스타일';
-                        break;
-                     case 'designer':
-                        strWindow = '디자이너';
-                        break;
-                     case 'beauty':
-                        strWindow = '뷰티';
-                        break;
-                     case 'living':
-                        strWindow = '리빙';
-                        break;
-                     case 'directfarm': 
-                        strWindow = '산지직송';
-                        break;
-                     case 'localfood': 
-                        strWindow = '지역명물';
-                        break;
-                     case 'homemeal': 
-                        strWindow = '쿠킹박스';
-                        break;
-                     case 'cvs': 
-                        strWindow = '편의점';
-                        break;
-                     case 'kids': 
-                        strWindow = '키즈';
-                        break;  
-                    case 'pet': 
-                        strWindow = '펫';
-                        break;   
-                    case 'play': 
-                        strWindow = '플레이';
-                        break;    
-                    case 'art':
-                        strWindow = '아트';
-                        break;     
-                    default:
-                        break;
-                }
-                
-                var isWindowExists = false;
-                var nWindowIdex = 0;
-                for(var j in arrWindowList)
-                {
-                    var nValue = strWindow.indexOf(arrWindowList[j]);
-                    if(nValue != -1) // 윈도 문자열 존재
+                    // 쇼핑윈도 목록과 비교할 문자열 저장
+                    var strWindow = undefined;
+                    switch(req.body.sProductCategory){
+                        case 'department':
+                            strWindow = '백화점';
+                            break;
+                        case 'outlet':
+                            strWindow = '아울렛';
+                            break;
+                        case 'style':
+                            strWindow = '스타일';
+                            break;
+                         case 'designer':
+                            strWindow = '디자이너';
+                            break;
+                         case 'beauty':
+                            strWindow = '뷰티';
+                            break;
+                         case 'living':
+                            strWindow = '리빙';
+                            break;
+                         case 'directfarm':
+                            strWindow = '산지직송';
+                            break;
+                         case 'localfood':
+                            strWindow = '지역명물';
+                            break;
+                         case 'homemeal':
+                            strWindow = '쿠킹박스';
+                            break;
+                         case 'cvs':
+                            strWindow = '편의점';
+                            break;
+                         case 'kids':
+                            strWindow = '키즈';
+                            break;
+                        case 'pet':
+                            strWindow = '펫';
+                            break;
+                        case 'play':
+                            strWindow = '플레이';
+                            break;
+                        case 'art':
+                            strWindow = '아트';
+                            break;
+                        default:
+                            break;
+                    }
+
+                    console.log(strWindow);
+
+                    var isWindowExists = false;
+                    var nWindowIdex = 0;
+                    for(var j in arrWindowList)
                     {
-                        isWindowExists = true;
-                        nWindowIdex = j+1;
-                        break;
+                        nWindowIdex++;
+                        console.log(j + ' : ' + arrWindowList[j]);
+
+                        var nValue = arrWindowList[j].indexOf(strWindow);
+
+                        if(nValue !== -1) // 윈도 문자열 존재
+                        {
+                            isWindowExists = true;
+                            break;
+                        }
+                    }
+
+                    if(isWindowExists) // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 있을 경우
+                    {
+                        console.log('nWindowIdex = ' +nWindowIdex);
+                        await utils.click(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + nWindowIdex + ')');
+                        console.log('isWindowExists true');
+                    }
+                    else // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 없을 경우
+                    {
+                        await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
+                        console.log('쇼핑윈도 비활성화(isWindowExists false)');
                     }
                 }
-                
-                if(isWindowExists) // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 있을 경우
-                {
-                    await utils.click(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + nWindowIdex + ')');   
-                }
-                else // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 없을 경우
+                else // 쇼핑윈도 노출 미설정 시,
                 {
                     await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
+                    console.log('쇼핑윈도 비활성화');
                 }
                 
                 // [상품등록]
