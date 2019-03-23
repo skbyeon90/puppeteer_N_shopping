@@ -73,74 +73,103 @@ module.exports = app => {
                 switch(req.body.sProductCategory){
                     case 'department': // 패션잡화>벨트>멜빵
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
+                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(5) > a'); // 벨트
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(5) > a '); // 벨트
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(3) > a'); // 멜빵
                         break;
                     case 'outlet': // 패션잡화>지갑>머니클립
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션잡화
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(16) > a'); // 지갑
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(16) > a'); // 지갑
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 머니클립
                         break;
                     case 'style': // 패션의류>남성의류>티셔츠
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(9) > a'); // 패션의류
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(9) > a'); // 패션의류
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(3) > a'); // 남성의류
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(3) > a'); // 남성의류
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(16) > a'); // 티셔츠
                         break;
                      case 'designer': // 패션잡화>패션소품>숄
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션의류
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(10) > a'); // 패션의류
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(17) > a'); // 패션소품
+                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(17) > a'); // 패션소품
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 숄
                         break;
                      case 'beauty': // 화장품/미용>클렌징>클렌징비누
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(11) > a'); // 화장품/미용
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(11) > a'); // 화장품/미용
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 클렌징
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 클렌징
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 클렌징비누
                         break;
                      case 'living': // 가구/인테리어>수납가구>공간박스
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(4) > a'); // 공간박스
                         break;
                      case 'directfarm': // 식품>축산>양고기
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(14) > a'); // 축산
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(14) > a'); // 축산
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(7) > a'); // 양고기
                         break;
                      case 'localfood': // 식품>반찬>장조림
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(9) > a'); // 반찬
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(9) > a'); // 반찬
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 장조림
                         break;
                      case 'homemeal': // 식품>가공식품>쿠킹박스>볶음/튀김
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(2) > a'); // 가공식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(2) > a'); // 가공식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(36) > a'); // 쿠킹박스
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(36) > a'); // 쿠킹박스
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(6) > a'); // 볶음/튀김
                         break;
                      case 'cvs': // 식품>냉동/간편조리식품>만두
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(6) > a'); // 식품
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 냉동/간편조리식품
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 냉동/간편조리식품
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 만두
                         break;
                      case 'kids': // 출산/육아>이유식용품>유아식기
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(8) > a'); // 출산/육아
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(8) > a'); // 출산/육아
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(28) > a'); // 이유식용품
+                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(28) > a'); // 이유식용품
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(6) > a'); // 유아식기
                         break;  
                     case 'pet': // 생활/건강>반려동물>강아지 미용/목욕>드라이기
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(4) > a'); // 생활/건강
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(4) > a'); // 생활/건강
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(13) > a'); // 반려동물
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(13) > a'); // 반려동물
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 강아지 미용/목욕
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(5) > a'); // 강아지 미용/목욕
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 4"] > ul > li:nth-child(3) > a'); // 드라이기
                         break;   
                     case 'play': // 디지털/가전>멀티미디어장비>PC헤드셋
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(3) > a'); // 디지털/가전
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(3) > a'); // 디지털/가전
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 멀티미디어장비
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(11) > a'); // 멀티미디어장비
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(2) > a'); // PC헤드셋
                         break;    
                     case 'art': // 가구/인테리어> 수납가구> 수납장
                         await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-if="vm.showPcDepthSearch()"] > div > ul > li:nth-child(1) > a'); // 가구/인테리어
+                        await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 2"] > ul > li:nth-child(6) > a'); // 수납가구
                         await utils.click(page, 'div[ng-show="vm.showLevel >= 3"] > ul > li:nth-child(8) > a'); // 공간박스
                         break;
@@ -164,7 +193,12 @@ module.exports = app => {
                 var strProductPrice = await utils.getValue(page, 'input[name="product.salePrice"]');
                 assert.strictEqual(req.body.nProductPrice, strProductPrice);
 
-                // 판매가 > 과세유형
+                // 재고 수량
+                await utils.clearAndType(page, '#stock', req.body.nProductAmount);
+                var strStockValue = await utils.getValue(page, '#stock');
+                assert.strictEqual(req.body.nProductAmount, strStockValue);
+
+                // 과세유형
                 switch(req.body.selProductTax){
                     case 'tax':
                         await utils.click(page, '#taxType_TAX');
@@ -178,7 +212,7 @@ module.exports = app => {
                     default:
                         console.log("tax error.");
                         break;
-                 }
+                }
 
                 // 판매가 > 할인설정
                 if(req.body.chkProductSale != undefined)
@@ -204,180 +238,174 @@ module.exports = app => {
                     }
                 }
 
-                // 재고 수량
-                await utils.clearAndType(page, '#stock', req.body.nProductAmount);
-                var strStockValue = await utils.getValue(page, '#stock');
-                assert.strictEqual(req.body.nProductAmount, strStockValue);
-
                 // 옵션 영역 펼치기
                 if(req.body.chkSelectOption != undefined
                    || req.body.chkInputOption != undefined)
                 {
                     await utils.click(page, 'div[server-field-errors="product.detailAttribute.optionInfo.*"]');
                     console.log("옵션 영역 on");
-                }
 
-                // 선택형 옵션 chkSelectOption
-                if(req.body.chkSelectOption != undefined)
-                {
-                    console.log("선택형 옵션 on");
-                    // 선택형 옵션 펼치기
-                    await utils.click(page, '#option_choice_type_true');
+                    // 선택형 옵션 - 직접입력
+                    await utils.click(page, 'input[ng-value="::vm.CHOICE_INPUT_TYPE.DIRECT"]');
 
-                    // 선택형 옵션 -  옵션유형
-                    var vOptType;
-                    console.log(req.body.radOptionType);
-                    if(req.body.radOptionType == 'radOptionTypeSolo')
+                    // 선택형 옵션 chkSelectOption
+                    if(req.body.chkSelectOption != undefined)
                     {
-                        await utils.click(page, 'input[value="SIMPLE"]'); // 단독형
-                        vOptType = "SIMPLE";
-                    }
-                    else
+                        console.log("선택형 옵션 on");
+                        // 선택형 옵션 펼치기
+                        await utils.click(page, '#option_choice_type_true');
+
+
+                        // 선택형 옵션 -  옵션유형
+                        var vOptType;
+                        console.log(req.body.radOptionType);
+                        if(req.body.radOptionType == 'radOptionTypeSolo')
+                        {
+                            await utils.click(page, 'input[value="SIMPLE"]'); // 단독형
+                            vOptType = "SIMPLE";
+                        }
+                        else
+                        {
+                            await utils.click(page, 'input[value="COMBINATION"]'); // 조합형
+                            vOptType = "COMBINATION";
+                        }
+
+                        // 선택형 옵션 - 정렬순서
+                        console.log(req.body.selSelectOptionOrder);
+                        switch(req.body.selSelectOptionOrder)
+                        {
+                            case 'orderRegistr' :
+                                await utils.click(page, 'div[data-value="CREATE"]');
+                                break;
+                            case 'orderAbc' :
+                                await utils.click(page, 'div[data-value="ABC"]');
+                                break;
+                             case 'orderLowPrice' :
+                                await utils.click(page, 'div[data-value="LOW_PRICE"]');
+                                break;
+                            case 'ordeorderHighPricer' :
+                                await utils.click(page, 'div[data-value="HIGH_PRICE"]');
+                                break;
+                            default :
+                                console.log("선택형 옵션 정렬순서 오류");
+                                break;
+                        }
+
+                        console.log(req.body.selSelectOptionNum);
+
+                        // 선택형 옵션 -  옵션명 개수
+                        await utils.click(page, 'div[data-value="1"].item');
+                        switch(req.body.selSelectOptionNum){
+                        case '1':
+                            // 옵션 개수 - 1개 선택
+                            await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(1)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#choice_option_name0', '컬러');
+                            await utils.type(page, '#choice_option_value0', 'RED,BLUE,YELLOW');
+                            break;
+                        case '2':
+                            // 옵션 개수 - 2개 선택
+                            await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(2)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page,'#choice_option_name0', '컬러');
+                            await utils.type(page,'#choice_option_value0', 'RED,BLUE,YELLOW');
+                            await utils.type(page,'#choice_option_name1', '사이즈');
+                            await utils.type(page,'#choice_option_value1', 'S,M,L');
+                            break;
+                        case '3':
+                            // 옵션 개수 - 3개 선택
+                            await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(3)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page,'#choice_option_name0', '컬러');
+                            await utils.type(page,'#choice_option_value0', 'RED,BLUE,YELLOW');
+                            await utils.type(page,'#choice_option_name1', '사이즈');
+                            await utils.type(page,'#choice_option_value1', 'S,M,L');
+                            await utils.type(page,'#choice_option_name2', '케이스');
+                            await utils.type(page,'#choice_option_value2', 'WHITE,BLACK,BROWN');
+                            break;
+                        default:
+                            console.log("선택형 옵션 - 개수 error");
+                            break;
+                        }
+
+                        // [옵션목록 적용] 버튼 클릭
+                        await utils.click(page, 'a[ng-click="vm.submitToGrid()"]');
+
+                        // 조합형 옵션이면 재고수량 입력
+                        if(vOptType == "COMBINATION")
+                        {
+                            // 옵션목록 전체 선택
+                            await utils.click(page, '#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
+
+                            // 개별 옵션 재고수량 입력 후, 적용
+                            await utils.type(page, 'input[ng-model="vm.bulkStockQuantity"]', '10');
+                            await utils.click(page, 'a[ng-click="vm.modifySelectedRowByBulk()"]');
+                        }
+                     }
+
+                    // 직접입력형 옵션 chkSelectOption
+                    if(req.body.chkInputOption != undefined)
                     {
-                        await utils.click(page, 'input[value="COMBINATION"]'); // 조합형
-                        vOptType = "COMBINATION";
+                        console.log("직접입력형 옵션 on");
+
+                        // 직접입력형 옵션 펼치기
+                        await utils.click(page, '#option_direct_type_true ');
+
+                        // 옵션 개수
+                        switch(req.body.selInputOptionNum){
+                        case '1':
+                            // 옵션 개수 선택
+                            await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(1)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#custom_option_name0', '컬러');
+                            break;
+                        case '2':
+                            // 옵션 개수 선택
+                            await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(2)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#custom_option_name0', '컬러');
+                            await utils.type(page, '#custom_option_name1', '사이즈');
+                            break;
+                        case '3':
+                            await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(3)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#custom_option_name0', '컬러');
+                            await utils.type(page, '#custom_option_name1', '사이즈');
+                            await utils.type(page, '#custom_option_name2', '케이스');
+                            break;
+                        case '4':
+                            // 옵션 개수 선택
+                            await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(4)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#custom_option_name0', '컬러');
+                            await utils.type(page, '#custom_option_name1', '사이즈');
+                            await utils.type(page, '#custom_option_name2', '케이스');
+                            await utils.type(page, '#custom_option_name3', '이어폰');
+                            break;
+                        case '5':
+                            // 옵션 개수 선택
+                            await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(5)');
+
+                            // 개별 옵션 입력
+                            await utils.type(page, '#custom_option_name0', '컬러');
+                            await utils.type(page, '#custom_option_name1', '사이즈');
+                            await utils.type(page, '#custom_option_name2', '케이스');
+                            await utils.type(page, '#custom_option_name3', '이어폰');
+                            await utils.type(page, '#custom_option_name4', '마이크');
+                            break;
+                        default:
+                            console.log("직접입력형 옵션 - 개수 error");
+                            break;
+                        }
                     }
 
-                    // 선택형 옵션 - 정렬순서
-                    console.log(req.body.selSelectOptionOrder);
-                    switch(req.body.selSelectOptionOrder)
-                    {
-                        case 'orderRegistr' :
-                            await utils.click(page, 'div[data-value="CREATE"]');
-                            break;
-                        case 'orderAbc' :
-                            await utils.click(page, 'div[data-value="ABC"]');
-                            break;
-                         case 'orderLowPrice' :
-                            await utils.click(page, 'div[data-value="LOW_PRICE"]');
-                            break;
-                        case 'ordeorderHighPricer' :
-                            await utils.click(page, 'div[data-value="HIGH_PRICE"]');
-                            break;
-                        default :
-                            console.log("선택형 옵션 정렬순서 오류");
-                            break;
-                    }
-
-                    console.log(req.body.selSelectOptionNum);
-
-                    // 선택형 옵션 -  옵션명 개수
-                    await utils.click(page, 'div[data-value="1"].item');
-                    switch(req.body.selSelectOptionNum){
-                    case '1':
-                        // 옵션 개수 - 1개 선택
-                        await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(1)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#choice_option_name0', '컬러');
-                        await utils.type(page, '#choice_option_value0', 'RED,BLUE,YELLOW');
-                        break;
-                    case '2':
-                        // 옵션 개수 - 2개 선택
-                        await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(2)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page,'#choice_option_name0', '컬러');
-                        await utils.type(page,'#choice_option_value0', 'RED,BLUE,YELLOW');
-                        await utils.type(page,'#choice_option_name1', '사이즈');
-                        await utils.type(page,'#choice_option_value1', 'S,M,L');
-                        break;
-                    case '3':
-                        // 옵션 개수 - 3개 선택
-                        await utils.click(page, 'div[ng-show="vm.isChoiceType"] > div > div > div > div > div  > div> div:nth-child(2)> div> div:nth-child(3)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page,'#choice_option_name0', '컬러');
-                        await utils.type(page,'#choice_option_value0', 'RED,BLUE,YELLOW');
-                        await utils.type(page,'#choice_option_name1', '사이즈');
-                        await utils.type(page,'#choice_option_value1', 'S,M,L');
-                        await utils.type(page,'#choice_option_name2', '케이스');
-                        await utils.type(page,'#choice_option_value2', 'WHITE,BLACK,BROWN');
-                        break;
-                    default:
-                        console.log("선택형 옵션 - 개수 error");
-                        break;
-                    }
-
-                    // [옵션목록 적용] 버튼 클릭
-                    await utils.click(page, 'a[ng-click="vm.submitToGrid()"]');
-
-                    // 조합형 옵션이면 재고수량 입력
-                    if(vOptType == "COMBINATION")
-                    {
-                        // 옵션목록 전체 선택
-                        await utils.click(page, '#center > div > div.ag-header > div.ag-header-viewport > div > div:nth-child(2) > div:nth-child(1) > div > label > input');
-
-                        // 개별 옵션 재고수량 입력 후, 적용
-                        await utils.type(page, 'input[ng-model="vm.bulkStockQuantity"]', '10');
-                        await utils.click(page, 'a[ng-click="vm.modifySelectedRowByBulk()"]');
-                    }
-                 }
-
-                // 직접입력형 옵션 chkSelectOption
-                if(req.body.chkInputOption != undefined)
-                {
-                    console.log("직접입력형 옵션 on");
-
-                    // 직접입력형 옵션 펼치기
-                    await utils.click(page, '#option_direct_type_true ');
-
-                    // 옵션 개수
-                    switch(req.body.selInputOptionNum){
-                    case '1':
-                        // 옵션 개수 선택
-                        await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(1)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#custom_option_name0', '컬러');
-                        break;
-                    case '2':
-                        // 옵션 개수 선택
-                        await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(2)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#custom_option_name0', '컬러');
-                        await utils.type(page, '#custom_option_name1', '사이즈');
-                        break;
-                    case '3':
-                        await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(3)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#custom_option_name0', '컬러');
-                        await utils.type(page, '#custom_option_name1', '사이즈');
-                        await utils.type(page, '#custom_option_name2', '케이스');
-                        break;
-                    case '4':
-                        // 옵션 개수 선택
-                        await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(4)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#custom_option_name0', '컬러');
-                        await utils.type(page, '#custom_option_name1', '사이즈');
-                        await utils.type(page, '#custom_option_name2', '케이스');
-                        await utils.type(page, '#custom_option_name3', '이어폰');
-                        break;
-                    case '5':
-                        // 옵션 개수 선택
-                        await utils.click(page, 'div[ng-show="vm.isCustomType"] > div > div > div > div > div >div:nth-child(2) > div> div:nth-child(5)');
-
-                        // 개별 옵션 입력
-                        await utils.type(page, '#custom_option_name0', '컬러');
-                        await utils.type(page, '#custom_option_name1', '사이즈');
-                        await utils.type(page, '#custom_option_name2', '케이스');
-                        await utils.type(page, '#custom_option_name3', '이어폰');
-                        await utils.type(page, '#custom_option_name4', '마이크');
-                        break;
-                    default:
-                        console.log("직접입력형 옵션 - 개수 error");
-                        break;
-                    }
-                }
-
-                // 옵션 영역 닫음
-                if(req.body.chkSelectOption != undefined
-                   || req.body.chkInputOption != undefined)
-                {
                     // 옵션 영역 닫기
                     await utils.click(page, 'div[server-field-errors="product.detailAttribute.optionInfo.*"]');
                     console.log("옵션 영역 off");
@@ -403,7 +431,7 @@ module.exports = app => {
                     // SmartEditor 3.0
                     await utils.click(page, 'button[ng-click="vm.editorLoad($event)"]');
 
-                    await page.waitFor(5000);
+                    await page.waitFor(4000);
 
                     const pages = await browser.pages();
                     const popup = pages[pages.length - 1];
@@ -414,6 +442,8 @@ module.exports = app => {
 
                     await utils.click(popup, '[title=구분선]');
                     await utils.click(popup, '#se_top_publish_btn');
+
+                    await page.waitFor(1000);
                 }
                 else
                 {
@@ -434,7 +464,8 @@ module.exports = app => {
                     
                     // 브랜드명
                     await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="brand"] > div > div > div > div > div > div > input', 'd');
-                    await utils.click(page, 'div[data-value="15074"]');
+                    await utils.click(page, '#_prod-attr-section > div.inner-content.input-content > div > ncp-naver-shopping-search-info > div:nth-child(2) > div > div:nth-child(1) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div:nth-child(2) > div > div');
+
 
                     // 상품주요정보 - 상품속성
                     switch(req.body.sProductCategory){
@@ -485,31 +516,12 @@ module.exports = app => {
                             await utils.click(page, '.selectize-dropdown-content > div[data-value="LOCAL"]');
                             break;
                     }
-                    console.log('12321312313222');
 
                     // 상품주요정보 - 상품상태
                     if(req.body.selProductStatus == "used"){
                         console.log("중고");
                         await utils.click(page, 'label[for="saleType_OLD"]');
                     }
-
-                    // 상품주요정보 - 주문제작 상품(현재 스펙변경된 상태라 주석처리)
-    //                var customMade = false;
-    //                if(req.body.chkCustomMade != undefined)
-    //                {
-    //                    customMade = true; // 배송 > 발송예정일 설정 위한 변수
-    //
-    //                    // 체크박스가 체크됐는지
-    //                    var selectorCheckbox = 'input[ng-model="vm.product.detailAttribute.customMadeInfo.customMade"].ng-pristine.ng-untouched.ng-valid.ng-empty';
-    //                    if(await utils.isElementExists(page, selectorCheckbox) == true)
-    //                    {
-    //                        console.log('주문제작 상품-체크안된 상태.');
-    //                        await utils.click(page, selectorCheckbox);
-    //                    }
-    //                    else
-    //                    {
-    //                        console.log('주문제작 상품-체크된 상태.');
-    //                    }
 
                     // 제조일자
                     await utils.click(page, 'input[name="product.detailAttribute.manufactureDate"]');
@@ -534,7 +546,7 @@ module.exports = app => {
 
                     // 브랜드명
                     await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="brand"] > div > div > div > div > div > div > input', 'd');
-                    await utils.click(page, 'div[data-value="15074"]');
+                    await utils.click(page, '#_prod-attr-section > div.inner-content.input-content > div > ncp-naver-shopping-search-info > div:nth-child(2) > div > div:nth-child(1) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div:nth-child(2) > div > div');
 
                     // 상품주요정보 - 상품속성
                     switch(req.body.sProductCategory){
@@ -575,7 +587,7 @@ module.exports = app => {
                     await utils.click(page, 'ui-view[name="provided-notice"] > div > fieldset > div > div > div:nth-child(2) > div > div > div:nth-child(1) > div > div.selectize-input.items.ng-valid.ng-pristine.full.has-options.has-items');
 
                     // 상품군 - 의류 선택
-                    await utils.click(page, 'div[data-value="WEAR"]');
+                    await utils.click(page, '.selectize-dropdown-content > div[data-value="WEAR"]');
 
                     // 제품소재
                     await utils.type(page, '#prd', req.body.tProductMaterial);
@@ -595,7 +607,8 @@ module.exports = app => {
                     // 제조자
                     await utils.clearAndType(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-input.items.not-full.ng-valid.ng-pristine > input[type="text"]', req.body.tProductManufacturer);
                     var strManufacturer = await utils.getValue(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-input.items.not-full.ng-valid.ng-pristine > input[type="text"]');
-                    await utils.click(page, 'div[data-value="131746"]');
+                    await utils.click(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-dropdown.single.ng-pristine.ng-untouched.ng-valid.plugin-inputMaxlength > div');
+
                     assert.strictEqual(req.body.tProductManufacturer, strManufacturer);
 
                     // 세탁방법 및 취급시 주의사항
@@ -685,6 +698,17 @@ module.exports = app => {
                                 console.log('방문수령-체크된 상태.');
                             }
                         }
+                        else // 방문수령 N
+                        {
+                            // 방문수령 값이 N 인데, 이미 체크된 상태면 체크박스 해제
+                            var selectorCheckbox = 'input[name="visit_receipt"].ng-pristine.ng-untouched.ng-valid.ng-not-empty';
+                            if(await utils.isElementExists(page, selectorCheckbox) == true)
+                            {
+                                console.log('방문수령 체크된 상태-> 해제');
+                                await utils.click(page, selectorCheckbox);
+                            }
+
+                        }
 
                         // chkQuickService 퀵서비스
                         if(req.body.chkQuickService != undefined)
@@ -701,15 +725,23 @@ module.exports = app => {
                                 console.log('퀵서비스-체크된 상태.');
                             }
                         }
+                        else // 퀵서비스 N
+                        {
+                            // 퀵서비스 값이 N 인데, 이미 체크된 상태면 체크박스 해제
+                            var selectorCheckbox = 'input[name="quickService"].ng-pristine.ng-untouched.ng-valid.ng-not-empty';
+                            if(await utils.isElementExists(page, selectorCheckbox) == true)
+                            {
+                                console.log('퀵서비스 체크된 상태-> 해제');
+                                await utils.click(page, selectorCheckbox);
+                            }
+
+                        }
 
                         // radIsDeliveryBundle(possible, impossible) 묶음배송여부
                         if(req.body.radIsDeliveryBundle == "impossible")
                             await utils.click(page, '#rset_2');
                         else
                             await utils.click(page, '#rset_1');
-
-                        // selDeliveryChargeType(charged, free, conditionalFree, perQuantity, perSectionTwo, perSectionThree) 상품별 배송비
-                        // 상품별 배송비 셀렉트 박스 열기
 
                         // 상품별 배송비 선택
                         switch(req.body.selDeliveryChargeType)
@@ -746,6 +778,13 @@ module.exports = app => {
                         // 배송비 입력
                         if(req.body.selDeliveryChargeType != 'free')
                         {
+                            console.log('기본 배송비 : ' + req.body.nDeliveryCharge);
+                            // 기본 배송비
+                            await utils.clearAndType(page, '#basic_price', req.body.nDeliveryCharge); // 배송비 3000원
+
+                            var strDelivery = await utils.getValue(page, '#basic_price');
+                            assert.strictEqual(req.body.nDeliveryCharge, strDelivery);
+
                             console.log(req.body.selDeliveryChargeType);
 
                             // 배송비 조건
@@ -780,11 +819,6 @@ module.exports = app => {
                                 default :
                                     break;
                             }
-
-                            // 기본 배송비
-                            await utils.clearAndType(page, '#basic_price', '3000'); // 배송비 3000원
-                            var strDelivery = await utils.getValue(page, '#basic_price');
-                            //assert.strictEqual('3000', strDelivery);
 
                             // 결제방식(착불(default), 선결제)
                             if(req.body.chkPaymentAdvance != undefined)
@@ -930,7 +964,7 @@ module.exports = app => {
                         await utils.type(page, '#supple_names2', 'BLACK,WHITE');
                         await utils.type(page, '#supple_prices2', '0,50');
                     default:
-                        console.log("선택형 옵션 - 개수 error");
+                        console.log("추가상품 옵션 - 개수 error");
                         break;
                     }
 
@@ -961,67 +995,84 @@ module.exports = app => {
 
                     // nBuyConditionMaxPer 최대구매수량(1회)
                     console.log('최대구매수량(1회)' + req.body.nBuyConditionMaxPer);
-                    await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerOrder"]');
-                    await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]', req.body.nBuyConditionMaxPer);
-                    var strBuyConditionMaxPer = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]');
-                    assert.strictEqual(req.body.nBuyConditionMaxPer, strBuyConditionMaxPer);
+                    if(req.body.nBuyConditionMaxPer > 0)
+                    {
+                        await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerOrder"]');
+                        await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]', req.body.nBuyConditionMaxPer);
+                        var strBuyConditionMaxPer = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerOrder"]');
+                        assert.strictEqual(req.body.nBuyConditionMaxPer, strBuyConditionMaxPer);
+                    }
 
                     // nBuyConditionMaxPerson 최대구매수량(1인)
                     console.log('최대구매수량(1인)' + req.body.nBuyConditionMaxPerson);
-                    await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerId"]');
-                    await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]', req.body.nBuyConditionMaxPerson);
-                    var strBuyConditionMaxPerson = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]');
-                    assert.strictEqual(req.body.nBuyConditionMaxPerson, strBuyConditionMaxPerson);
-
-                    // 상품 구매 시 지급 체크박스 클릭
-                    await utils.click(page, 'input[ng-model="vm.viewData.isUsePurchasePointPolicy"]');
-
-                    // nPointBuy 지급 포인트
-                    await utils.type(page, '#error_purchasePointPolicy_value > div:nth-child(1) > div > div.seller-input-wrap.ng-scope > input', req.body.nPointBuy);
-                    var strPointBuy = await utils.getValue(page, '#error_purchasePointPolicy_value > div:nth-child(1) > div > div.seller-input-wrap.ng-scope > input');
-                    assert.strictEqual(req.body.nPointBuy, strPointBuy);
-
-                    // selPointBuyType(won, percent) 지급 포인트 단위
-                    try{
-                        var nIdex = (req.body.selPointBuyType == 'won' ? 2 : 1);
-                        console.log(req.body.selPointBuyType);
-                        console.log('인덱스 : ' + nIdex);
-
-                        await page.evaluate(({nIdex}) => {
-                            document.querySelector('#error_purchasePointPolicy_value > div:nth-child(1) > div > div.input-group-btn > ul > li:nth-child(' + nIdex + ') > a').click();
-                        }, {nIdex});
-                    }
-                    catch(error){
-                        console.log('click(index) error : ' + error);
+                    if(req.body.nBuyConditionMaxPerson > 0)
+                    {
+                        await utils.click(page, 'input[ng-model="vm.viewData.isUseMaxPurchaseQuantityPerId"]');
+                        await utils.type(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]', req.body.nBuyConditionMaxPerson);
+                        var strBuyConditionMaxPerson = await utils.getValue(page, 'input[ng-model="vm.product.detailAttribute.purchaseQuantityInfo.maxPurchaseQuantityPerId"]');
+                        assert.strictEqual(req.body.nBuyConditionMaxPerson, strBuyConditionMaxPerson);
                     }
 
-                    // 상품리뷰 작성시 지급 체크박스 클릭
-                    await utils.click(page, 'input[ng-model="vm.viewData.isUseReviewPointPolicy"]');
+                    if(req.body.nPointBuy > 0)
+                    {
+                        // 상품 구매 시 지급 체크박스 클릭
+                        await utils.click(page, 'input[ng-model="vm.viewData.isUsePurchasePointPolicy"]');
 
-                    // nPointTextReview 텍스트 리뷰 포인트
-                    await utils.clearAndType(page, '#prd_textReview',req.body.nPointTextReview);
-                    var strTextReview = await utils.getValue(page, '#prd_textReview');
-                    assert.strictEqual(req.body.nPointTextReview, strTextReview);
+                        // nPointBuy 지급 포인트
+                        await utils.type(page, '#error_purchasePointPolicy_value > div > div> div> input', req.body.nPointBuy);
+                        var strPointBuy = await utils.getValue(page, '#error_purchasePointPolicy_value > div > div> div> input');
+                        assert.strictEqual(req.body.nPointBuy, strPointBuy);
 
-                    // nPointPhotoReview 포토/동영상 리뷰 포인트
-                    await utils.clearAndType(page, '#prd_photoVideoReview', req.body.nPointPhotoReview);
-                    var strPhotoVideoReview = await utils.getValue(page, '#prd_photoVideoReview');
-                    assert.strictEqual(req.body.nPointPhotoReview, strPhotoVideoReview);
+                        // selPointBuyType(won, percent) 지급 포인트 단위
+                        try{
+                            var nIdex = (req.body.selPointBuyType == 'won' ? 2 : 1);
+                            console.log(req.body.selPointBuyType);
+                            console.log('인덱스 : ' + nIdex);
 
-                    // nPoint1MTextReview 한달사용 텍스트 리뷰 포인트
-                    await utils.clearAndType(page, '#prd_afterUseTextReview', req.body.nPoint1MTextReview);
-                    var strAfterTextReview = await utils.getValue(page, '#prd_afterUseTextReview');
-                    assert.strictEqual(req.body.nPoint1MTextReview, strAfterTextReview);
+                            await page.evaluate(({nIdex}) => {
+                                document.querySelector('#error_purchasePointPolicy_value > div:nth-child(1) > div > div.input-group-btn > ul > li:nth-child(' + nIdex + ') > a').click();
+                            }, {nIdex});
+                        }
+                        catch(error){
+                            console.log('click(index) error : ' + error);
+                        }
+                    }
 
-                    // nPoint1MPhotoReview 한달사용 포토/동영상 리뷰 포인트
-                    await utils.clearAndType(page, '#prd_afterUsePhotoVideoReview', req.body.nPoint1MPhotoReview);
-                    var strAfterTextPhotoReview = await utils.getValue(page, '#prd_afterUsePhotoVideoReview');
-                    assert.strictEqual(req.body.nPoint1MPhotoReview, strAfterTextPhotoReview);
+                    if(req.body.nPointTextReview > 0
+                      || req.body.nPointTextReview > 0
+                      || req.body.nPointPhotoReview > 0
+                      || req.body.nPoint1MTextReview > 0
+                      || req.body.nPoint1MPhotoReview > 0
+                      || req.body.nPointTokJJim > 0)
+                    {
+                        // 상품리뷰 작성시 지급 체크박스 클릭
+                        await utils.click(page, 'input[ng-model="vm.viewData.isUseReviewPointPolicy"]');
 
-                    // nPointTokJJim 톡톡친구/스토어찜 고객리뷰 포인트
-                    await utils.clearAndType(page, '#prd_storeMemberReview', req.body.nPointTokJJim);
-                    var strTokJJim = await utils.getValue(page, '#prd_storeMemberReview');
-                    assert.strictEqual(req.body.nPointTokJJim, strTokJJim);
+                        // nPointTextReview 텍스트 리뷰 포인트
+                        await utils.clearAndType(page, '#prd_textReview',req.body.nPointTextReview);
+                        var strTextReview = await utils.getValue(page, '#prd_textReview');
+                        assert.strictEqual(req.body.nPointTextReview, strTextReview);
+
+                        // nPointPhotoReview 포토/동영상 리뷰 포인트
+                        await utils.clearAndType(page, '#prd_photoVideoReview', req.body.nPointPhotoReview);
+                        var strPhotoVideoReview = await utils.getValue(page, '#prd_photoVideoReview');
+                        assert.strictEqual(req.body.nPointPhotoReview, strPhotoVideoReview);
+
+                        // nPoint1MTextReview 한달사용 텍스트 리뷰 포인트
+                        await utils.clearAndType(page, '#prd_afterUseTextReview', req.body.nPoint1MTextReview);
+                        var strAfterTextReview = await utils.getValue(page, '#prd_afterUseTextReview');
+                        assert.strictEqual(req.body.nPoint1MTextReview, strAfterTextReview);
+
+                        // nPoint1MPhotoReview 한달사용 포토/동영상 리뷰 포인트
+                        await utils.clearAndType(page, '#prd_afterUsePhotoVideoReview', req.body.nPoint1MPhotoReview);
+                        var strAfterTextPhotoReview = await utils.getValue(page, '#prd_afterUsePhotoVideoReview');
+                        assert.strictEqual(req.body.nPoint1MPhotoReview, strAfterTextPhotoReview);
+
+                        // nPointTokJJim 톡톡친구/스토어찜 고객리뷰 포인트
+                        await utils.clearAndType(page, '#prd_storeMemberReview', req.body.nPointTokJJim);
+                        var strTokJJim = await utils.getValue(page, '#prd_storeMemberReview');
+                        assert.strictEqual(req.body.nPointTokJJim, strTokJJim);
+                    }
                 }
                 
                 if(!isSmartStore) // 쇼핑윈도 노출 비활성화 시,
@@ -1123,7 +1174,7 @@ module.exports = app => {
                 }
                 
                 // [상품등록]
-                console.log('상품등록11111');
+                console.log('상품등록 완료');
                 await utils.click(page, 'button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]');
                 
                 res.send('<script type="text/javascript">alert("상품등록 완료");history.back();</script>');

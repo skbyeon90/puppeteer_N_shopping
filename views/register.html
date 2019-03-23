@@ -324,11 +324,33 @@
         margin:10px 15px;
     }
 
+    #load {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        display: block;
+        opacity: 0.8;
+        background: white;
+        z-index: 99;
+        text-align: center;
+    }
+
+    #load > img {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        z-index: 100;
+    }
+
 
 </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
     $(document).ready(function(){
+        $('#load').hide();
+
         $.showAndHideCheckboxChanaged = function (checkbox, fieldset) {
             if ($(checkbox).is(':checked')) {
                     $(fieldset).show();
@@ -346,8 +368,6 @@
                 }
             });
         }
-
-        $.showAndHideCheckboxChanaged("#chkSellInfo", "#fSellInfo");
 
         $.showAndHideCheckboxChanaged("#chkProductMajorInfo", "#fProductMajorInfo");
 
@@ -497,15 +517,14 @@
         ////////////// 배송
         $("#selDeliveryChargeType").change(function(){
             if($("#selDeliveryChargeType option:selected").val() == "free"){
-                $("#labDeliveryChargeType").text("");
                 $("#chkPaymentCollect").prop( "disabled", true );
                 $("#chkPaymentAdvance").prop( "disabled", true );
+                $("#nDeliveryCharge").prop( "disabled", true );
             }
             else{
-                $("#labDeliveryChargeType").text("※ 기본배송비: 3,000원");
-                $("#labDeliveryChargeType").css("font-weight", "bold");
                 $("#chkPaymentCollect").prop( "disabled", false );
                 $("#chkPaymentAdvance").prop( "disabled", false );
+                $("#nDeliveryCharge").prop( "disabled", false);
             }
         });
 
@@ -526,23 +545,17 @@
             bla += $('#sProductCategory').val();
             bla += ' / 상품명 : ';
             bla += $('#tProductName').val();
+            bla += ' / 가격 : ';
+            bla += $('#nProductPrice').val();
+            bla += ' / 재고수량 : ';
+            bla += $('#nProductAmount').val();
+            bla += ' / 부가세 : ';
+            bla += $('#selProductTax').val();
             bla += ' / 스마트스토어 : ';
             bla += $("#chkSmartStore").is(':checked');
             bla += ' / 쇼핑윈도 : ';
             bla += $("#chkWindow").is(':checked');
             bla += '\n\n';
-
-            // 판매정보
-            if ($("#chkSellInfo").is(':checked')) {
-                bla += '# 판매정보\n';
-                bla += '가격 : ';
-                bla += $('#nProductPrice').val();
-                bla += ' / 부가세 : ';
-                bla += $('#selProductTax').val();
-                bla += ' / 재고수량 : ';
-                bla += $('#nProductAmount').val();
-                bla += '\n\n';
-            }
 
             // 상품할인
             if ($("#chkProductSale").is(':checked')) {
@@ -744,26 +757,44 @@
           // Remove textarea element.
           document.body.removeChild(textArea);
     }
-    function mySubmit() {
-        var strProductName = document.getElementById('tProductName');
-        if( strProductName.value == '' || strProductName.value == null ){
-            alert('상품명을 입력해주세요');
-            return false;
-        }
 
-        var btnSubmit = document.getElementById('buttonRegister');
-        btnSubmit.submit();
-        btnSubmit.disabled=true;
+    function mySubmit() {
+        var fields = $(":required").serializeArray();
+
+        var isRequiredFilled = true;
+        $.each(fields, function(i, field) {
+            if (!field.value)
+              isRequiredFilled = false;
+        });
+
+        if(isRequiredFilled)
+        {
+            $("#load").show();
+
+            var btnSubmit = document.getElementById('buttonRegister');
+            btnSubmit.submit();
+            btnSubmit.disabled=true;
+        }
     }
+
+    document.addEventListener('keydown', function(event) {
+    if (event.keyCode === 13) {
+            event.preventDefault();
+        }
+    }, true);
 </script>
   </head>
   <body>
      <form action="/" method="post">
         <ul>
+
+<!--
             <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" >
             <label for="chkSellInfo" style="margin:30px 0px -3px 0px;">판매정보</label> <br></li>
+-->
+
             <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
-            <label for="chkProductSale">상품할인</label> <br></li>
+            <label for="chkProductSale" style="margin:30px 0px -3px 0px;">상품할인</label> <br></li>
             <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
             <label for="chkDelivery">배송정보</label> <br></li>
 
@@ -785,13 +816,16 @@
             <label for="chkBenefitCondition">혜택조건</label><br></li>
         </ul>
         <div class="navbar">
-<!--            <img src="../images/smartstore_logo.png" alt="log1o">-->
+<!--            <img src="./../images/smartstore_logo.png" alt="log1o">-->
             <h1 align="center" style="margin-top:2px; margin-left:8px;">상품 등록 페이지</h1>
             <input type="submit" id="buttonRegister" value="등록" onclick="mySubmit();"/>
-            <button id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보를 클립보드로 복사"></button>
+            <button type="button" id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보를 클립보드로 복사"></button>
             <input type="text" id="tID" name="tID" value="qa1test574@naver.com" placeholder="판매자 아이디 입력" required/>
         </div>
         <div class="registerForm">
+            <div id="load">
+               <img src="http://blog.devari.kr/assets/layout/loading.gif" alt="loading">
+            </div>
             <fieldset id=fProductBasicInfo>
                 <legend>상품기본정보</legend>
                 <table align="left">
@@ -825,22 +859,13 @@
                 </tr>
 
                 <tr>
-                     <td><label for="chkSmartStore" id="labSmartStore"> 노출채널 : </label></td>
-                     <td><input type="checkbox" name="chkSmartStore" id="chkSmartStore" value="chkSmartStore" checked>
-                     <label for="chkSmartStore">스마트스토어</label>
-                     <input type="checkbox" name="chkWindow" id="chkWindow" value="chkWindow" style="margin-left:715px;" checked>
-                     <label for="chkWindow" title="※ 쇼핑윈도명에 카테고리명이 포함되어야 쇼핑윈도가 정상적으로 노출됩니다.">쇼핑윈도</label></td>
-                 </tr>
-                </table>
-            </fieldset>
-
-             <fieldset id="fSellInfo">
-                <legend>판매정보</legend>
-
-                <table align="left">
-                <tr>
                     <td><label for="nProductPrice">판매가격 : </label></td>
-                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" max="999999"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" min="5000" max="1000000" required/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                </tr>
+
+                <tr>
+                    <td><label for="nProductAmount">재고수량 : </label></td>
+                    <td><input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" min="1" max="999" required/><label style="margin-left:-10px; display: inline-block;">개</label></td>
                 </tr>
 
                 <tr>
@@ -855,18 +880,21 @@
                 </tr>
 
                 <tr>
-                    <td><label for="nProductAmount">재고수량 : </label></td>
-                    <td><input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" max="999"/><label style="margin-left:-10px; display: inline-block;">개</label></td>
-                </tr>
+                     <td><label for="chkSmartStore" id="labSmartStore"> 노출채널 : </label></td>
+                     <td><input type="checkbox" name="chkSmartStore" id="chkSmartStore" value="chkSmartStore" checked>
+                     <label for="chkSmartStore">스마트스토어</label>
+                     <input type="checkbox" name="chkWindow" id="chkWindow" value="chkWindow" style="margin-left:715px;" checked>
+                     <label for="chkWindow" title="※ 쇼핑윈도명에 카테고리명이 포함되어야 쇼핑윈도가 정상적으로 노출됩니다.">쇼핑윈도</label></td>
+                 </tr>
                 </table>
-             </fieldset>
+            </fieldset>
 
              <fieldset hidden id="fProductSale">
                  <legend>상품 할인</legend>
                  <table align="left">
                  <tr>
                      <td><label for="nSaleValue">전체할인 : </label></td>
-                     <td><input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" min="10" max="10000" value="1000"/>
+                     <td><input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" min="10" max="4900" value="1000"/>
                      <span class="custom-dropdown">
                          <select name="selSaleType" id="selSaleType" style="margin-left:-25px;">
                             <option value="won" selected="selected">원</option>
@@ -913,7 +941,7 @@
                      <label for="radDeliveryBundleImpossible">불가능</label> <br></td>
                  </tr>
                  <tr>
-                     <td><label for="status"> 상품별 배송비 : </label></td>
+                     <td><label for="status"> 배송비 유형 : </label></td>
                      <td><span class="custom-dropdown">
                      <select name="selDeliveryChargeType" id="selDeliveryChargeType">
                         <option value="charged" selected="selected">유료</option>
@@ -923,7 +951,11 @@
                          <option value="per_sectionTwo">구간별-2구간(5개 초과 구매시 3,000원 부과)</option>
                          <option value="per_sectionThree">구간별-3구간(~5개 추가배송비X / 6~10개까지 추가배송비 3,000 / 50,000원 초과 구매시 6,000원 추가)</option>
                      </select>
-                     </span><label for="status" id="labDeliveryChargeType"><b>※ 기본배송비: 3,000원</b></label></td>
+                     </span></td>
+                 </tr>
+                 <tr>
+                     <td><label for="nDeliveryCharge">기본배송비 : </label></td>
+                     <td><input type="number" id="nDeliveryCharge" name="nDeliveryCharge" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  <tr>
                      <td><label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label></td>
@@ -945,11 +977,11 @@
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeReturn">반품배송비(편도) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeChange">교환배송비(왕복) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000" /><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  </table>
              </fieldset>
@@ -1159,7 +1191,7 @@
                 <table align="left">
                 <tr>
                     <td><label for="nPointBuy">상품 구매시 : </label>
-                    <td><input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="1000">
+                    <td><input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="500">
                      <span class="custom-dropdown">
                          <select name="selPointBuyType" id="selPointBuyType" style="margin-left:-25px;">
                             <option value="percent">%</option>
