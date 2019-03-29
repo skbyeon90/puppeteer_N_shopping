@@ -245,8 +245,6 @@ module.exports = app => {
                     await utils.click(page, 'div[server-field-errors="product.detailAttribute.optionInfo.*"]');
                     console.log("옵션 영역 on");
 
-                    // 선택형 옵션 - 직접입력
-                    await utils.click(page, 'input[ng-value="::vm.CHOICE_INPUT_TYPE.DIRECT"]');
 
                     // 선택형 옵션 chkSelectOption
                     if(req.body.chkSelectOption != undefined)
@@ -255,6 +253,8 @@ module.exports = app => {
                         // 선택형 옵션 펼치기
                         await utils.click(page, '#option_choice_type_true');
 
+                         // 선택형 옵션 - 직접입력
+                        await utils.click(page, 'input[ng-value="::vm.CHOICE_INPUT_TYPE.DIRECT"]');
 
                         // 선택형 옵션 -  옵션유형
                         var vOptType;
@@ -436,8 +436,6 @@ module.exports = app => {
                     const pages = await browser.pages();
                     const popup = pages[pages.length - 1];
 
-                    console.log('page lenghth : ' + pages.length);
-
                     await utils.click(popup, '.__se_pop_close.btn_close_pop');
 
                     await utils.click(popup, '[title=구분선]');
@@ -464,7 +462,7 @@ module.exports = app => {
                     
                     // 브랜드명
                     await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="brand"] > div > div > div > div > div > div > input', 'd');
-                    await utils.click(page, '#_prod-attr-section > div.inner-content.input-content > div > ncp-naver-shopping-search-info > div:nth-child(2) > div > div:nth-child(1) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div:nth-child(2) > div > div');
+                    await utils.click(page, '#_prod-attr-section > div.inner-content.input-content > div > ncp-naver-shopping-search-info > div:nth-child(2) > div > div:nth-child(1) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div:nth-child(2) > div > div:nth-child(1)');
 
 
                     // 상품주요정보 - 상품속성
@@ -605,11 +603,9 @@ module.exports = app => {
                     assert.strictEqual(req.body.tProductColor, strProductColor);
 
                     // 제조자
-                    await utils.clearAndType(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-input.items.not-full.ng-valid.ng-pristine > input[type="text"]', req.body.tProductManufacturer);
-                    var strManufacturer = await utils.getValue(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-input.items.not-full.ng-valid.ng-pristine > input[type="text"]');
-                    await utils.click(page, '#productForm > ng-include > ui-view:nth-child(14) > div > fieldset > div > div > div:nth-child(3) > ng-include > div > div:nth-child(4) > div > ncp-brand-manufacturer-input > div > div > div > div > div > div.selectize-dropdown.single.ng-pristine.ng-untouched.ng-valid.plugin-inputMaxlength > div');
-
-                    assert.strictEqual(req.body.tProductManufacturer, strManufacturer);
+                    await utils.clearAndType(page, 'ncp-brand-manufacturer-input[model-type="manufacturer"][bind-model="vm.content.manufacturer"] > div > div > div > div > div > div > input[type="text"]', req.body.tProductManufacturer);
+                    console.log(req.body.tProductManufacturer);
+                    await utils.click(page, 'ncp-brand-manufacturer-input[model-type="manufacturer"][bind-model="vm.content.manufacturer"] > div > div > div > div > div > div > div > div:nth-child(1)');
 
                     // 세탁방법 및 취급시 주의사항
                     await utils.clearAndType(page, '#prd_caution',req.body.tProductPrecautions);
@@ -1157,7 +1153,6 @@ module.exports = app => {
 
                     if(isWindowExists) // 사용자가 선택한 윈도 유형이 판매자의 윈도 목록에 있을 경우
                     {
-                        console.log('nWindowIdex = ' +nWindowIdex);
                         await utils.click(page, 'div[ng-if="vm.viewData.ownerChannelInfoListMap[channelServiceType].length > 1"] > div > div > div:nth-child(2) > div  > div:nth-child(' + nWindowIdex + ')');
                         console.log('isWindowExists true');
                     }
@@ -1177,11 +1172,21 @@ module.exports = app => {
                 console.log('상품등록 완료');
                 await utils.click(page, 'button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]');
                 
-                res.send('<script type="text/javascript">alert("상품등록 완료");history.back();</script>');
+                await utils.click(page, 'button[ng-click="vm.goSearch()"]');
+
+                var vProductNumberSmartStore = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(4) > a');
+
+                var vProductNumberShowppingWindow = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(5)');
+
+                console.log(vProductNumberSmartStore);
+                console.log(vProductNumberShowppingWindow);
+
+                res.send('<script type="text/javascript">alert("상품등록 완료\\n- 상품번호: 스마트스토어('+ vProductNumberSmartStore +'), 쇼핑윈도('+ vProductNumberShowppingWindow + ')");history.back();</script>');
             }
             catch(error){
-                res.send('<script type="text/javascript">alert("상품등록 실패(' + error + ')");history.back();</script>');
                 console.log('상품등록 실패 : ' + error);
+
+                res.send('<script type="text/javascript">alert("상품등록 실패(' + error + ')");history.back();</script>');
             }
 
             //stop coverage trace
