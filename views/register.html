@@ -1,9 +1,7 @@
 <html>
   <head>
     <title>상품등록 : 네이버쇼핑</title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/x-icon" sizes="16x16" href="favicon.ico">
-    <link rel="icon" type="image/x-icon" sizes="32x32" href="favicon.ico">
+    <link rel="shortcut icon" href="http://kokiripower.com/wp-content/uploads/2017/11/naver_shopping_icon.png">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
     @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
@@ -29,6 +27,7 @@
         width: 11%;
         float: right;
         margin-top : 15px;
+        margin-right : -10px;
     }
 
     h1{
@@ -402,7 +401,6 @@
 
         $.fn.CheckSelectOption = function() {
 	        var vOptNum = $("#selSelectOptionNum option:selected").val();
-            var vIsCheckedSoloOptionType = $("#radOptionTypeSolo").is(':checked');
             switch(vOptNum){
                 case '1':
                     $("#labSelectOptionEx").text("컬러(RED/BLUE/YELLOW)");
@@ -467,6 +465,36 @@
             }
         }
 
+        ///////// 배송여부
+//        $("input[name=radIsDelivery]").change(function(){
+//            if($("#radDeliveryExists").is(':checked') == true)
+//            {
+//                $("#labDeliveryProperty").show();
+//                $("#radDeliveryNormal").show();
+//                $("#radDeliveryToday").show();
+//                $("#labDeliveryNormal").show();
+//                $("#labDeliveryToday").show();
+//            }
+//            else{
+//                $("#labDeliveryProperty").hide();
+//                $("#radDeliveryNormal").hide();
+//                $("#radDeliveryToday").hide();
+//                $("#labDeliveryNormal").hide();
+//                $("#labDeliveryToday").hide();
+//            }
+//        });
+
+        ///////// 쇼핑윈도 안내문구
+        $("#chkWindow").change(function(){
+            if ($(this).is(':checked')){
+                $("#labWindow").show();
+            }
+            else{
+                $("#labWindow").hide();
+                $("#labReturnCancel").hide();
+            }
+        });
+
         ///////// 주문제작상품
         $("#chkCustomMade").change(function(){
             if ($(this).is(':checked')){
@@ -479,17 +507,17 @@
             }
         });
 
-        ///////// 할인값
+        // 할인값
         var vSaleType = $("#selSaleType");
         var vSaleValue = $('#nSaleValue');
         vSaleType.change(function(){
             var vSaleTypeValue = $("#selSaleType option:selected").val();
-            if(vSaleTypeValue=="won")
+            if(vSaleTypeValue=="won") // 원
             {
                 vSaleValue.attr("min", "10");
                 vSaleValue.attr("max", "10000");
             }
-            else
+            else // %
             {
                 vSaleValue.attr("min", "1");
                 vSaleValue.attr("max", "99");
@@ -785,14 +813,8 @@
 </script>
   </head>
   <body>
-     <form action="/" method="post">
+     <form action="/register" method="post">
         <ul>
-
-<!--
-            <li><input type="checkbox" id="chkSellInfo" style="margin-top:50px;" >
-            <label for="chkSellInfo" style="margin:30px 0px -3px 0px;">판매정보</label> <br></li>
--->
-
             <li><input type="checkbox" id="chkProductSale" name="chkProductSale">
             <label for="chkProductSale" style="margin:30px 0px -3px 0px;">상품할인</label> <br></li>
             <li><input type="checkbox" id="chkDelivery" name="chkDelivery">
@@ -816,10 +838,9 @@
             <label for="chkBenefitCondition">혜택조건</label><br></li>
         </ul>
         <div class="navbar">
-<!--            <img src="./../images/smartstore_logo.png" alt="log1o">-->
-            <h1 align="center" style="margin-top:2px; margin-left:8px;">상품 등록 페이지</h1>
+            <img src="http://kokiripower.com/wp-content/uploads/2017/11/naver_shopping_icon.png" alt="log1o" style="width: 2%; margin-top:11px; margin-left:20px; float:left;">
+            <h1 align="left" style="margin-top:2px; margin-left:13px;">상품 등록 페이지</h1>
             <input type="submit" id="buttonRegister" value="등록" onclick="mySubmit();"/>
-            <button type="button" id="buttonCopy"><img src="http://thinkingstiff.com/images/txt.png" title="상품정보를 클립보드로 복사"></button>
             <input type="text" id="tID" name="tID" value="qa1test574@naver.com" placeholder="판매자 아이디 입력" required/>
         </div>
         <div class="registerForm">
@@ -860,7 +881,7 @@
 
                 <tr>
                     <td><label for="nProductPrice">판매가격 : </label></td>
-                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="5000" min="5000" max="1000000" required/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="10000" min="5000" max="1000000" required/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
 
                 <tr>
@@ -883,8 +904,9 @@
                      <td><label for="chkSmartStore" id="labSmartStore"> 노출채널 : </label></td>
                      <td><input type="checkbox" name="chkSmartStore" id="chkSmartStore" value="chkSmartStore" checked>
                      <label for="chkSmartStore">스마트스토어</label>
-                     <input type="checkbox" name="chkWindow" id="chkWindow" value="chkWindow" style="margin-left:715px;" checked>
-                     <label for="chkWindow" title="※ 쇼핑윈도명에 카테고리명이 포함되어야 쇼핑윈도가 정상적으로 노출됩니다.">쇼핑윈도</label></td>
+                     <input type="checkbox" name="chkWindow" id="chkWindow" value="chkWindow" style="margin-left:715px;">
+                     <label for="chkWindow">쇼핑윈도</label>
+                     <label id="labWindow" for="chkWindow" style="margin-left:-10px;" hidden>(※ 판매자의 쇼핑윈도명에 카테고리명이 포함되어야 쇼핑윈도가 정상적으로 노출됩니다. (ex:아울렛 574(쇼핑윈도명)-아울렛(카테고리))</label></td>
                  </tr>
                 </table>
             </fieldset>
@@ -910,17 +932,17 @@
                  <table align="left">
                  <tr>
                     <td><label for="radDelivery">배송여부 : </label></td>
-                    <td><input type="radio" name="radIsDelivery" value="delivery" id="delivery" checked>
-                    <label for="delivery">배송있음</label>
-                    <input type="radio" name="radIsDelivery" value="none_delivery" id="none_delivery" style="margin-left:63px;">
-                     <label for="none_delivery">배송없음</label> <br></td>
+                    <td><input type="radio" name="radIsDelivery" id="radDeliveryExists" value="delivery" checked>
+                    <label for="radDeliveryExists">배송있음</label>
+                    <input type="radio" name="radIsDelivery" id="radDeliveryNone" value="none_delivery" style="margin-left:63px;">
+                     <label for="radDeliveryNone">배송없음</label> <br></td>
                  </tr>
                  <tr>
-                     <td><label for="radDeliveryProperty">배송속성 : </label></td>
-                     <td><input type="radio" name="radDeliveryProperty" value="normal" id="normal" checked>
-                     <label for="normal">일반배송</label>
-                     <input type="radio" name="radDeliveryProperty" value="today" id="today" style="margin-left:63px;">
-                     <label for="today">오늘출발(평일 13:00까지 결제완료)</label> <br></td>
+                     <td><label id="labDeliveryProperty" for="radDeliveryProperty">배송속성 : </label></td>
+                     <td><input type="radio" name="radDeliveryProperty" value="normal" id="radDeliveryNormal" checked>
+                     <label for="radDeliveryNormal" id="labDeliveryNormal">일반배송</label>
+                     <input type="radio" name="radDeliveryProperty" value="today" id="radDeliveryToday" style="margin-left:63px;">
+                     <label for="radDeliveryToday" id="labDeliveryToday">오늘출발(평일 13:00까지 결제완료)</label> <br></td>
                  </tr>
                  <tr>
                      <td><label for="radDeliveryType">배송방법 : </label></td>
@@ -977,11 +999,11 @@
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeReturn">반품배송비(편도) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="2500" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeChange">교환배송비(왕복) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="4000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  </table>
              </fieldset>

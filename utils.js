@@ -117,3 +117,25 @@ module.exports.getInnerText = async(page, selector) => {
     return value;
 };
 
+
+//clickAndWaitForNewPage(selector): Element 클릭 후, 링크 연결된 팝업/새탭이 로딩완료 되기까지 대기한다. 팝업/새탭페이지 반환 (마지막에 열린 페이지)
+module.exports.clickAndGetNewPage = async (browser, page, selector) => {
+    let newPage;
+    try{
+        await page.waitForSelector(selector, { timeout: 100000 });
+
+        let navigation = new Promise(response => browser.on('targetcreated', response));
+
+        await page.evaluate((selector) => {
+            document.querySelector(selector).click();
+        }, selector);
+
+        //await page.click(selector);
+        await navigation;
+        let pages = await browser.pages();
+        newPage = pages[pages.length - 1];
+    } catch(error){
+        console.log('새탭 열기 실패: ' + error)
+    }
+    return newPage;
+}
