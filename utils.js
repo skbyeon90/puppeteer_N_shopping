@@ -3,7 +3,7 @@
 // wait and click
 module.exports.click = async(page, selector) => {
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
         await page.evaluate((selector) => {
             document.querySelector(selector).click();
         }, selector);
@@ -16,7 +16,7 @@ module.exports.click = async(page, selector) => {
 // wait and type
 module.exports.type = async(page, selector, contents) => {
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
         await page.type(selector, contents);
     }
     catch(error){
@@ -27,7 +27,7 @@ module.exports.type = async(page, selector, contents) => {
 // upload file
 module.exports.uploadFile = async(page, selector, filepath) => {
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
         const input = await page.$(selector);
         await input.uploadFile(filepath);
     }
@@ -39,7 +39,7 @@ module.exports.uploadFile = async(page, selector, filepath) => {
 // clear and type
 module.exports.clearAndType = async(page, selector, contents) => {
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
         const input = await page.$(selector);
         await input.click();
         await input.focus();
@@ -72,7 +72,7 @@ module.exports.isElementExists = async(page, selector) => {
 module.exports.getText = async(page, selector) => {
     let text;
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
 
         var element = await page.$(selector);
         var valueHandle = await element.getProperty('textContent');
@@ -89,7 +89,7 @@ module.exports.getText = async(page, selector) => {
 module.exports.getValue = async(page, selector) => {
     let value;
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
 
         var element = await page.$(selector);
         var valueHandle = await element.getProperty('value');
@@ -105,7 +105,7 @@ module.exports.getValue = async(page, selector) => {
 module.exports.getInnerText = async(page, selector) => {
     let value;
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
 
         var element = await page.$(selector);
         var valueHandle = await element.getProperty('innerText');
@@ -122,7 +122,7 @@ module.exports.getInnerText = async(page, selector) => {
 module.exports.clickAndGetNewPage = async (browser, page, selector) => {
     let newPage;
     try{
-        await page.waitForSelector(selector, { timeout: 100000 });
+        await page.waitForSelector(selector, { timeout: 10000 });
 
         let navigation = new Promise(response => browser.on('targetcreated', response));
 

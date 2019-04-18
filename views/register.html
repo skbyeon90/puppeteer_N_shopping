@@ -786,16 +786,165 @@
           document.body.removeChild(textArea);
     }
 
-    function mySubmit() {
+    function filterInput(event) {
+        return event.keyCode === 8 || event.keyCode === 46 ? true : !isNaN(Number(event.key))
+    }
+
+    function checkValidation() {
+
         var fields = $(":required").serializeArray();
 
         var isRequiredFilled = true;
         $.each(fields, function(i, field) {
-            if (!field.value)
-              isRequiredFilled = false;
+            if (!field.value){
+                isRequiredFilled = false;
+                return false;
+            }
         });
 
-        if(isRequiredFilled)
+        var arrBanSpecialCharacter = ['\\', '*', '<', '>', '"', '?'];
+        for(var j in arrBanSpecialCharacter)
+        {
+            var nValue = $('#tProductName').val().indexOf(arrBanSpecialCharacter[j]);
+
+            if(nValue !== -1) // 윈도 문자열 존재
+            {
+                alert('[상품명] 등록불가인 특수문자가 포함되어 있습니다. \ * ? " < > ')
+                isRequiredFilled = false;
+                return false;
+            }
+        }
+
+        var nProductPrice = parseInt($('#nProductPrice').val());
+        var nProductAmount = parseInt($('#nProductAmount').val());
+
+        var nDeliveryCharge = parseInt($('#nDeliveryCharge').val());
+        var nDeliveryChargeReturn = parseInt($('#nDeliveryChargeReturn').val());
+        var nDeliveryChargeChange = parseInt($('#nDeliveryCharge').val());
+        var nBuyConditionMin = parseInt($('#nBuyConditionMin').val());
+        var nBuyConditionMaxPer = parseInt($('#nBuyConditionMaxPer').val());
+        var nBuyConditionMaxPerson = parseInt($('#nBuyConditionMaxPerson').val());
+
+        var nSaleValue = parseInt($('#nSaleValue').val());
+        var nPointBuy = parseInt($('#nPointBuy').val());
+
+        var nPointTextReview = parseInt($('#nPointTextReview').val());
+        var nPointPhotoReview = parseInt($('#nPointPhotoReview').val());
+        var nPoint1MTextReview = parseInt($('#nPoint1MTextReview').val());
+        var nPoint1MPhotoReview = parseInt($('#nPoint1MPhotoReview').val());
+        var nPointTokJJim = parseInt($('#nPointTokJJim').val());
+
+        if(nProductPrice < 1000 || nProductPrice > 1000000){
+            isRequiredFilled = false;
+            alert('[판매가격] 1000원 ~ 1,000,000원 사이로 입력해주세요.');
+            return false;
+        }
+
+        if(nProductAmount < 1 || nProductAmount > 10000){
+            isRequiredFilled = false;
+            alert('[재고수량] 1개 ~ 10000개 사이로 입력해주세요.');
+            return false;
+        }
+
+        if ($("#chkProductSale").is(':checked')) {
+            if(nSaleValue > nProductPrice){
+                alert('[상품할인] 상품 가격보다 적은 값을 입력해주세요.');
+                return false;
+            }
+        }
+
+        if ($("#chkDelivery").is(':checked')) {
+            if(nDeliveryCharge < 500 || nDeliveryCharge > 10000){
+                isRequiredFilled = false;
+                alert('[배송비] 500원 ~ 10,000원 사이로 입력해주세요.');
+                return false;
+            }
+
+            if(nDeliveryChargeReturn < 500 || nDeliveryChargeReturn > 10000){
+                isRequiredFilled = false;
+                alert('[반품배송비(편도)] 500원 ~ 10,000원 사이로 입력해주세요.');
+                return false;
+            }
+
+            if(nDeliveryChargeChange < 500 || nDeliveryChargeChange > 10000){
+                isRequiredFilled = false;
+                alert('[교환배송비(왕복)] 500원 ~ 10,000원 사이로 입력해주세요.');
+                return false;
+            }
+        }
+
+        if ($("#chkBuyCondition").is(':checked')) {
+            if(nBuyConditionMin < 2 || nBuyConditionMin > 100){
+                isRequiredFilled = false;
+                alert('[최소구매수량] 2개 ~ 100개 사이로 입력해주세요.');
+                return false;
+            }
+
+            if(nBuyConditionMaxPer < 2 || nBuyConditionMaxPer > 100){
+                isRequiredFilled = false;
+                alert('[최대구매수량(1회)] 100개 이하로 입력해주세요.');
+                return false;
+            }
+
+            if(nBuyConditionMaxPerson < 2 || nBuyConditionMaxPerson > 100){
+                isRequiredFilled = false;
+                alert('[최대구매수량(1인)] 100개 이하로 입력해주세요.');
+                return false;
+            }
+
+            if(nBuyConditionMin > nBuyConditionMaxPer || nBuyConditionMin > nBuyConditionMaxPerson){
+                isRequiredFilled = false;
+                alert('[최소구매수량] 최대구매수량 보다 적은 값을 입력해주세요.');
+                return false;
+            }
+
+            if(nBuyConditionMaxPer > nBuyConditionMaxPerson){
+                isRequiredFilled = false;
+                alert('[최대구매수량(1회)] 최대구매수량(1인) 보다 적은 값을 입력해주세요.');
+                return false;
+            }
+        }
+
+        if ($("#chkBenefitCondition").is(':checked')) {
+            if(nPointTextReview > nProductPrice * 0.2){
+                isRequiredFilled = false;
+                alert('[텍스트 리뷰 작성 포인트] 판매가격의 20% 이하로 입력해 주세요.');
+                return false;
+            }
+
+            if(nPointTextReview > nProductPrice * 0.2){
+                isRequiredFilled = false;
+                alert('[포토/동영상 리뷰 작성 포인트] 판매가격의 20% 이하로 입력해 주세요.');
+                return false;
+            }
+
+            if(nPointTextReview > nProductPrice * 0.2){
+                isRequiredFilled = false;
+                alert('[텍스트 한달사용 리뷰 작성 포인트] 판매가격의 20% 이하로 입력해 주세요.');
+                return false;
+            }
+
+            if(nPointTextReview > nProductPrice * 0.2){
+                isRequiredFilled = false;
+                alert('[포토/동영상 한달사용 리뷰 작성 포인트] 판매가격의 20% 이하로 입력해 주세요.');
+                return false;
+            }
+
+            if(nPointTextReview > nProductPrice * 0.2){
+                isRequiredFilled = false;
+                alert('[톡톡친구/스토어찜 고객리뷰 작성 포인트] 판매가격의 20% 이하로 입력해 주세요.');
+                return false;
+            }
+
+            if(nPointBuy > nProductPrice * 0.2 || nPointBuy > 20000){
+                isRequiredFilled = false;
+                alert('[포인트(상품구매)] 판매가격의 20%, 2만원 이하로 입력해 주세요.');
+                return false;
+            }
+        }
+
+
+        if(isRequiredFilled == true)
         {
             $("#load").show();
 
@@ -803,6 +952,8 @@
             btnSubmit.submit();
             btnSubmit.disabled=true;
         }
+
+        return true;
     }
 
     document.addEventListener('keydown', function(event) {
@@ -839,8 +990,8 @@
         </ul>
         <div class="navbar">
             <img src="http://kokiripower.com/wp-content/uploads/2017/11/naver_shopping_icon.png" alt="log1o" style="width: 2%; margin-top:11px; margin-left:20px; float:left;">
-            <h1 align="left" style="margin-top:2px; margin-left:13px;">상품 등록 페이지</h1>
-            <input type="submit" id="buttonRegister" value="등록" onclick="mySubmit();"/>
+            <h1 align="left" style="margin-top:2px; margin-left:13px;">상품등록 페이지</h1>
+            <input type="submit" id="buttonRegister" value="등록" onclick="return checkValidation();"/>
             <input type="text" id="tID" name="tID" value="qa1test574@naver.com" placeholder="판매자 아이디 입력" required/>
         </div>
         <div class="registerForm">
@@ -881,12 +1032,12 @@
 
                 <tr>
                     <td><label for="nProductPrice">판매가격 : </label></td>
-                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="10000" min="5000" max="1000000" required/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" id="nProductPrice" name="nProductPrice" placeholder="숫자만 입력" value="10000" onkeydown="return filterInput(event)" required/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
 
                 <tr>
                     <td><label for="nProductAmount">재고수량 : </label></td>
-                    <td><input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" min="1" max="999" required/><label style="margin-left:-10px; display: inline-block;">개</label></td>
+                    <td><input type="number" name="nProductAmount" id="nProductAmount" placeholder="숫자만 입력" value="30" onkeydown="return filterInput(event)" required/><label style="margin-left:-10px; display: inline-block;">개</label></td>
                 </tr>
 
                 <tr>
@@ -916,7 +1067,7 @@
                  <table align="left">
                  <tr>
                      <td><label for="nSaleValue">전체할인 : </label></td>
-                     <td><input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" min="10" max="4900" value="1000"/>
+                     <td><input type="number" name="nSaleValue" id="nSaleValue" placeholder="숫자만 입력" value="1000" onkeydown="return filterInput(event)"/>
                      <span class="custom-dropdown">
                          <select name="selSaleType" id="selSaleType" style="margin-left:-25px;">
                             <option value="won" selected="selected">원</option>
@@ -977,7 +1128,7 @@
                  </tr>
                  <tr>
                      <td><label for="nDeliveryCharge">기본배송비 : </label></td>
-                     <td><input type="number" id="nDeliveryCharge" name="nDeliveryCharge" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryCharge" name="nDeliveryCharge" placeholder="숫자만 입력" value="3000" onkeydown="return filterInput(event)" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  <tr>
                      <td><label for="chkPaymentCollect" id="labPaymentCollect"> 결제방식 : </label></td>
@@ -999,11 +1150,11 @@
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeReturn">반품배송비(편도) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeReturn" name="nDeliveryChargeReturn" placeholder="숫자만 입력" value="3000" onkeydown="return filterInput(event)" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  <tr>
                      <td><label for="nDeliveryChargeChange">교환배송비(왕복) : </label></td>
-                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="3000" min="500" max="10000" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                     <td><input type="number" id="nDeliveryChargeChange" name="nDeliveryChargeChange" placeholder="숫자만 입력" value="3000" onkeydown="return filterInput(event)" required/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                  </tr>
                  </table>
              </fieldset>
@@ -1196,15 +1347,15 @@
                 <table align="left">
                 <tr>
                     <td><label for="nBuyConditionMin">최소구매수량 : </label></td>
-                    <td><input type="number" name="nBuyConditionMin" id="nBuyConditionMin" placeholder="숫자만 입력" min="2" value="2"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                    <td><input type="number" name="nBuyConditionMin" id="nBuyConditionMin" placeholder="숫자만 입력" value="2" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
                 </tr>
                 <tr>
                 <td><label for="nBuyConditionMaxPer">최대구매수량(1회) : </label>
-                    <td><input type="number" name="nBuyConditionMaxPer" id="nBuyConditionMaxPer" placeholder="숫자만 입력(최소구매수량이상)" min="2" value="5"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                    <td><input type="number" name="nBuyConditionMaxPer" id="nBuyConditionMaxPer" placeholder="숫자만 입력(최소구매수량이상)" value="5" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
                 </tr>
                 <tr>
                     <td><label for="nBuyConditionMaxPerson">최대구매수량(1인) : </label></td>
-                    <td><input type="number" name="nBuyConditionMaxPerson" id="nBuyConditionMaxPerson" placeholder="숫자만 입력(최소구매수량이상)" value="10" min="2"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
+                    <td><input type="number" name="nBuyConditionMaxPerson" id="nBuyConditionMaxPerson" placeholder="숫자만 입력(최소구매수량이상)" value="10" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">개</label><br></td>
                 </tr>
                 </table>
              </fieldset>
@@ -1213,7 +1364,7 @@
                 <table align="left">
                 <tr>
                     <td><label for="nPointBuy">상품 구매시 : </label>
-                    <td><input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" min="10" max="3000"/ value="500">
+                    <td><input type="number" name="nPointBuy" id="nPointBuy" placeholder="숫자만 입력" value="500" onkeydown="return filterInput(event)">
                      <span class="custom-dropdown">
                          <select name="selPointBuyType" id="selPointBuyType" style="margin-left:-25px;">
                             <option value="percent">%</option>
@@ -1224,23 +1375,23 @@
                 </tr>
                 <tr>
                     <td><label for="nPointTextReview">텍스트 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" max="1000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointTextReview" id="nPointTextReview" placeholder="숫자만 입력" value="500" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 <tr>
                     <td><label for="nPointPhotoReview">포토/동영상 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" max="1000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointPhotoReview" id="nPointPhotoReview" placeholder="숫자만 입력" value="1000" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 <tr>
                     <td><label for="nPoint1MTextReview">한달사용 텍스트 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" max="1000" value="500"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" name="nPoint1MTextReview" id="nPoint1MTextReview" placeholder="숫자만 입력" value="500" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
                 <tr>
                     <td><label for="nPoint1MPhotoReview">한달사용 포토/동영상 리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" max="1000" value="1000"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
+                    <td><input type="number" name="nPoint1MPhotoReview" id="nPoint1MPhotoReview" placeholder="숫자만 입력" value="1000" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">원</label><br></td>
                 </tr>
                 <tr>
                     <td><label for="nPointTokJJim">톡톡친구/스토어찜 고객리뷰 작성 시 : </label></td>
-                    <td><input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" max="500" value="300"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
+                    <td><input type="number" name="nPointTokJJim" id="nPointTokJJim" placeholder="숫자만 입력" value="300" onkeydown="return filterInput(event)"/><label style="margin-left:-10px; display: inline-block;">원</label></td>
                 </tr>
                 </table>
              </fieldset>

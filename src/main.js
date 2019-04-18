@@ -52,9 +52,8 @@ module.exports = app => {
                 // 상품등록 메뉴 진입
                 await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li:nth-child(1) > a');
                 await utils.click(page, '#seller-lnb > div > div:nth-child(1) > ul > li.ng-scope.active > ul > li:nth-child(2) > a');
-                console.log('상품등록 페이지 진입')
+                console.log('상품등록 페이지 진입');
 
-                // 쇼핑윈도, 스마트스토어 노출 변수 초기화
                 var isSmartStore = true;
                 var isShoppingWindow = true;
                 if(req.body.chkSmartStore == undefined){
@@ -62,6 +61,9 @@ module.exports = app => {
                 }
                 if(req.body.chkWindow == undefined){
                     isShoppingWindow = false;
+                }
+                if(!isSmartStore && !isShoppingWindow){ // 둘 다 미선택 시, 스마트스토어 default로 설정
+                    isSmartStore = true;
                 }
 
                 // 카테고리 선택
@@ -179,10 +181,12 @@ module.exports = app => {
                 var selected = await utils.getText(page, '.info-result.text-info.ng-scope > strong')
                 console.log(selected);
 
-                if(!isSmartStore) // 쇼핑윈도 노출 비활성화 시,
+                // 쇼핑윈도, 스마트스토어 노출 변수 초기화
+                let isExistsShoppingWindow = await utils.isElementExists(page, 'input[data-nclicks-code="ech.swin"]'); // 판매자 계정에 쇼핑윈도 채널이 하나이상 존재하는지 확인
+                if(isExistsShoppingWindow == false)
                 {
-                    await utils.click(page, 'input[data-nclicks-code="ech.sf"]'); // 쇼핑윈도 비활성화
-                    console.log('스마트스토어 비활성화');
+                    console.log('isExistsShoppingWindow false(쇼핑윈도 채널 존재하지 않음.)');
+                    isShoppingWindow = false;
                 }
 
                 if(isShoppingWindow) // 쇼핑윈도 노출 활성화 시, 윈도 채널 선택
@@ -270,12 +274,23 @@ module.exports = app => {
                         await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
                         console.log('쇼핑윈도 비활성화(isWindowExists false)');
                         isShoppingWindow = false;
+                        if(!isSmartStore) // 둘 다 false 인 경우는 상품등록 되지 않으므로 스마트스토어를 true로 변경
+                            isSmartStore = true;
                     }
                 }
                 else // 쇼핑윈도 노출 미설정 시,
                 {
-                    await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
+                    if(isExistsShoppingWindow)
+                    {
+                        await utils.click(page, 'input[data-nclicks-code="ech.swin"]'); // 쇼핑윈도 비활성화
+                    }
                     console.log('쇼핑윈도 비활성화');
+                }
+
+                if(!isSmartStore) // 쇼핑윈도 노출 비활성화 시,
+                {
+                    await utils.click(page, 'input[data-nclicks-code="ech.sf"]'); // 쇼핑윈도 비활성화
+                    console.log('스마트스토어 비활성화');
                 }
 
                 // 상품명
@@ -348,7 +363,7 @@ module.exports = app => {
                         // 선택형 옵션 펼치기
                         await utils.click(page, '#option_choice_type_true');
 
-                         // 선택형 옵션 - 직접입력
+                        // 선택형 옵션 - 직접입력
                         await utils.click(page, 'input[ng-value="::vm.CHOICE_INPUT_TYPE.DIRECT"]');
 
                         // 선택형 옵션 -  옵션유형
@@ -954,40 +969,41 @@ module.exports = app => {
                             else
                                 await utils.click(page, 'input[value="COLLECT"]');
                             console.log(req.body.chkPaymentAdvance);
-
-                            // tRegionCharge 지역별 차등 배송비
-                            if(req.body.tRegionCharge != undefined)
-                            {
-                                await utils.clearAndType(page, '#delivery_price', req.body.tRegionCharge);
-                                var strRegionCharge = await utils.getValue(page, '#delivery_price');
-                                assert.strictEqual(req.body.tRegionCharge, strRegionCharge);
-                                console.log(req.body.strRegionCharge);
-                            }
-
-                            // radInstallCosts(exist, none(default)) 별도 설치비
-                            if(req.body.radInstallCosts == "exist")
-                            {
-                                await utils.click(page, '#install1');
-                                console.log(req.body.radInstallCosts);
-                            }
-
-                            // 반품/교환 영역 열기
-                            await utils.click(page, 'div[ncp-click="vm.returnDeliveryMenu()"] > div');
-                            console.log("반품/교환 on");
-
-                            // 반품배송비(편도)
-                            await utils.clearAndType(page, '#return_price',req.body.nDeliveryChargeReturn);
-                            var strReturnPrice = await utils.getValue(page, '#return_price');
-                            assert.strictEqual(req.body.nDeliveryChargeReturn, strReturnPrice);
-
-
-                            // 교환배송비(왕복)
-                            await utils.clearAndType(page, '#exchange_price',req.body.nDeliveryChargeChange);
-                            var strExchangePrice = await utils.getValue(page, '#exchange_price');
-                            assert.strictEqual(req.body.nDeliveryChargeChange, strExchangePrice);
-
-                            console.log('반품배송비 : ' + req.body.nDeliveryChargeReturn + '교환배송비 : ' + req.body.nDeliveryChargeChange)
                         }
+
+                        // tRegionCharge 지역별 차등 배송비
+                        if(req.body.tRegionCharge != undefined)
+                        {
+                            await utils.clearAndType(page, '#delivery_price', req.body.tRegionCharge);
+                            var strRegionCharge = await utils.getValue(page, '#delivery_price');
+                            assert.strictEqual(req.body.tRegionCharge, strRegionCharge);
+                            console.log(req.body.strRegionCharge);
+                        }
+
+                        // radInstallCosts(exist, none(default)) 별도 설치비
+                        if(req.body.radInstallCosts == "exist")
+                        {
+                            await utils.click(page, '#install1');
+                            console.log(req.body.radInstallCosts);
+                        }
+
+                        // 반품/교환 영역 열기
+                        await utils.click(page, 'div[ncp-click="vm.returnDeliveryMenu()"] > div');
+                        console.log("반품/교환 on");
+
+                        // 반품배송비(편도)
+                        await utils.clearAndType(page, '#return_price',req.body.nDeliveryChargeReturn);
+                        var strReturnPrice = await utils.getValue(page, '#return_price');
+                        assert.strictEqual(req.body.nDeliveryChargeReturn, strReturnPrice);
+
+
+                        // 교환배송비(왕복)
+                        await utils.clearAndType(page, '#exchange_price',req.body.nDeliveryChargeChange);
+                        var strExchangePrice = await utils.getValue(page, '#exchange_price');
+                        assert.strictEqual(req.body.nDeliveryChargeChange, strExchangePrice);
+
+                        console.log('반품배송비 : ' + req.body.nDeliveryChargeReturn + '\n교환배송비 : ' + req.body.nDeliveryChargeChange)
+
                     }
                 }
                 else // 배송 데이터는 없지만, 주문제작상품으로 발송예정일을 설정해야 하는 경우
@@ -1209,12 +1225,30 @@ module.exports = app => {
                 await utils.click(page, 'button[data-nclicks-code="flt.save"][progress-button="vm.submit()"]');
                 console.log('상품등록 클릭');
                 
+                await page.waitFor(1000);
+
+                // 오류 발생한 경우
+                if(await utils.isElementExists(page, '.has-error.error-msg.sub-text.text-danger') == true)
+                {
+                    var errMsg = await utils.getInnerText(page, '.has-error.error-msg.sub-text.text-danger');
+                    throw errMsg;
+                }
+
                 // 상품관리 페이지 보기
                 await utils.click(page, 'button[ng-click="vm.goSearch()"]');
 
                 // 상품번호 추출
-                var vProductNumberSmartStore = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(4) > a');
-                var vProductNumberShowppingWindow = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(5)');
+
+                var vProductNumberSmartStore = '-';
+                var vProductNumberShowppingWindow = '-';
+
+                if(isSmartStore){
+                    vProductNumberSmartStore = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(4) > a');
+                }
+
+                if(isShoppingWindow){
+                    vProductNumberShowppingWindow = await utils.getInnerText(page, '.ag-pinned-left-cols-viewport > div > div > div:nth-child(5)');
+                }
 
                 console.log('상품등록 완료');
                 console.log(vProductNumberSmartStore);
